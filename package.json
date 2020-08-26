@@ -4,6 +4,7 @@
   "description": "Servicios para el monitorieo del bosuqe de la primavera",
   "main": "app.js",
   "scripts": {
+    "start": "node ./app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "swagger": "^0.7.5"
   }
 }
