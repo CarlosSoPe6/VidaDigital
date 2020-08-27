@@ -1,0 +1,38 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "API red de sensores",
+        "description": "Documentacion de los endpoints disponibles para el proyecto de red de sensores",
+        "license": {
+            "name": "ITESO",
+            "url": "https://www.iteso.mx/"
+        }
+    },
+    "paths": {
+        "/api/nodes/day": {
+            "get": {
+                "summary": "get test",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "summary": "post test",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        }
+    }
+}
