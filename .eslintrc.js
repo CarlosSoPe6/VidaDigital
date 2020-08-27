@@ -16,7 +16,6 @@ module.exports = {
   overrides: [
     {
       files: ['**/**/*.js', '*.js'],
-      excludedFiles: ['.eslintrc.js'],
     },
   ],
 };
