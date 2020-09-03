@@ -1,7 +1,7 @@
 {
-    "swagger": "2.0",
+    "openapi": "3.0.0",
     "info": {
-        "version": "1.0.0",
+        "version": "1.0",
         "title": "API red de sensores",
         "description": "Documentacion de los endpoints disponibles para el proyecto de red de sensores",
         "license": {
@@ -10,26 +10,39 @@
         }
     },
     "paths": {
-        "/api/nodes/day": {
+        "/nodes": {
             "get": {
-                "summary": "get test",
+                "description": "The description",
+                "operationId": "getNodes",
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Nodes"
+                                }
+                            }
+                        }
                     }
                 }
-            },
-            "post": {
-                "summary": "post test",
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
+            }
+        }
+    },
+    "servers": [
+        {
+            "description": "SwaggerHub API Auto Mocking",
+            "url": "https://virtserver.swaggerhub.com/CarlosSoPe6/sistea-monitoreo/1.0"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "Nodes": {
+                "description": "Descripción de los nodos",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
                     }
                 }
             }
