@@ -12,7 +12,9 @@
     "paths": {
         "/nodes": {
             "get": {
-                "tags": ["Node"],
+                "tags": [
+                    "Node"
+                ],
                 "summary": "Lista de todos los nodos",
                 "description": "",
                 "operationId": "getNodes",
@@ -33,19 +35,23 @@
         },
         "/node": {
             "post": {
-                "tags": ["Node"],
+                "tags": [
+                    "Node"
+                ],
                 "summary": "Agregar un nuevo nodo",
                 "description": "",
                 "operationId": "postNode",
-                "parameters": [{
-                    "schema": {
-                        "$ref": "#/components/schemas/Node"
-                    },
-                    "name": "node",
-                    "in": "body",
-                    "description": "Informacion del nodo a agregar",
-                    "required": true
-                }],
+                "parameters": [
+                    {
+                        "schema": {
+                            "$ref": "#/components/schemas/Node"
+                        },
+                        "name": "node",
+                        "in": "body",
+                        "description": "Informacion del nodo a agregar",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "CREATED"
@@ -55,7 +61,9 @@
         },
         "/node/{id}": {
             "get": {
-                "tags": ["Node"],
+                "tags": [
+                    "Node"
+                ],
                 "summary": "Obtener un nodo mediante su ID",
                 "description": "",
                 "operationId": "getNode",
@@ -85,24 +93,28 @@
                 }
             },
             "put": {
-                "tags": ["Node"],
+                "tags": [
+                    "Node"
+                ],
                 "summary": "Modificar valores de un nodo mediante su ID",
                 "description": "",
                 "operationId": "patchNode",
                 "parameters": [
                     {
-                    "schema": {},
-                    "name": "nodeId",
-                    "in": "path",
-                    "description": "ID del nodo a modificar",
-                    "required": true
+                        "schema": {},
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "ID del nodo a modificar",
+                        "required": true
                     },
                     {
                         "in": "body",
                         "name": "body",
                         "description": "Datos a ser actualizados",
                         "required": true,
-                        "schema": {"$ref": "#/components/schemas/Node"}
+                        "schema": {
+                            "$ref": "#/components/schemas/Node"
+                        }
                     }
                 ],
                 "responses": {
@@ -119,7 +131,9 @@
                 }
             },
             "delete": {
-                "tags": ["Node"],
+                "tags": [
+                    "Node"
+                ],
                 "summary": "Eliminar un nodo mediante su ID",
                 "description": "",
                 "operationId": "deleteNode",
@@ -151,7 +165,9 @@
         },
         "/sensores/node/{id}": {
             "get": {
-                "tags": ["Node values"],
+                "tags": [
+                    "Node values"
+                ],
                 "summary": "Lista de todos los sensores de un nodo mediante su ID",
                 "description": "",
                 "operationId": "getSensoresNode",
@@ -172,7 +188,7 @@
                         "description": "OK",
                         "content": {
                             "application/json": {
-                                "schema":{
+                                "schema": {
                                     "type": "array",
                                     "$ref": "#/components/schemas/Node"
                                 }
@@ -184,7 +200,9 @@
         },
         "/nodes/sensor/{id}": {
             "get": {
-                "tags": ["Node values"],
+                "tags": [
+                    "Node values"
+                ],
                 "summary": "Lista de todos los nodos que tienen un sensor mediante su ID",
                 "description": "",
                 "operationId": "getNodesSensor",
@@ -205,7 +223,7 @@
                         "description": "OK",
                         "content": {
                             "application/json": {
-                                "schema":{
+                                "schema": {
                                     "type": "array",
                                     "$ref": "#/components/schemas/Node"
                                 }
@@ -216,8 +234,10 @@
             }
         },
         "/node/{id}/sensor/{id}": {
-            "get":{
-                "tags": ["Node values"],
+            "get": {
+                "tags": [
+                    "Node values"
+                ],
                 "summary": "Verificar si un nodo tiene un sensor mediante ambos ID's",
                 "description": "",
                 "operationId": "getNodeSensor",
@@ -250,7 +270,9 @@
                 }
             },
             "delete": {
-                "tags": ["Node values"],
+                "tags": [
+                    "Node values"
+                ],
                 "summary": "Eliminar un sensor de un nodo mediante ambos ID's",
                 "description": "",
                 "operationId": "deleteNodeSensor",
@@ -275,7 +297,9 @@
         },
         "/node/sensor": {
             "post": {
-                "tags": ["Node values"],
+                "tags": [
+                    "Node values"
+                ],
                 "summary": "Agregar un sensor a un nodo mediante ambos ID's",
                 "description": "",
                 "operationId": "postNodeSensor",
@@ -308,9 +332,11 @@
                 }
             }
         },
-        "/user/{id}":{
+        "/user/{id}": {
             "get": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Obtener usuario mediante su ID",
                 "description": "",
                 "operationId": "getUser",
@@ -331,7 +357,7 @@
                         "description": "OK",
                         "content": {
                             "application/json": {
-                                "schema":{
+                                "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/Users"
                                 }
@@ -341,7 +367,9 @@
                 }
             },
             "patch": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Editar usuario mediante su ID",
                 "description": "",
                 "operationId": "patchUser",
@@ -357,7 +385,7 @@
                         "required": true
                     },
                     {
-                        "schema":{
+                        "schema": {
                             "type": "object",
                             "$ref": "#/components/schemas/Users"
                         },
@@ -373,8 +401,10 @@
                     }
                 }
             },
-            "delete":{
-                "tags": ["Users"],
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Eliminar usuario mediante su ID",
                 "description": "",
                 "operationId": "deleteUser",
@@ -395,7 +425,7 @@
                         "description": "OK",
                         "content": {
                             "application/json": {
-                                "schema":{
+                                "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/Users"
                                 }
@@ -405,9 +435,11 @@
                 }
             }
         },
-        "/users":{
+        "/users": {
             "get": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Lista de usuarios",
                 "description": "",
                 "operationId": "getUsers",
@@ -416,7 +448,7 @@
                         "description": "OK",
                         "content": {
                             "application/json": {
-                                "schema":{
+                                "schema": {
                                     "type": "array",
                                     "$ref": "#/components/schemas/Users"
                                 }
@@ -426,9 +458,11 @@
                 }
             }
         },
-        "/user/{nombre}":{
+        "/user/{nombre}": {
             "get": {
-                "tags": ["Users"],
+                "tags": [
+                    "Users"
+                ],
                 "summary": "Obtener usuario mediante su nombre",
                 "description": "",
                 "operationId": "getUserBYName",
@@ -448,7 +482,7 @@
                         "description": "OK",
                         "content": {
                             "application/json": {
-                                "schema":{
+                                "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/Users"
                                 }
@@ -1009,7 +1043,7 @@
                     }
                 }
             },
-            "LecturaJSON":{
+            "LecturaJSON": {
                 "id": {
                     "required": true,
                     "type": "string"
