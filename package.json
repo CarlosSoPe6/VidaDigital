@@ -4,6 +4,7 @@
   "description": "Servicios para el monitorieo del bosuqe de la primavera",
   "main": "app.js",
   "scripts": {
+    "nodemon": "nodemon ./app.js",
     "start": "node ./app.js",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0"
+    "eslint-plugin-import": "^2.22.0",
+    "nodemon": "^2.0.4"
   }
 }
