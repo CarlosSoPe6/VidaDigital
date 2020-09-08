@@ -1,0 +1,527 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0",
+        "title": "API red de sensores",
+        "description": "Documentacion de los endpoints disponibles para el proyecto de red de sensores",
+        "license": {
+            "name": "ITESO",
+            "url": "https://www.iteso.mx/"
+        }
+    },
+    "paths": {
+        "/nodes": {
+            "get": {
+                "tags": ["Node"],
+                "summary": "Lista de todos los nodos",
+                "description": "",
+                "operationId": "getNodes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Node"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/node": {
+            "post": {
+                "tags": ["Node"],
+                "summary": "Agregar un nuevo nodo",
+                "description": "",
+                "operationId": "postNode",
+                "parameters": [{
+                    "schema": {
+                        "$ref": "#/components/schemas/Node"
+                    },
+                    "name": "node",
+                    "in": "body",
+                    "description": "Informacion del nodo a agregar",
+                    "required": true
+                }],
+                "responses": {
+                    "201": {
+                        "description": "CREATED"
+                    }
+                }
+            }
+        },
+        "/node/{id}": {
+            "get": {
+                "tags": ["Node"],
+                "summary": "Obtener un nodo mediante su ID",
+                "description": "",
+                "operationId": "getNode",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "NodeId",
+                        "in": "path",
+                        "description": "ID del nodo a obtener",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Node"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Node"],
+                "summary": "Modificar valores de un nodo mediante su ID",
+                "description": "",
+                "operationId": "patchNode",
+                "parameters": [
+                    {
+                    "schema": {},
+                    "name": "nodeId",
+                    "in": "path",
+                    "description": "ID del nodo a modificar",
+                    "required": true
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Datos a ser actualizados",
+                        "required": true,
+                        "schema": {"$ref": "#/components/schemas/Node"}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Node"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Node"],
+                "summary": "Eliminar un nodo mediante su ID",
+                "description": "",
+                "operationId": "deleteNode",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "NodeId",
+                        "in": "path",
+                        "description": "ID del nodo a eliminar",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Node"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sensores/node/{id}": {
+            "get": {
+                "tags": ["Node values"],
+                "summary": "Lista de todos los sensores de un nodo mediante su ID",
+                "description": "",
+                "operationId": "getSensoresNode",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "NodeId",
+                        "in": "path",
+                        "description": "ID del nodo a buscar los sensores",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Node"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/nodes/sensor/{id}": {
+            "get": {
+                "tags": ["Node values"],
+                "summary": "Lista de todos los nodos que tienen un sensor mediante su ID",
+                "description": "",
+                "operationId": "getNodesSensor",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "sensorId",
+                        "in": "path",
+                        "description": "ID del sensor a buscar en los nodos",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Node"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/node/{id}/sensor/{id}": {
+            "get":{
+                "tags": ["Node values"],
+                "summary": "Verificar si un nodo tiene un sensor mediante ambos ID's",
+                "description": "",
+                "operationId": "getNodeSensor",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "ID del nodo",
+                        "required": true
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "sensorId",
+                        "in": "path",
+                        "description": "ID del sensor",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CREATED"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Node values"],
+                "summary": "Eliminar un sensor de un nodo mediante ambos ID's",
+                "description": "",
+                "operationId": "deleteNodeSensor",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "sensorId",
+                        "in": "path",
+                        "description": "ID del sensor a buscar en los nodos",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/node/sensor": {
+            "post": {
+                "tags": ["Node values"],
+                "summary": "Agregar un sensor a un nodo mediante ambos ID's",
+                "description": "",
+                "operationId": "postNodeSensor",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "nodeId",
+                        "in": "body",
+                        "description": "ID del nodo al cual se le va a agregar el sensor",
+                        "required": true
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "sensorId",
+                        "in": "body",
+                        "description": "ID del sensor al cual se le va a agregar al nodo",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CREATED"
+                    }
+                }
+            }
+        },
+        "/user/{id}":{
+            "get": {
+                "tags": ["Users"],
+                "summary": "Obtener usuario mediante su ID",
+                "description": "",
+                "operationId": "getUser",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Users"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["Users"],
+                "summary": "Editar usuario mediante su ID",
+                "description": "",
+                "operationId": "patchUser",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true
+                    },
+                    {
+                        "schema":{
+                            "type": "object",
+                            "$ref": "#/components/schemas/Users"
+                        },
+                        "name": "Info",
+                        "in": "body",
+                        "description": "Informacion a editar",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete":{
+                "tags": ["Users"],
+                "summary": "Eliminar usuario mediante su ID",
+                "description": "",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Users"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users":{
+            "get": {
+                "tags": ["Users"],
+                "summary": "Lista de usuarios",
+                "description": "",
+                "operationId": "getUsers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Users"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{nombre}":{
+            "get": {
+                "tags": ["Users"],
+                "summary": "Obtener usuario mediante su nombre",
+                "description": "",
+                "operationId": "getUserBYName",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "name": "username",
+                        "in": "path",
+                        "description": "nombre del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Users"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "servers": [
+        {
+            "description": "SwaggerHub API Auto Mocking",
+            "url": "https://virtserver.swaggerhub.com/CarlosSoPe6/sistea-monitoreo/1.0"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "Node": {
+                "type": "object",
+                "description": "Descripción de los nodos",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "direccion": {
+                        "type": "string"
+                    },
+                    "longitud": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "latitud": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NodeValues": {
+                "description": "Lecturas obtenidas por nodo",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "id_value_catalog": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "Users": {
+                "type": "object",
+                "description": "Descripción de usuarios",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

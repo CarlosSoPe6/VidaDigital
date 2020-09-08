@@ -19,6 +19,11 @@ steps:
   inputs:
     command: 'install'
 
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'run lint'
+
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)'
