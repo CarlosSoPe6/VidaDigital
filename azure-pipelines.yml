@@ -23,3 +23,21 @@ steps:
   inputs:
     command: 'custom'
     customCommand: 'run lint'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Visual Studio Enterprise Subscription (58200581-d5d5-4a30-8107-9431eba30afa)'
+    appType: 'webAppLinux'
+    WebAppName: 'vidadigital-test'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildId).zip'
+    RuntimeStack: 'NODE|12-lts'
+    StartupCommand: 'npm start'
