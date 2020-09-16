@@ -1,3 +1,8 @@
+/**
+ * Módulo del controlador de lecturas.
+ * Este archivo contiene todos los endpoints del controlador de lecturas.
+ * @author Carlos Soto Pérez <carlos348@outlook.com>
+ */
 const lectuasModel = require('../db/lecturas.model');
 
 async function postLectura(req, res) {
@@ -18,6 +23,8 @@ async function getLecturasNodo(req, res) {
 
 /**
  * GET /api/lecturas/dia/{nodo}/{anio}/{mes}/{dia}
+ * @async
+ * @exports
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
@@ -34,6 +41,8 @@ async function getLecturasNodoDia(req, res) {
 
 /**
  * GET /api/lecturas/semana/{nodo}/{anio}/{mes}/{dia}
+ * @async
+ * @exports
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
@@ -50,6 +59,8 @@ async function getLecturasNodoSemana(req, res) {
 
 /**
  * GET /api/lecturas/mes/{nodo}/{anio}/{mes}
+ * @async
+ * @exports
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
@@ -65,6 +76,8 @@ async function getLecturasNodoMes(req, res) {
 
 /**
  * GET /api/lecturas/anio/{nodo}/{anio}
+ * @async
+ * @exports
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */

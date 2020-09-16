@@ -6,6 +6,7 @@
   "scripts": {
     "nodemon": "nodemon ./app.js",
     "start": "node ./app.js",
+    "start:development": "env-cmd .env && node ./app.js",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
