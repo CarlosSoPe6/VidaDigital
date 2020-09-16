@@ -6,7 +6,7 @@
   "scripts": {
     "nodemon": "nodemon ./app.js",
     "start": "node ./app.js",
-    "start:development": "env-cmd .env && node ./app.js",
+    "start:development": "env-cmd -f .env node ./app.js",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,6 +28,7 @@
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
