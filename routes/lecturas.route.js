@@ -1,3 +1,7 @@
+/**
+ * Módulo de ruteo del controlador de lecturas.
+ * @author Carlos Soto Pérez <carlos348@outlook.com>
+ */
 const express = require('express');
 
 const lecturasController = require('../controllers/lecturas.controller');
