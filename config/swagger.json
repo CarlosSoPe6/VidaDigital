@@ -25,7 +25,9 @@
                             "application/json": {
                                 "schema": {
                                     "type": "array",
-                                    "$ref": "#/components/schemas/Node"
+                                    "items": {
+                                        "$ref": "#/components/schemas/Node"
+                                    }
                                 }
                             }
                         }
@@ -193,7 +195,9 @@
                             "application/json": {
                                 "schema": {
                                     "type": "array",
-                                    "$ref": "#/components/schemas/Node"
+                                    "items": {
+                                        "$ref": "#/components/schemas/Values"   
+                                    }
                                 }
                             }
                         }
@@ -228,7 +232,9 @@
                             "application/json": {
                                 "schema": {
                                     "type": "array",
-                                    "$ref": "#/components/schemas/Node"
+                                    "items": {
+                                        "$ref": "#/components/schemas/Node"
+                                    }
                                 }
                             }
                         }
@@ -456,7 +462,9 @@
                             "application/json": {
                                 "schema": {
                                     "type": "array",
-                                    "$ref": "#/components/schemas/Users"
+                                    "items": {
+                                        "$ref": "#/components/schemas/Users"
+                                    }
                                 }
                             }
                         }
