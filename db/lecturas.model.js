@@ -8,6 +8,28 @@ const { getConnection } = require('../config/dbConfig');
 
 const DATE_QUERY_STRING_DAY = 'SELECT * FROM LecturasNodos WHERE idNodo = ? AND DATE(fecha_hora) = ?';
 const DATE_QUERY_STRING_BETWEEN = 'SELECT * FROM LecturasNodos WHERE idNodo = ? AND fecha_hora BETWEEN ? and ?';
+const POST_LECTURA_QUERY = 'INSERT INTO LecturasNodos (`idNodo`, fecha_hora, `data`) VALUES (?, ?, ?)';
+
+async function postLectura(idNodo, fechaHora, data) {
+  const connection = await getConnection();
+  const valuesToEscape = [
+    idNodo,
+    fechaHora,
+    data,
+  ];
+  return new Promise((resolve, reject) => {
+    connection.query(
+      POST_LECTURA_QUERY,
+      valuesToEscape,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      },
+    );
+  });
+}
 
 /**
  * Obtiene las lecturas de un nodo en específico en un día.
@@ -144,6 +166,7 @@ async function getLecturasNodoAnio(nodo, anio) {
 }
 
 module.exports = {
+  postLectura,
   getLecturasNodoDia,
   getLecturasNodoSemana,
   getLecturasNodoMes,
