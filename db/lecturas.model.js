@@ -6,6 +6,9 @@
  */
 const { getConnection } = require('../config/dbConfig');
 
+const DATE_QUERY_STRING_DAY = 'SELECT * FROM LecturasNodos WHERE idNodo = ? AND DATE(fecha_hora) = ?';
+const DATE_QUERY_STRING_BETWEEN = 'SELECT * FROM LecturasNodos WHERE idNodo = ? AND fecha_hora BETWEEN ? and ?';
+
 /**
  * Obtiene las lecturas de un nodo en específico en un día.
  * @async
@@ -19,19 +22,22 @@ const { getConnection } = require('../config/dbConfig');
  */
 async function getLecturasNodoDia(nodo, anio, mes, dia) {
   const connection = await getConnection();
+  const date = new Date(anio, mes - 1, dia);
   const valuesToEscape = [
     nodo,
-    anio,
-    mes,
-    dia,
+    date,
   ];
   return new Promise((resolve, reject) => {
-    connection.query('SELECT * FROM LecturasNodos WHERE idNodo = ?', valuesToEscape, (err, results) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(results);
-    });
+    connection.query(
+      DATE_QUERY_STRING_DAY,
+      valuesToEscape,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      },
+    );
   });
 }
 
@@ -48,19 +54,25 @@ async function getLecturasNodoDia(nodo, anio, mes, dia) {
  */
 async function getLecturasNodoSemana(nodo, anio, mes, dia) {
   const connection = await getConnection();
+  const startWeek = new Date(anio, mes - 1, dia, 0, 0, 0, 0);
+  const endWeek = new Date(anio, mes - 1, dia, 23, 59, 59, 999);
+  startWeek.setDate(startWeek.getDate() - 7);
   const valuesToEscape = [
     nodo,
-    anio,
-    mes,
-    dia,
+    startWeek,
+    endWeek,
   ];
   return new Promise((resolve, reject) => {
-    connection.query('SELECT * FROM LecturasNodos WHERE idNodo = ?', valuesToEscape, (err, results) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(results);
-    });
+    connection.query(
+      DATE_QUERY_STRING_BETWEEN,
+      valuesToEscape,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      },
+    );
   });
 }
 
@@ -76,18 +88,24 @@ async function getLecturasNodoSemana(nodo, anio, mes, dia) {
  */
 async function getLecturasNodoMes(nodo, anio, mes) {
   const connection = await getConnection();
+  const firstDayOfMonth = new Date(anio, mes - 1, 1, 0, 0, 0, 0);
+  const lastDatyOfMonth = new Date(anio, mes - 1, 0, 23, 59, 59, 999);
   const valuesToEscape = [
     nodo,
-    anio,
-    mes,
+    firstDayOfMonth,
+    lastDatyOfMonth,
   ];
   return new Promise((resolve, reject) => {
-    connection.query('SELECT * FROM LecturasNodos WHERE idNodo = ?', valuesToEscape, (err, results) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(results);
-    });
+    connection.query(
+      DATE_QUERY_STRING_BETWEEN,
+      valuesToEscape,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      },
+    );
   });
 }
 
@@ -102,17 +120,26 @@ async function getLecturasNodoMes(nodo, anio, mes) {
  */
 async function getLecturasNodoAnio(nodo, anio) {
   const connection = await getConnection();
+  const firstDayOfYear = new Date(Date.UTC(anio, 0, 1, 0, 0, 0));
+  const lastDayOfYear = new Date(Date.UTC(anio, 11, 31, 23, 59, 59, 999));
+  console.log(lastDayOfYear);
+  console.log(firstDayOfYear);
   const valuesToEscape = [
     nodo,
-    anio,
+    firstDayOfYear.toISOString(),
+    lastDayOfYear.toISOString(),
   ];
   return new Promise((resolve, reject) => {
-    connection.query('SELECT * FROM LecturasNodos WHERE idNodo = ?', valuesToEscape, (err, results) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(results);
-    });
+    connection.query(
+      DATE_QUERY_STRING_BETWEEN,
+      valuesToEscape,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      },
+    );
   });
 }
 
