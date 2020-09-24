@@ -14,7 +14,7 @@ const usersRouter = require('./routes/usuarios.route');
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use('/api/lecturas', lecturasRouter);
-app.use('/api/values', valuesRouter);
+app.use('/api/valores', valuesRouter);
 app.use('/api/nodo', nodesRouter);
 app.use('/api/variables', variablesRouter);
 app.use('/api/usuario', usersRouter)
