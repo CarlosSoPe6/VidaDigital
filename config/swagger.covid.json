@@ -1,0 +1,903 @@
+{
+  "swagger": "2.0",
+  "info": {
+      "description": "Proyecto COVID",
+      "version": "1.0.0",
+      "title": "Proyecto COVID"
+  },
+  "host": "petstore.swagger.io",
+  "basePath": "/v2",
+  "tags": [
+      {
+          "name": "Actualizaciones"
+      }
+  ],
+  "schemes": [
+      "http"
+  ],
+  "paths": {
+      "/covidV2020/api/actual": {
+          "get": {
+              "tags": [
+                  "Actualizaciones"
+              ],
+              "summary": "Obtener todas las actualizaciones",
+              "description": "",
+              "operationId": "getAllActualizaciones",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/Folio"
+                          }
+                      }
+                  }
+              }
+          },
+          "post": {
+              "tags": [
+                  "Actualizaciones"
+              ],
+              "summary": "Guardar una nueva actualizacion",
+              "description": "",
+              "operationId": "nuevaActualizacion",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "description": "Nueva actualizacion",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/Folio"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK"
+                  },
+                  "400": {
+                      "description": "Error"
+                  }
+              }
+          }
+      },
+      "/covidV2020/api/actual/folio/{folio}": {
+          "get": {
+              "tags": [
+                  "Actualizaciones"
+              ],
+              "summary": "Obtener actualizacion por folio especifico",
+              "description": "",
+              "operationId": "getActualizacion",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "name": "folio",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/Folio"
+                      }
+                  },
+                  "400": {
+                      "description": "Folio not found"
+                  }
+              }
+          },
+          "put": {
+              "tags": [
+                  "Actualizaciones"
+              ],
+              "summary": "Modificar/actualizar un folio en especifico",
+              "description": "",
+              "operationId": "modificarFolio",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "name": "folio",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  },
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "description": "Folio a ser modificado",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/Folio"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK"
+                  },
+                  "400": {
+                      "description": "Error"
+                  }
+              }
+          },
+          "delete": {
+              "tags": [
+                  "Actualizaciones"
+              ],
+              "summary": "Eliminar un folio en especifico",
+              "description": "(Existe solo por si es necesario eliminar por la cuestion de proteccion de datos)",
+              "operationId": "eliminarFolio",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "name": "folio",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "400": {
+                      "description": "Invalid ID"
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          }
+      },
+      "/covidV2020/api/actual/username/{username}": {
+          "get": {
+              "tags": [
+                  "Actualizaciones"
+              ],
+              "summary": "Obtener todas las actualizaciones del usuario especificado",
+              "description": "",
+              "operationId": "getActualizacionEspecifica",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "name": "username",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "400": {
+                      "description": "OK",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/Folio"
+                          }
+                      }
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          },
+          "delete": {
+              "tags": [
+                  "Actualizaciones"
+              ],
+              "summary": "Eliminar algun usuario",
+              "description": "(Existe solo por si es necesario eliminar por la cuestion de proteccion de datos)",
+              "operationId": "eliminarUsuario",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "name": "username",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK"
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          }
+      },
+      "/covidV2020/api/actual/recom": {
+          "get": {
+              "tags": [
+                  "Recomendaciones"
+              ],
+              "summary": "Obtener todas las recomendaciones actuales en el sistema para modificarlas",
+              "operationId": "getRecomendaciones",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "type": "array",
+                          "$ref": "#/definitions/Recomendaciones"
+                      }
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          },
+          "post": {
+              "tags": [
+                  "Recomendaciones"
+              ],
+              "summary": "Añadir nuevas recomendaciones",
+              "operationId": "postRecomendaciones",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "description": "Nuevo registro",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/Recomendaciones"
+                      }
+                  }
+              ],
+              "responses": {
+                  "201": {
+                      "description": "OK"
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          }
+      },
+      "/covidV2020/api/actual/recom/nivel/{id}": {
+          "get": {
+              "tags": [
+                  "Recomendaciones"
+              ],
+              "summary": "Obtener recomendacion por ID",
+              "operationId": "getRecomendacionId",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/Recomendaciones"
+                          }
+                      }
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          }
+      },
+      "/covidV2020/api/actual/recom/{id}": {
+          "get": {
+              "tags": [
+                  "Recomendaciones"
+              ],
+              "summary": "Obtener recomendacion por ID",
+              "operationId": "getRecomendacionId",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/Recomendaciones"
+                      }
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          },
+          "put": {
+              "tags": [
+                  "Recomendaciones"
+              ],
+              "summary": "Actualizar por ID",
+              "operationId": "putRecomendacionId",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "description": "Nuevo registro",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/Recomendaciones"
+                      }
+                  }
+              ],
+              "responses": {
+                  "201": {
+                      "description": "OK"
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          },
+          "delete": {
+              "tags": [
+                  "Recomendaciones"
+              ],
+              "summary": "Borra recomendacion por ID",
+              "operationId": "delRecomendacionId",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK"
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          }
+      },
+      "/covidV2020/api/actual/comunicaciones": {
+          "get": {
+              "tags": [
+                  "Comunicaciones"
+              ],
+              "summary": "Obtener todas las comunicaciones",
+              "operationId": "getCominicacion",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/Comunicaciones"
+                      }
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          },
+          "post": {
+              "tags": [
+                  "Comunicaciones"
+              ],
+              "summary": "Guardar nuevas comunicaciones",
+              "operationId": "postComunicacion",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "description": "Nuevo registro",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/Comunicaciones"
+                      }
+                  }
+              ],
+              "responses": {
+                  "201": {
+                      "description": "OK"
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          }
+      },
+      "/covidV2020/api/actual/comunicaciones/{id}": {
+          "get": {
+              "tags": [
+                  "Comunicaciones"
+              ],
+              "summary": "Consultar alguna comunicacion",
+              "operationId": "getCominicacionId",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK"
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          },
+          "put": {
+              "tags": [
+                  "Comunicaciones"
+              ],
+              "summary": "Actualizar comunicacion",
+              "operationId": "putComunicacionId",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "description": "Nuevo registro",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/Comunicaciones"
+                      }
+                  }
+              ],
+              "responses": {
+                  "201": {
+                      "description": "OK"
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          },
+          "delete": {
+              "tags": [
+                  "Comunicaciones"
+              ],
+              "summary": "Borrar alguna comunicacion",
+              "operationId": "delCominicacionId",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "type": "number",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK"
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          }
+      },
+      "/covidV2020/api/actual/gobierno": {
+          "get": {
+              "tags": [
+                  "Datos del gobierno"
+              ],
+              "summary": "Obtener todas los datos actuales del gobierno que se tienen en la BDD",
+              "description": "",
+              "operationId": "getDatosGovierno",
+              "produces": [
+                  "application/json"
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "type": "array",
+                          "$ref": "#/definitions/DatosGobierno"
+                      }
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          },
+          "post": {
+              "tags": [
+                  "Datos del gobierno"
+              ],
+              "summary": "Guardar datos",
+              "description": "",
+              "operationId": "postDatosGobierno",
+              "consumes": [
+                  "application/json"
+              ],
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "description": "Nuevo registro",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/DatosGobierno"
+                      }
+                  }
+              ],
+              "responses": {
+                  "201": {
+                      "description": "OK"
+                  },
+                  "400": {
+                      "description": "Error"
+                  }
+              }
+          }
+      },
+      "/covidV2020/api/actual/gobierno/{clave_Entidad}": {
+          "get": {
+              "tags": [
+                  "Datos del gobierno"
+              ],
+              "summary": "Obtener por fehca",
+              "description": "",
+              "operationId": "getDatosGovEstadoClave",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "name": "clave_Entidad",
+                      "in": "path",
+                      "type": "integer",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "type": "array",
+                          "$ref": "#/definitions/DatosGobierno"
+                      }
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          }
+      },
+      "/covidV2020/api/actual/gobierno/fecha/{fecha}": {
+          "get": {
+              "tags": [
+                  "Datos del gobierno"
+              ],
+              "summary": "Obtener por fehca",
+              "description": "",
+              "operationId": "getDatosGovEstadoFecha",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [
+                  {
+                      "name": "fecha",
+                      "in": "path",
+                      "type": "string",
+                      "required": true
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/DatosGobierno"
+                      }
+                  },
+                  "404": {
+                      "description": "Not found"
+                  }
+              }
+          }
+      }
+  },
+  "definitions": {
+      "Folio": {
+          "type": "object",
+          "properties": {
+              "idEncuesta": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "Un numero cualquiera"
+              },
+              "idUsuario": {
+                  "type": "string",
+                  "description": "El nombre del usuario"
+              },
+              "dolorSeveroPecho": {
+                  "type": "boolean",
+                  "description": "1 Si tiene dolor de Pecho, 0 si NO tiene dolor de pecho"
+              },
+              "difExtremaRespirar": {
+                  "type": "boolean",
+                  "description": "1 Si tiene dificultad extrama para respirar, 0 si NO tiene dificultad extrama para respirar"
+              },
+              "desorientado": {
+                  "type": "boolean",
+                  "description": "1 Si se encuentra desorientado , 0 si NO se encuentra desorientado"
+              },
+              "respEstimulos": {
+                  "type": "boolean",
+                  "description": "1 Si se no tiene respuesta a estimulos o 0 si NO tiene respuesta a estimulos"
+              },
+              "olfato": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "0 a 10, 0 como lo mas bajo y 10 como lo mas alto de la disminucion de olfato"
+              },
+              "gusto": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "0 a 10, 0 como lo mas bajo y 10 como lo mas alto de la disminucion de gusto"
+              },
+              "fiebre": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": ">38 ° tiene fiebre, si no sabe pongan 0"
+              },
+              "escalofrios": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "0 a 10, 0 como lo mas bajo y 10 como lo mas alto de escalofrios"
+              },
+              "respiracion": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "0 a 10, 0 como lo mas bajo y 10 como lo mas alto de problemas para respirar"
+              },
+              "diarrea": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "0 a 1, 0 como lo mas bajo y 1 que si tiene  diarrea"
+              },
+              "vomito": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "0 a 1, 0 como lo mas bajo y 1 que si tiene  vomito"
+              },
+              "tos": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "0 a 1, 0 como lo mas bajo y 1 que si tiene tos"
+              },
+              "dolorMuscular": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "0 a 10, 0 como lo mas bajo y 10 como lo mas alto de si tiene dolor muscular y que tanto"
+              },
+              "dolorCabeza": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "0 a 1, 0 como lo mas bajo y 1 que si tiene de dolor de cabeza"
+              },
+              "irritacionOjos": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "0 a 1, 0 como lo mas bajo y 1 que si tiene  de irritacion de ojos"
+              },
+              "sangradoRespiratorio": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "0 o 1, 0 como lo mas bajo y 1 que si tiene sangrado resperiratorio"
+              },
+              "embarazada": {
+                  "type": "boolean",
+                  "description": "0 o 1, 0 como lo mas bajo y 1 que si esta embarazada"
+              },
+              "consumeTabaco": {
+                  "type": "boolean",
+                  "description": "0 o 1, 0 como lo mas bajo y 1 que si consume tabaco"
+              },
+              "enfCardiovascular": {
+                  "type": "boolean",
+                  "description": "0 o 1, 0 como lo mas bajo y 1 que si tiene enfermedades cardiovasculares"
+              },
+              "diabetes": {
+                  "type": "boolean",
+                  "description": "0 o 1, 0 como lo mas bajo y 1 que si tiene diabetes"
+              },
+              "cancer": {
+                  "type": "boolean",
+                  "description": "0 o 1, 0 como lo mas bajo y 1 que si tiene cancer"
+              },
+              "obeso": {
+                  "type": "boolean",
+                  "description": "0 o 1, 0 como lo mas bajo y 1 que si es obeso"
+              },
+              "fechaCreacion": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "AAAA-MM-DD"
+              },
+              "escrutinio": {
+                  "type": "boolean",
+                  "description": "Al momento de ustedes mandar la informacion de arriba, nosotros como backend responderemos con esto de (escrutinio) que es el resultado de la actualizacion. \n 4 Critico \n 3 Moderado  \n 2 Propenso \n 1 Recomendaciones basicas"
+              }
+          },
+          "xml": {
+              "name": "Folio"
+          }
+      },
+      "DatosGobierno": {
+          "type": "object",
+          "properties": {
+              "id": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "Algun número aleatoreo"
+              },
+              "fecha": {
+                  "type": "string",
+                  "description": "Fecha del dato AAA-MM-DD"
+              },
+              "Estado": {
+                  "type": "string",
+                  "description": "Nombre completo del estado"
+              },
+              "Confirmados": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "# de confirmados"
+              },
+              "Negativos": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "# de negativos"
+              },
+              "Sospechosos": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "# de sospechosos"
+              },
+              "Defunciones": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "# de defunciones"
+              },
+              "Recuperados": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "# de recuperados"
+              },
+              "Activos": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "# de activos"
+              },
+              "Extra": {
+                  "type": "string",
+                  "description": "Algun dato extra a comentar"
+              }
+          }
+      },
+      "Comunicaciones": {
+          "type": "object",
+          "properties": {
+              "IDComunicaciones": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "Identificador"
+              },
+              "Descripcion": {
+                  "type": "string"
+              },
+              "Extras": {
+                  "type": "string",
+                  "description": "Algun dato extra a comentar"
+              }
+          }
+      },
+      "Recomendaciones": {
+          "type": "object",
+          "properties": {
+              "idRecomendaciones": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "Identificador"
+              },
+              "descripcion": {
+                  "type": "string"
+              },
+              "nivelRecomendaciones": {
+                  "type": "string"
+              }
+          }
+      }
+  }
+}
