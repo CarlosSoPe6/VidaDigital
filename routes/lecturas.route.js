@@ -8,6 +8,7 @@ const lecturasController = require('../controllers/lecturas.controller');
 
 const router = express.Router();
 
+router.get('/', lecturasController.postLectura);
 router.get('/dia/:nodo/:anio/:mes/:dia', lecturasController.getLecturasNodoDia);
 router.get('/semana/:nodo/:anio/:mes/:dia', lecturasController.getLecturasNodoSemana);
 router.get('/mes/:nodo/:anio/:mes', lecturasController.getLecturasNodoMes);

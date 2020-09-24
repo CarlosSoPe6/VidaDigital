@@ -29,7 +29,7 @@ async function postLectura(req, res) {
     data[dataMember] = dataValue;
   }
   try {
-    await lectuasModel.postLectura(idNodo, fechaHora, data);
+    await lectuasModel.postLectura(idNodo, fechaHora, JSON.stringify(data));
     res.status(201).send('CREATED');
   } catch (e) {
     res.status(501).send(e.message);
