@@ -5,11 +5,38 @@
  */
 const lectuasModel = require('../db/lecturas.model');
 
+/**
+ * GET /api/lecturas
+ * @async
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
 async function postLectura(req, res) {
-  res.send('postLectura;');
+  const cmdArray = req.query.cmd.split(';');
+  const idNodo = cmdArray[1];
+  const dateCmd = cmdArray[4];
+  let fechaHora = Date.now();
+  if (dateCmd === 'TS') {
+    fechaHora = Date(cmdArray[5]);
+  } else if ((dateCmd === 'TS')) {
+    fechaHora = Date(cmdArray[5]);
+  }
+  const data = {};
+  for (let i = 6; i < cmdArray.length; i += 2) {
+    const dataMember = cmdArray[i];
+    const dataValue = cmdArray[i + 1];
+    data[dataMember] = dataValue;
+  }
+  try {
+    await lectuasModel.postLectura(idNodo, fechaHora, data);
+    res.status(201).send('CREATED');
+  } catch (e) {
+    res.status(501).send(e.message);
+  }
 }
 
-async function getTLecturas(req, res) {
+async function getLecturas(req, res) {
   res.send('getTLecturas;');
 }
 
@@ -92,7 +119,7 @@ async function getLecturasNodoAnio(req, res) {
 
 module.exports = {
   postLectura,
-  getTLecturas,
+  getLecturas,
   getLecturaId,
   getLecturasNodo,
   getLecturasNodoDia,

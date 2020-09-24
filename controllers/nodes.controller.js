@@ -1,4 +1,4 @@
-const nodesModel = require("../db/nodes.model");
+const nodesModel = require('../db/nodes.model');
 
 /**
  * POST /api/nodo
@@ -8,14 +8,14 @@ const nodesModel = require("../db/nodes.model");
  * @param {import('express').Response} res Response parameter.
  */
 async function addNodo(req, res) {
-  let nodo = req.body;
+  const nodo = req.body;
 
   nodesModel.addNodo(nodo)
     .then((val) => res.sendStatus(201))
     .catch((err) => {
-      if (err.code === 'ER_DUP_ENTRY')  return res.sendStatus(400)
-      else return res.sendStatus(500)
-  });
+      if (err.code === 'ER_DUP_ENTRY') return res.sendStatus(400);
+      return res.sendStatus(500);
+    });
 }
 
 /**
@@ -29,7 +29,7 @@ async function putNodo(req, res) {
   const nodeData = req.body;
   const nodeId = nodeData.id;
 
-  let query = await nodesModel.putNodo(nodeId, nodeData);
+  const query = await nodesModel.putNodo(nodeId, nodeData);
   res.json(query);
 }
 
@@ -37,13 +37,13 @@ async function putNodo(req, res) {
  * GET /api/nodo/:id
  * @async
  * @exports
- * @param {import('express').Request} req Request parameter. 
+ * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
 async function getNodo(req, res) {
   const userID = req.params.nodoID;
 
-  let query = await nodesModel.getNodo(userID);
+  const query = await nodesModel.getNodo(userID);
   res.json(query);
 }
 
@@ -57,7 +57,7 @@ async function getNodo(req, res) {
 async function deleteNodo(req, res) {
   const nodeId = req.params.nodoID;
 
-  let query = await nodesModel.deleteNodo(nodeId);
+  const query = await nodesModel.deleteNodo(nodeId);
   res.json(query);
 }
 
@@ -69,7 +69,7 @@ async function deleteNodo(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function getNodos(req, res) {
-  let query = await nodesModel.getNodos();
+  const query = await nodesModel.getNodos();
   res.json(query);
 }
 

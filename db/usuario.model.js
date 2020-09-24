@@ -1,4 +1,4 @@
-const { getConnection } = require("../config/dbConfig");
+const { getConnection } = require('../config/dbConfig');
 
 async function getUsuario(userID) {
   const db = await getConnection();
@@ -12,7 +12,7 @@ async function getUsuario(userID) {
         if (err) return reject(err);
 
         return resolve(results);
-      }
+      },
     );
   });
 }
@@ -24,12 +24,12 @@ async function patchUsuario(userId, data) {
     db.query(
       `SELECT * FROM User
                     WHERE username = ?`,
-      userID,
+      userId,
       (err, results) => {
         if (err) return reject(err);
 
         return resolve(results);
-      }
+      },
     );
   });
 }
@@ -46,7 +46,7 @@ async function deleteUsuario(userId) {
         if (err) return reject(err);
 
         return resolve(results);
-      }
+      },
     );
   });
 }
@@ -55,7 +55,7 @@ async function getUsuarios() {
   const db = await getConnection();
 
   return new Promise((resolve, reject) => {
-    db.query(`SELECT * FROM User`, userID, (err, results) => {
+    db.query('SELECT * FROM User', userID, (err, results) => {
       if (err) return reject(err);
 
       return resolve(results);
@@ -75,7 +75,7 @@ async function getUsuarioByName(username) {
         if (err) return reject(err);
 
         return resolve(results);
-      }
+      },
     );
   });
 }

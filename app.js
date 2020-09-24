@@ -19,7 +19,7 @@ app.use('/api/lecturas', lecturasRouter);
 app.use('/api/valores', valuesRouter);
 app.use('/api/nodo', nodesRouter);
 app.use('/api/variables', variablesRouter);
-app.use('/api/usuario', usersRouter)
+app.use('/api/usuario', usersRouter);
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console

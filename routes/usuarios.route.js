@@ -1,9 +1,9 @@
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const userController = require('../controllers/usuario.controller');
 
 const router = express.Router();
-const parser = bodyParser.json()
+const parser = bodyParser.json();
 
 router.get('/:userID', userController.getUsuarioById);
 router.patch('/:userID', parser, userController.patchUsuario);
