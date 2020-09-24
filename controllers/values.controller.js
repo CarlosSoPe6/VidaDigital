@@ -7,13 +7,13 @@ const valuesController = require('../db/values.model');
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function getSensores(req, res){
-    const nodeId = req.params.nodeID
+async function getSensores(req, res) {
+  const nodeId = req.params.nodeID;
 
-    const data = await valuesController.getSensores(nodeId)
-                        .catch(err => res.status(400).send(err))
-    
-    res.json(data)
+  const data = await valuesController.getSensores(nodeId)
+    .catch((err) => res.status(400).send(err));
+
+  res.json(data);
 }
 
 /**
@@ -23,13 +23,12 @@ async function getSensores(req, res){
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function getNodes(req, res){
-    const sensorId = req.params.sensorID
+async function getNodes(req, res) {
+  const sensorId = req.params.sensorID;
 
-    const data = await valuesController.getNodes(sensorId)
-                        .catch(err => res.status(400).send(err))
+  const data = await valuesController.getNodes(sensorId).catch((err) => res.status(400).send(err));
 
-    res.json(data)
+  res.json(data);
 }
 
 /**
@@ -39,14 +38,14 @@ async function getNodes(req, res){
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function getNodeHasSensor(req, res){
-    const nodeId = req.params.nodeID
-    const sensorId = req.params.sensorID
+async function getNodeHasSensor(req, res) {
+  const nodeId = req.params.nodeID;
+  const sensorId = req.params.sensorID;
 
-    const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
-                        .catch(err => console.log(err))
+  const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
+    .catch((err) => res.sendStatus(400).send(err));
 
-    res.json(data[0]['Exist'])
+  res.json(data[0].Exist);
 }
 
 /**
@@ -56,14 +55,14 @@ async function getNodeHasSensor(req, res){
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function deleteNodeSensor(req, res){
-    const nodeId = req.params.nodeID
-    const sensorId = req.params.sensorID
+async function deleteNodeSensor(req, res) {
+  const nodeId = req.params.nodeID;
+  const sensorId = req.params.sensorID;
 
-    const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
-                        .catch(err => console.log(err))
+  const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
+    .catch((err) => res.sendStatus(400).send(err));
 
-    res.json(data[0]['Exist'])
+  res.json(data[0].Exist);
 }
 
 /**
@@ -73,20 +72,20 @@ async function deleteNodeSensor(req, res){
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function putNodeSensor(req, res){
-    const nodeId = req.params.nodeID
-    const sensorId = req.params.sensorID
+async function putNodeSensor(req, res) {
+  const nodeId = req.params.nodeID;
+  const sensorId = req.params.sensorID;
 
-    const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
-                        .catch(err => console.log(err))
+  const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
+    .catch((err) => res.sendStatus(400).send(err));
 
-    res.json(data[0]['Exist'])
+  res.json(data[0].Exist);
 }
 
 module.exports = {
-    getSensores,
-    getNodes,
-    getNodeHasSensor,
-    deleteNodeSensor,
-    putNodeSensor
-}
+  getSensores,
+  getNodes,
+  getNodeHasSensor,
+  deleteNodeSensor,
+  putNodeSensor,
+};

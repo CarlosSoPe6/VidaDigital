@@ -1,4 +1,4 @@
-const userModel = require('../db/usuario.model');
+const userModel = require("../db/usuario.model");
 
 /**
  * GET /api/usuario/id/:id
@@ -7,11 +7,11 @@ const userModel = require('../db/usuario.model');
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function getUsuarioById(req, res){
-    const id = req.params.userID
+async function getUsuarioById(req, res) {
+  const id = req.params.userID;
 
-    let data = userModel.getUsuario(id)
-    res.json(data)
+  let data = userModel.getUsuario(id);
+  res.json(data);
 }
 
 /**
@@ -21,12 +21,12 @@ async function getUsuarioById(req, res){
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function patchUsuario(req, res){
-    const userId = req.params.userID
-    const userData = req.body
+async function patchUsuario(req, res) {
+  const userId = req.params.userID;
+  const userData = req.body;
 
-    let data = userModel.patchUsuario(userId, userData)
-    res.json(data)
+  let data = userModel.patchUsuario(userId, userData);
+  res.json(data);
 }
 
 /**
@@ -36,11 +36,11 @@ async function patchUsuario(req, res){
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function deleteUsuario(req, res){
-    const userId = req.params.userID
+async function deleteUsuario(req, res) {
+  const userId = req.params.userID;
 
-    let data = userModel.patchUsuario(userId)
-    res.json(data)
+  let data = userModel.patchUsuario(userId);
+  res.json(data);
 }
 
 /**
@@ -50,9 +50,9 @@ async function deleteUsuario(req, res){
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function getUsuarios(req, res){
-    let data = userModel.getUsuarios()
-    res.json(data)
+async function getUsuarios(req, res) {
+  let data = userModel.getUsuarios();
+  res.json(data);
 }
 
 /**
@@ -62,17 +62,17 @@ async function getUsuarios(req, res){
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function getUsuarioByName(req, res){
-    const username = req.params.username
+async function getUsuarioByName(req, res) {
+  const username = req.params.username;
 
-    let data = userModel.patchUsuario(username)
-    res.json(data)
+  let data = userModel.patchUsuario(username);
+  res.json(data);
 }
 
 module.exports = {
-    getUsuarioById,
-    patchUsuario,
-    deleteUsuario,
-    getUsuarios,
-    getUsuarioByName
-}
+  getUsuarioById,
+  patchUsuario,
+  deleteUsuario,
+  getUsuarios,
+  getUsuarioByName,
+};
