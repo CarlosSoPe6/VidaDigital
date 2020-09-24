@@ -10,8 +10,27 @@ const nodesModel = require('../db/nodes.model');
 async function addNodo(req, res) {
   const nodo = req.body;
 
-  await nodesModel.addNodo(nodo);
-  res.sendStatus(200);
+  nodesModel.addNodo(nodo)
+    .then((val) => res.sendStatus(201))
+    .catch((err) => {
+      if (err.code === 'ER_DUP_ENTRY') return res.sendStatus(400);
+      return res.sendStatus(500);
+    });
+}
+
+/**
+ * PUT /api/nodo
+ * @async
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
+async function putNodo(req, res) {
+  const nodeData = req.body;
+  const nodeId = nodeData.id;
+
+  const query = await nodesModel.putNodo(nodeId, nodeData);
+  res.json(query);
 }
 
 /**
@@ -22,9 +41,23 @@ async function addNodo(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function getNodo(req, res) {
-  const userID = req.params.id;
+  const userID = req.params.nodoID;
 
   const query = await nodesModel.getNodo(userID);
+  res.json(query);
+}
+
+/**
+ * DELETE /api/nodo/:id
+ * @async
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
+async function deleteNodo(req, res) {
+  const nodeId = req.params.nodoID;
+
+  const query = await nodesModel.deleteNodo(nodeId);
   res.json(query);
 }
 
@@ -40,39 +73,10 @@ async function getNodos(req, res) {
   res.json(query);
 }
 
-/**
- * PUT /api/nodo/:id
- * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
- */
-async function putNodo(req, res) {
-  const nodeId = req.params.nodeID;
-  const nodeData = req.body;
-
-  const query = await nodesModel.putNodo(nodeId, nodeData);
-  res.json(query);
-}
-
-/**
- * DELETE /api/nodo/:id
- * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
- */
-async function deleteNodo(req, res) {
-  const nodeId = req.params.nodeID;
-
-  const query = await nodesModel.deleteNodo(nodeId);
-  res.json(query);
-}
-
 module.exports = {
   addNodo,
+  putNodo,
   getNodo,
   getNodos,
-  putNodo,
   deleteNodo,
 };

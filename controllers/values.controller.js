@@ -26,8 +26,7 @@ async function getSensores(req, res) {
 async function getNodes(req, res) {
   const sensorId = req.params.sensorID;
 
-  const data = await valuesController.getNodes(sensorId)
-    .catch((err) => res.status(400).send(err));
+  const data = await valuesController.getNodes(sensorId).catch((err) => res.status(400).send(err));
 
   res.json(data);
 }
@@ -44,7 +43,7 @@ async function getNodeHasSensor(req, res) {
   const sensorId = req.params.sensorID;
 
   const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
-    .catch((err) => console.log(err));
+    .catch((err) => res.sendStatus(400).send(err));
 
   res.json(data[0].Exist);
 }
@@ -61,7 +60,7 @@ async function deleteNodeSensor(req, res) {
   const sensorId = req.params.sensorID;
 
   const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
-    .catch((err) => console.log(err));
+    .catch((err) => res.sendStatus(400).send(err));
 
   res.json(data[0].Exist);
 }
@@ -78,7 +77,7 @@ async function putNodeSensor(req, res) {
   const sensorId = req.params.sensorID;
 
   const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
-    .catch((err) => console.log(err));
+    .catch((err) => res.sendStatus(400).send(err));
 
   res.json(data[0].Exist);
 }

@@ -6,9 +6,16 @@ const router = express.Router();
 const parser = bodyParser.json();
 
 router.get('/sensores/:nodeID', valuesController.getSensores);
-router.get('/nodes/:sensorID', valuesController.getNodes);
-router.get('/node/:nodeID/sensor/:sensorID', valuesController.getNodeHasSensor);
-router.delete('/node/:nodeID/sensor/:sensorID', valuesController.deleteNodeSensor);
-router.put('/node/:nodeID/sensor/:sensorID', valuesController.putNodeSensor);
+router.get('/nodos/:sensorID', valuesController.getNodes);
+router.get('/nodo/:nodeID/sensor/:sensorID', valuesController.getNodeHasSensor);
+router.delete(
+  '/nodo/:nodeID/sensor/:sensorID',
+  valuesController.deleteNodeSensor,
+);
+router.put(
+  '/nodo/:nodeID/sensor/:sensorID',
+  parser,
+  valuesController.putNodeSensor,
+);
 
 module.exports = router;

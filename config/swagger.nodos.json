@@ -10,32 +10,7 @@
         }
     },
     "paths": {
-        "/nodes": {
-            "get": {
-                "tags": [
-                    "Node"
-                ],
-                "summary": "Lista de todos los nodos",
-                "description": "",
-                "operationId": "getNodes",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Node"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/node": {
+        "/nodo": {
             "post": {
                 "tags": [
                     "Node"
@@ -58,40 +33,6 @@
                 "responses": {
                     "201": {
                         "description": "CREATED"
-                    }
-                }
-            }
-        },
-        "/node/{id}": {
-            "get": {
-                "tags": [
-                    "Node"
-                ],
-                "summary": "Obtener un nodo mediante su ID",
-                "description": "",
-                "operationId": "getNode",
-                "parameters": [
-                    {
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "name": "NodeId",
-                        "in": "path",
-                        "description": "ID del nodo a obtener",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Node"
-                                }
-                            }
-                        }
                     }
                 }
             },
@@ -119,6 +60,40 @@
                         "schema": {
                             "$ref": "#/components/schemas/Node"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Node"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/nodo/{nodeId}": {
+            "get": {
+                "tags": [
+                    "Node"
+                ],
+                "summary": "Obtener un nodo mediante su ID",
+                "description": "",
+                "operationId": "getNode",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "NodeId",
+                        "in": "path",
+                        "description": "ID del nodo a obtener",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -168,12 +143,37 @@
                 }
             }
         },
-        "/sensores/node/{id}": {
+        "/nodo/nodos/todos": {
+            "get": {
+                "tags": [
+                    "Node"
+                ],
+                "summary": "Lista de todos los nodos",
+                "description": "",
+                "operationId": "getNodes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Node"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/valores/sensores/{nodeId}": {
             "get": {
                 "tags": [
                     "Node values"
                 ],
-                "summary": "Lista de todos los sensores de un nodo mediante su ID",
+                "summary": "Lista de todos los sensores de que tiene un nodo mediante su ID",
                 "description": "",
                 "operationId": "getSensoresNode",
                 "parameters": [
@@ -205,7 +205,7 @@
                 }
             }
         },
-        "/nodes/sensor/{id}": {
+        "/valores/nodos/{sensorId}": {
             "get": {
                 "tags": [
                     "Node values"
@@ -242,7 +242,7 @@
                 }
             }
         },
-        "/node/{id}/sensor/{id}": {
+        "/valores/nodo/{nodeId}/sensor/{sensorId}": {
             "get": {
                 "tags": [
                     "Node values"
@@ -269,6 +269,42 @@
                         "name": "sensorId",
                         "in": "path",
                         "description": "ID del sensor",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CREATED"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Node values"
+                ],
+                "security": ["BearerAuth"],
+                "summary": "Agregar un sensor a un nodo mediante ambos ID's",
+                "description": "",
+                "operationId": "postNodeSensor",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "nodeId",
+                        "in": "body",
+                        "description": "ID del nodo al cual se le va a agregar el sensor",
+                        "required": true
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "sensorId",
+                        "in": "body",
+                        "description": "ID del sensor al cual se le va a agregar al nodo",
                         "required": true
                     }
                 ],
@@ -305,45 +341,7 @@
                 }
             }
         },
-        "/node/sensor": {
-            "post": {
-                "tags": [
-                    "Node values"
-                ],
-                "security": ["BearerAuth"],
-                "summary": "Agregar un sensor a un nodo mediante ambos ID's",
-                "description": "",
-                "operationId": "postNodeSensor",
-                "parameters": [
-                    {
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "name": "nodeId",
-                        "in": "body",
-                        "description": "ID del nodo al cual se le va a agregar el sensor",
-                        "required": true
-                    },
-                    {
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "name": "sensorId",
-                        "in": "body",
-                        "description": "ID del sensor al cual se le va a agregar al nodo",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "CREATED"
-                    }
-                }
-            }
-        },
-        "/user/{id}": {
+        "/usuario/{id}": {
             "get": {
                 "tags": [
                     "Users"
@@ -447,7 +445,7 @@
                 }
             }
         },
-        "/users": {
+        "/usuario/usuarios": {
             "get": {
                 "tags": [
                     "Users"
@@ -472,7 +470,7 @@
                 }
             }
         },
-        "/user/{nombre}": {
+        "/usuario/nombre/{nombre}": {
             "get": {
                 "tags": [
                     "Users"
