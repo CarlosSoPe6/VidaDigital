@@ -1,47 +1,109 @@
+/* eslint-disable no-restricted-globals */
 /**
  * Módulo del controlador de lecturas.
  * Este archivo contiene todos los endpoints del controlador de lecturas.
  * @author Carlos Soto Pérez <carlos348@outlook.com>
  */
+const SimpleLogger = require('simple-node-logger');
+const lecturasModel = require('../db/lecturas.model');
 const lectuasModel = require('../db/lecturas.model');
+const { isValidNode } = require('../validators/isValidNode');
+
+const log = SimpleLogger.createSimpleLogger('lecturas.log');
+log.setLevel('info');
 
 /**
- * GET /api/lecturas
+ * Construye el objeto para insertar en la base de datos.
+ * @param {Array<String>} cmdArray Arreglo del comando recivido.
+ */
+function buildCmdDataObject(cmdArray) {
+  const idNodo = cmdArray[1];
+  const dateCmd = cmdArray[4];
+  let fechaHora = new Date(Date.now());
+  if (dateCmd === 'TS') {
+    fechaHora = new Date(cmdArray[5]);
+  } else if (dateCmd === 'TD') {
+    fechaHora = new Date(Number(cmdArray[5]) * 1000);
+  }
+  const data = {};
+  data.id = idNodo;
+  data.ts = fechaHora;
+  for (let i = 6; i < cmdArray.length; i += 2) {
+    const dataMember = cmdArray[i].toLowerCase();
+    const dataValue = cmdArray[i + 1];
+    data[dataMember] = dataValue;
+  }
+  return data;
+}
+
+/**
+ * GET /api/lecturas?cmd=:cmd
  * @async
  * @exports
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
 async function postLectura(req, res) {
-  const cmdArray = req.query.cmd.split(';');
-  const idNodo = cmdArray[1];
-  const dateCmd = cmdArray[4];
-  let fechaHora = Date.now();
-  if (dateCmd === 'TS') {
-    fechaHora = Date(cmdArray[5]);
-  } else if ((dateCmd === 'TS')) {
-    fechaHora = Date(cmdArray[5]);
+  const { cmd } = req.query;
+  if (cmd === undefined) {
+    res.status(400).send('BAD REQUEST. No cmd');
+    return;
   }
-  const data = {};
-  for (let i = 6; i < cmdArray.length; i += 2) {
-    const dataMember = cmdArray[i];
-    const dataValue = cmdArray[i + 1];
-    data[dataMember] = dataValue;
+  log.info(cmd);
+  const cmdArray = cmd.split(';');
+  if (cmdArray.length % 2 !== 0) {
+    res.status(400).send('BAD REQUEST. cmd not structured');
+    return;
+  }
+  const data = buildCmdDataObject(cmdArray);
+  // eslint-disable-next-line no-restricted-globals
+  if (isNaN(data.ts)) {
+    res.status(400).send(`ID;${data.id};RS;Incorrect`);
+    return;
   }
   try {
-    await lectuasModel.postLectura(idNodo, fechaHora, JSON.stringify(data));
-    res.status(201).send('CREATED');
+    if (!await isValidNode(data.id)) {
+      res.status(400).send(`ID;${data.id};RS;Incorrect`);
+      return;
+    }
+    await lectuasModel.postLectura(data.id, data.ts, JSON.stringify(data));
+    res.status(201).send(`ID;${data.id};RS;Correct`);
   } catch (e) {
-    res.status(501).send(e.message);
+    res.status(501).send(`ID;${data.id};RS;Incorrect;Err;${e.message}`);
   }
 }
 
+/**
+ * GET /api/lecturas?count=100
+ * @async
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
 async function getLecturas(req, res) {
-  res.send('getTLecturas;');
+  let { count } = req.query;
+  if (count === undefined) {
+    count = 100;
+  }
+  count = Number(count);
+  const response = await lecturasModel.getLecturas(count);
+  res.json(response);
 }
 
+/**
+ * GET /api/lecturas/id/:id
+ * @async
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
 async function getLecturaId(req, res) {
-  res.send('getLecturaId');
+  const { id } = req.params.id;
+  const response = await lecturasModel.getLecturaId(id);
+  if (response.length === 0) {
+    res.status(404).send('NOT FOUND');
+  }
+  res.json(response);
 }
 
 async function getLecturasNodo(req, res) {
@@ -62,7 +124,15 @@ async function getLecturasNodoDia(req, res) {
     mes,
     dia,
   } = req.params;
+  const date = new Date(anio, mes - 1, dia);
+  if (isNaN(date)) {
+    res.status(400).send('BAD REQUEST. Año, mes, o día inválidos');
+    return;
+  }
   const response = await lectuasModel.getLecturasNodoDia(nodo, anio, mes, dia);
+  if (response.length === 0) {
+    res.status(404).send('NOT FOUND');
+  }
   res.json(response);
 }
 
@@ -80,7 +150,16 @@ async function getLecturasNodoSemana(req, res) {
     mes,
     dia,
   } = req.params;
+  const startWeek = new Date(anio, mes - 1, dia, 0, 0, 0, 0);
+  const endWeek = new Date(anio, mes - 1, dia, 23, 59, 59, 999);
+  if (isNaN(startWeek) || isNaN(endWeek)) {
+    res.status(400).send('BAD REQUEST. Año, mes, o día inválidos');
+    return;
+  }
   const response = await lectuasModel.getLecturasNodoSemana(nodo, anio, mes, dia);
+  if (response.length === 0) {
+    res.status(404).send('NOT FOUND');
+  }
   res.json(response);
 }
 
@@ -97,7 +176,16 @@ async function getLecturasNodoMes(req, res) {
     anio,
     mes,
   } = req.params;
+  const firstDayOfMonth = new Date(anio, mes - 1, 1, 0, 0, 0, 0);
+  const lastDatyOfMonth = new Date(anio, mes - 1, 0, 23, 59, 59, 999);
+  if (isNaN(firstDayOfMonth) || isNaN(lastDatyOfMonth)) {
+    res.status(400).send('BAD REQUEST. Año o mes inválidos');
+    return;
+  }
   const response = await lectuasModel.getLecturasNodoMes(nodo, anio, mes);
+  if (response.length === 0) {
+    res.status(404).send('NOT FOUND');
+  }
   res.json(response);
 }
 
@@ -113,7 +201,16 @@ async function getLecturasNodoAnio(req, res) {
     nodo,
     anio,
   } = req.params;
+  const firstDayOfYear = new Date(Date.UTC(anio, 0, 1, 0, 0, 0));
+  const lastDayOfYear = new Date(Date.UTC(anio, 11, 31, 23, 59, 59, 999));
+  if (isNaN(firstDayOfYear) || isNaN(lastDayOfYear)) {
+    res.status(400).send('BAD REQUEST. Año inválido');
+    return;
+  }
   const response = await lectuasModel.getLecturasNodoAnio(nodo, anio);
+  if (response.length === 0) {
+    res.status(404).send('NOT FOUND');
+  }
   res.json(response);
 }
 
