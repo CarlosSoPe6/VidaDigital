@@ -19,7 +19,7 @@ const POST_LECTURA_QUERY = 'INSERT INTO LecturasNodos (`idNodo`, fecha_hora, `da
  * @param {string} idNodo Id del nodo
  * @param {string} fechaHora Hora y fecha
  * @param {string} data Datos en JSON strinf
- * @returns {Promise<Object>} Resultado de la consulta.
+ * @returns {Promise<Array<Object>} Resultado de la consulta.
  */
 async function postLectura(idNodo, fechaHora, data) {
   const connection = await getConnection();

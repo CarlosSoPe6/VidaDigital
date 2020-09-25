@@ -7,7 +7,7 @@
 const SimpleLogger = require('simple-node-logger');
 const lecturasModel = require('../db/lecturas.model');
 const lectuasModel = require('../db/lecturas.model');
-const { isValidNode } = require('../validators/isValidNode');
+const { areValidVars } = require('../validators/variables');
 
 const log = SimpleLogger.createSimpleLogger('lecturas.log');
 log.setLevel('info');
@@ -30,7 +30,7 @@ function buildCmdDataObject(cmdArray) {
   data.ts = fechaHora;
   for (let i = 6; i < cmdArray.length; i += 2) {
     const dataMember = cmdArray[i].toLowerCase();
-    const dataValue = cmdArray[i + 1];
+    const dataValue = Number(cmdArray[i + 1]);
     data[dataMember] = dataValue;
   }
   return data;
@@ -50,7 +50,13 @@ async function postLectura(req, res) {
     return;
   }
   log.info(cmd);
-  const cmdArray = cmd.split(';');
+  const cmdArray = cmd.trim().split(';');
+  if (cmdArray[cmdArray.length - 1] !== '') {
+    res.status(400).send('BAD REQUEST. cmd not structured');
+    return;
+  }
+  const idNodo = cmdArray[1];
+  cmdArray.pop();
   if (cmdArray.length % 2 !== 0) {
     res.status(400).send('BAD REQUEST. cmd not structured');
     return;
@@ -62,11 +68,13 @@ async function postLectura(req, res) {
     return;
   }
   try {
-    if (!await isValidNode(data.id)) {
+    const validationResult = await areValidVars(idNodo, data);
+    if (!validationResult.valid) {
       res.status(400).send(`ID;${data.id};RS;Incorrect`);
       return;
     }
-    await lectuasModel.postLectura(data.id, data.ts, JSON.stringify(data));
+    const cleanData = validationResult.data;
+    await lectuasModel.postLectura(idNodo, cleanData.ts, JSON.stringify(cleanData));
     res.status(201).send(`ID;${data.id};RS;Correct`);
   } catch (e) {
     res.status(501).send(`ID;${data.id};RS;Incorrect;Err;${e.message}`);
