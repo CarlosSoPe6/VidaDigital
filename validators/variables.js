@@ -1,4 +1,12 @@
-const { getNodoVariables } = require('../db/nodes.model');
+/**
+ * Módulo auxiliar para verificar variables.
+ * @author Carlos Soto Pérez <carlos348@outlook.com>
+ */
+const schema = require('../config/swagger.nodos.json').components.schemas.Values;
+const validator = require('./index');
+const {
+  getNodoVariables,
+} = require('../db/nodes.model');
 
 /**
  * Verifica si un nodo existe en la base de datos.
@@ -9,22 +17,26 @@ const { getNodoVariables } = require('../db/nodes.model');
 async function areValidVars(idNodo, data) {
   const vars = await getNodoVariables(idNodo);
   if (vars.length === 0) {
-    return false;
+    return { valid: false, data: `No existe nodo ${idNodo}` };
   }
   let matchVerify = 0;
-  const keys = ['id', 'ts'];
+  const keys = ['id', 'ts', 'ac'];
+  const missing = [];
   vars.forEach((variable) => {
-    if (data[variable.code] === undefined) {
+    if (data[missing] === undefined) {
+      missing.push(missing);
       return;
     }
     if (variable.min > data[variable.code] || variable.max < data[variable.code]) {
+      missing.push(missing);
       return;
     }
     keys.push(variable.code);
     matchVerify += 1;
   });
   if (matchVerify !== vars.length) {
-    return { valid: false, data: {} };
+    const message = missing.join(',');
+    return { valid: false, data: `Faltantes o fuera de rango: ${message}` };
   }
 
   const dataToReturn = {};
@@ -35,6 +47,19 @@ async function areValidVars(idNodo, data) {
   return { valid: true, data: dataToReturn };
 }
 
+/**
+ * Valida el esquema para las variables
+ * @param {Object} obj Es
+ */
+async function validarEsquema(obj) {
+  const validation = validator.validate(obj, schema);
+  if (validation.errors.length === 0) {
+    return true;
+  }
+  return false;
+}
+
 module.exports = {
   areValidVars,
+  validarEsquema,
 };

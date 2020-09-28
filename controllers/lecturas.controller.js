@@ -4,13 +4,10 @@
  * Este archivo contiene todos los endpoints del controlador de lecturas.
  * @author Carlos Soto Pérez <carlos348@outlook.com>
  */
-const SimpleLogger = require('simple-node-logger');
 const lecturasModel = require('../db/lecturas.model');
 const lectuasModel = require('../db/lecturas.model');
 const { areValidVars } = require('../validators/variables');
-
-const log = SimpleLogger.createSimpleLogger('lecturas.log');
-log.setLevel('info');
+const log = require('../loggers/lecturas');
 
 /**
  * Construye el objeto para insertar en la base de datos.
@@ -22,7 +19,7 @@ function buildCmdDataObject(cmdArray) {
   let fechaHora = new Date(Date.now());
   if (dateCmd === 'TS') {
     fechaHora = new Date(cmdArray[5]);
-  } else if (dateCmd === 'TD') {
+  } else if (dateCmd === 'TU') {
     fechaHora = new Date(Number(cmdArray[5]) * 1000);
   }
   const data = {};
@@ -64,13 +61,13 @@ async function postLectura(req, res) {
   const data = buildCmdDataObject(cmdArray);
   // eslint-disable-next-line no-restricted-globals
   if (isNaN(data.ts)) {
-    res.status(400).send(`ID;${data.id};RS;Incorrect`);
+    res.status(400).send(`ID;${data.id};RS;Incorrect time format;`);
     return;
   }
   try {
     const validationResult = await areValidVars(idNodo, data);
     if (!validationResult.valid) {
-      res.status(400).send(`ID;${data.id};RS;Incorrect`);
+      res.status(400).send(`ID;${data.id};RS;${validationResult.data};`);
       return;
     }
     const cleanData = validationResult.data;
@@ -94,8 +91,16 @@ async function getLecturas(req, res) {
     count = 100;
   }
   count = Number(count);
-  const response = await lecturasModel.getLecturas(count);
-  res.json(response);
+  if (isNaN(count)) {
+    res.status(400).send('count is not number');
+    return;
+  }
+  try {
+    const response = await lecturasModel.getLecturas(count);
+    res.json(response);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
 }
 
 /**
@@ -107,13 +112,53 @@ async function getLecturas(req, res) {
  */
 async function getLecturaId(req, res) {
   const { id } = req.params;
-  const response = await lecturasModel.getLecturaId(id);
-  if (response.length === 0) {
-    res.status(404).send('NOT FOUND');
+  try {
+    const response = await lecturasModel.getLecturaId(id);
+    if (response.length === 0) {
+      res.status(404).send('NOT FOUND');
+      return;
+    }
+    res.json(response);
+  } catch (e) {
+    res.status(500).send(e.message);
   }
-  res.json(response);
 }
 
+/**
+ * PUT /api/lecturas/id/:id
+ * @async
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
+async function putLecturaId(req, res) {
+  res.send('NOT IMPLEMENTED');
+}
+
+/**
+ * DELETE /api/lecturas/id/:id
+ * @async
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
+async function deleteLecturaId(req, res) {
+  const { id } = req.params;
+  try {
+    const response = await lecturasModel.deleteLecturaId(id);
+    res.json(response);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+}
+
+/**
+ * DELETE /api/lecturas/n/:id
+ * @async
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
 async function getLecturasNodo(req, res) {
   const { id } = req.params;
   let { count } = req.query;
@@ -121,11 +166,20 @@ async function getLecturasNodo(req, res) {
     count = 100;
   }
   count = Number(count);
-  const response = await lecturasModel.getLecturasNodo(id, count);
-  if (response.length === 0) {
-    res.status(404).send('NOT FOUND');
+  if (isNaN(count)) {
+    res.status(400).send('count is not number');
+    return;
   }
-  res.json(response);
+  try {
+    const response = await lecturasModel.getLecturasNodo(id, count);
+    if (response.length === 0) {
+      res.status(404).send('NOT FOUND');
+      return;
+    }
+    res.json(response);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
 }
 
 /**
@@ -236,6 +290,8 @@ module.exports = {
   postLectura,
   getLecturas,
   getLecturaId,
+  putLecturaId,
+  deleteLecturaId,
   getLecturasNodo,
   getLecturasNodoDia,
   getLecturasNodoSemana,

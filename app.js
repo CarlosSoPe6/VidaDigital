@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 3000;
 const swaggerUI = require('swagger-ui-express');
@@ -12,6 +13,8 @@ const nodesRouter = require('./routes/nodos.route');
 const lecturasRouter = require('./routes/lecturas.route');
 const variablesRouter = require('./routes/variables.route');
 const usersRouter = require('./routes/usuarios.route');
+
+app.use(bodyParser.json());
 
 app.use('/api/api-docs/nodos', swaggerUI.serve, swaggerUI.setup(swaggerNodosDoc));
 app.use('/api/api-docs/covid', swaggerUI.serve, swaggerUI.setup(swaggerCovidDoc));

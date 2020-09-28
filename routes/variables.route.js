@@ -9,5 +9,9 @@ const variablesController = require('../controllers/variables.controller');
 const router = express.Router();
 
 router.get('/', variablesController.getVariables);
+router.post('/', variablesController.postVarialbe);
+router.get('/:code', variablesController.getVarialbe);
+router.put('/:code', variablesController.putVarialbe);
+router.delete('/:code', variablesController.deleteVarialbe);
 
 module.exports = router;
