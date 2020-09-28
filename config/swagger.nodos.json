@@ -1038,31 +1038,39 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "required": true
                     },
                     "description": {
-                        "type": "string"
+                        "type": "string",
+                        "required": true
                     },
                     "code": {
-                        "type": "string"
+                        "type": "string",
+                        "required": true
                     },
                     "abr": {
-                        "type": "string"
+                        "type": "string",
+                        "required": true
                     },
                     "min": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "required": true
                     },
                     "max": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "required": true
                     },
                     "referenceVal": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "required": true
                     },
                     "ambiental": {
-                        "type": "boolean"
+                        "type": "boolean",
+                        "required": true
                     }
                 }
             },

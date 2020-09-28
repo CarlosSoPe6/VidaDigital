@@ -1,5 +1,34 @@
 const { getConnection } = require('../config/dbConfig');
 
+const QUERY_GET_NODO_VARIABLES = 'SELECT * FROM ValuesCatalog JOIN NodeValues  ON ValuesCatalog.id = NodeValues.id_value_catalog WHERE NodeValues.id_node = ?';
+
+/**
+ * Obtiene las variables de la base de datos.
+ * @async
+ * @exports
+ * @throws {import('mysql').MysqlError}
+ * @param {string} idNodo Id del nodo a buscar
+ * @returns {Promise<Object>} Resultado de la consulta.
+ */
+async function getNodoVariables(idNodo) {
+  const connection = await getConnection();
+  const valuesToEscape = [
+    idNodo,
+  ];
+  return new Promise((resolve, reject) => {
+    connection.query(
+      QUERY_GET_NODO_VARIABLES,
+      valuesToEscape,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      },
+    );
+  });
+}
+
 async function addNodo(nodo) {
   const db = await getConnection();
 
@@ -31,7 +60,8 @@ async function getNodos() {
   const db = await getConnection();
 
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM Nodos', (err, results) => {
+    db.query('SELECT * FROM Nodos', (err, results, fields) => {
+      console.log(fields);
       if (err) return reject(err);
 
       return resolve(results);
@@ -55,7 +85,7 @@ async function putNodo(nodeId, nodeData) {
   const db = await getConnection();
 
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM Nodos', (err, results) => {
+    db.query('SELECT * FROM Nodos', (err, results,) => {
       if (err) return reject(err);
 
       return resolve(results);
@@ -64,6 +94,7 @@ async function putNodo(nodeId, nodeData) {
 }
 
 module.exports = {
+  getNodoVariables,
   getNodos,
   addNodo,
   getNodo,

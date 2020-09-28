@@ -25,6 +25,26 @@ async function getVariables() {
   });
 }
 
+async function getVariable(code) {
+  const connection = await getConnection();
+  const valuesToEscape = [
+    code,
+  ];
+  return new Promise((resolve, reject) => {
+    connection.query(
+      'select * from ValuesCatalog WHERE code=?',
+      valuesToEscape,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      },
+    );
+  });
+}
+
 module.exports = {
   getVariables,
+  getVariable,
 };
