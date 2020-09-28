@@ -1,3 +1,7 @@
+/**
+ * Módulo auxiliar para verificar nodos.
+ * @author Carlos Soto Pérez <carlos348@outlook.com>
+ */
 const { getNodo } = require('../db/nodes.model');
 
 /**

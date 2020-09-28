@@ -60,7 +60,8 @@ async function getNodos() {
   const db = await getConnection();
 
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM Nodos', (err, results) => {
+    db.query('SELECT * FROM Nodos', (err, results, fields) => {
+      console.log(fields);
       if (err) return reject(err);
 
       return resolve(results);
@@ -84,7 +85,7 @@ async function putNodo(nodeId, nodeData) {
   const db = await getConnection();
 
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM Nodos', (err, results) => {
+    db.query('SELECT * FROM Nodos', (err, results,) => {
       if (err) return reject(err);
 
       return resolve(results);
