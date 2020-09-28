@@ -1,4 +1,4 @@
-const userModel = require("../db/usuario.model");
+const userModel = require('../db/usuario.model');
 
 /**
  * GET /api/usuario/id/:id
@@ -10,7 +10,7 @@ const userModel = require("../db/usuario.model");
 async function getUsuarioById(req, res) {
   const id = req.params.userID;
 
-  let data = userModel.getUsuario(id);
+  const data = userModel.getUsuario(id);
   res.json(data);
 }
 
@@ -25,7 +25,7 @@ async function patchUsuario(req, res) {
   const userId = req.params.userID;
   const userData = req.body;
 
-  let data = userModel.patchUsuario(userId, userData);
+  const data = userModel.patchUsuario(userId, userData);
   res.json(data);
 }
 
@@ -39,7 +39,7 @@ async function patchUsuario(req, res) {
 async function deleteUsuario(req, res) {
   const userId = req.params.userID;
 
-  let data = userModel.patchUsuario(userId);
+  const data = userModel.patchUsuario(userId);
   res.json(data);
 }
 
@@ -51,7 +51,7 @@ async function deleteUsuario(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function getUsuarios(req, res) {
-  let data = userModel.getUsuarios();
+  const data = userModel.getUsuarios();
   res.json(data);
 }
 
@@ -63,9 +63,9 @@ async function getUsuarios(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function getUsuarioByName(req, res) {
-  const username = req.params.username;
+  const { username } = req.params;
 
-  let data = userModel.patchUsuario(username);
+  const data = userModel.patchUsuario(username);
   res.json(data);
 }
 

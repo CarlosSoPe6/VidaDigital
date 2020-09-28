@@ -1,0 +1,1169 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0",
+        "title": "API red de sensores",
+        "description": "Documentacion de los endpoints disponibles para el proyecto de red de sensores",
+        "license": {
+            "name": "ITESO",
+            "url": "https://www.iteso.mx/"
+        }
+    },
+    "paths": {
+        "/nodo": {
+            "post": {
+                "tags": [
+                    "Node"
+                ],
+                "security": ["BearerAuth"],
+                "summary": "Agregar un nuevo nodo",
+                "description": "",
+                "operationId": "postNode",
+                "parameters": [
+                    {
+                        "schema": {
+                            "$ref": "#/components/schemas/Node"
+                        },
+                        "name": "node",
+                        "in": "body",
+                        "description": "Informacion del nodo a agregar",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CREATED"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Node"
+                ],
+                "security": ["BearerAuth"],
+                "summary": "Modificar valores de un nodo mediante su ID",
+                "description": "",
+                "operationId": "patchNode",
+                "parameters": [
+                    {
+                        "schema": {},
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "ID del nodo a modificar",
+                        "required": true
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Datos a ser actualizados",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Node"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Node"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/nodo/{nodeId}": {
+            "get": {
+                "tags": [
+                    "Node"
+                ],
+                "summary": "Obtener un nodo mediante su ID",
+                "description": "",
+                "operationId": "getNode",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "NodeId",
+                        "in": "path",
+                        "description": "ID del nodo a obtener",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Node"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Node"
+                ],
+                "security": ["BearerAuth"],
+                "summary": "Eliminar un nodo mediante su ID",
+                "description": "",
+                "operationId": "deleteNode",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "NodeId",
+                        "in": "path",
+                        "description": "ID del nodo a eliminar",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Node"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/nodo/nodos/todos": {
+            "get": {
+                "tags": [
+                    "Node"
+                ],
+                "summary": "Lista de todos los nodos",
+                "description": "",
+                "operationId": "getNodes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Node"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/valores/sensores/{nodeId}": {
+            "get": {
+                "tags": [
+                    "Node values"
+                ],
+                "summary": "Lista de todos los sensores de que tiene un nodo mediante su ID",
+                "description": "",
+                "operationId": "getSensoresNode",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "NodeId",
+                        "in": "path",
+                        "description": "ID del nodo a buscar los sensores",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Values"   
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/valores/nodos/{sensorId}": {
+            "get": {
+                "tags": [
+                    "Node values"
+                ],
+                "summary": "Lista de todos los nodos que tienen un sensor mediante su ID",
+                "description": "",
+                "operationId": "getNodesSensor",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "sensorId",
+                        "in": "path",
+                        "description": "ID del sensor a buscar en los nodos",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Node"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/valores/nodo/{nodeId}/sensor/{sensorId}": {
+            "get": {
+                "tags": [
+                    "Node values"
+                ],
+                "summary": "Verificar si un nodo tiene un sensor mediante ambos ID's",
+                "description": "",
+                "operationId": "getNodeSensor",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "nodeId",
+                        "in": "path",
+                        "description": "ID del nodo",
+                        "required": true
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "sensorId",
+                        "in": "path",
+                        "description": "ID del sensor",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CREATED"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Node values"
+                ],
+                "security": ["BearerAuth"],
+                "summary": "Agregar un sensor a un nodo mediante ambos ID's",
+                "description": "",
+                "operationId": "postNodeSensor",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "nodeId",
+                        "in": "body",
+                        "description": "ID del nodo al cual se le va a agregar el sensor",
+                        "required": true
+                    },
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "sensorId",
+                        "in": "body",
+                        "description": "ID del sensor al cual se le va a agregar al nodo",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CREATED"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Node values"
+                ],
+                "security": ["BearerAuth"],
+                "summary": "Eliminar un sensor de un nodo mediante ambos ID's",
+                "description": "",
+                "operationId": "deleteNodeSensor",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "sensorId",
+                        "in": "path",
+                        "description": "ID del sensor a buscar en los nodos",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/usuario/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtener usuario mediante su ID",
+                "description": "",
+                "operationId": "getUser",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Users"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Editar usuario mediante su ID",
+                "description": "",
+                "operationId": "patchUser",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true
+                    },
+                    {
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/Users"
+                        },
+                        "name": "Info",
+                        "in": "body",
+                        "description": "Informacion a editar",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "security": ["BearerAuth"],
+                "summary": "Eliminar usuario mediante su ID",
+                "description": "",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Users"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/usuario/usuarios": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Lista de usuarios",
+                "description": "",
+                "operationId": "getUsers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Users"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/usuario/nombre/{nombre}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtener usuario mediante su nombre",
+                "description": "",
+                "operationId": "getUserBYName",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "name": "username",
+                        "in": "path",
+                        "description": "nombre del usuario",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Users"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/lecturas": {
+            "get": {
+                "tags": [
+                    "Lecturas"
+                ],
+                "description": "Inserta una lectura en la base de datos",
+                "operationId": "postLectura",
+                "parameters": [
+                    {
+                        "name": "cmd",
+                        "in": "query",
+                        "description": "Lectura de nodo a insertar",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Lectura creada satisfactoriamente"
+                    }
+                }
+            }
+        },
+        "/lecturas/t": {
+            "get": {
+                "tags": [
+                    "Lecturas"
+                ],
+                "description": "Obtiene las últimas lecturas de todos los nodos",
+                "operationId": "getTLecturas",
+                "parameters": [
+                    {
+                        "name": "count",
+                        "in": "query",
+                        "description": "Número máximo de lecturas, por defecto 100",
+                        "required": false,
+                        "type": "integer",
+                        "default": "100"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lecturas obtenidas satisfactoriamente"
+                    }
+                }
+            }
+        },
+        "/lecturas/id/{id}": {
+            "get": {
+                "tags": [
+                    "Lecturas"
+                ],
+                "description": "Obtiene una lectura con un ID específico",
+                "operationId": "getLecturaId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id a consultar la lectura",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lectura obtenida satisfactoriamente"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Lecturas"
+                ],
+                "security": ["BearerAuth"],
+                "description": "Actualiza una lectura con un ID específico",
+                "operationId": "putLecturaId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id a actualizar la lectura",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lectura actualizada satisfactoriamente"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Lecturas"
+                ],
+                "security": ["BearerAuth"],
+                "description": "Elimina una lectura con un ID específico",
+                "operationId": "deleteLecturaId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id a la lectura",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lectura eliminada satisfactoriamente"
+                    }
+                }
+            }
+        },
+        "/lecturas/n/{nodo}": {
+            "get": {
+                "tags": [
+                    "Lecturas"
+                ],
+                "description": "Obtiene las últimas lecturas de un nodo en específico",
+                "operationId": "getLecturasNodo",
+                "parameters": [
+                    {
+                        "name": "nodo",
+                        "in": "path",
+                        "description": "Id del nodo a consultar las lecturas",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "count",
+                        "in": "query",
+                        "description": "Número máximo de lecturas, por defecto 100",
+                        "required": false,
+                        "type": "integer",
+                        "default": "100"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lecturas obtenidas satisfactoriamente",
+                        "content": {
+                            "application/json": {
+                                "type": "array"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/lecturas/dia/{nodo}/{año}/{mes}/{dia}": {
+            "get": {
+                "tags": [
+                    "Lecturas"
+                ],
+                "description": "Obtiene las lecturas de un nodo en específico en un día",
+                "operationId": "getLecturasNodoDia",
+                "parameters": [
+                    {
+                        "name": "nodo",
+                        "in": "path",
+                        "description": "Id del nodo a consultar las lecturas",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "año",
+                        "in": "path",
+                        "description": "Año a consultar las lecturas",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "mes",
+                        "in": "path",
+                        "description": "Mes a consultar las lecturas",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "dia",
+                        "in": "path",
+                        "description": "Día a consultar las lecturas",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lecturas obtenidas satisfactoriamente",
+                        "application/json": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "/lecturas/semana/{nodo}/{año}/{mes}/{dia}": {
+            "get": {
+                "tags": [
+                    "Lecturas"
+                ],
+                "description": "Obtiene las lecturas de un nodo en específico en una semana",
+                "operationId": "getLecturasNodoSemana",
+                "parameters": [
+                    {
+                        "name": "nodo",
+                        "in": "path",
+                        "description": "Id del nodo a consultar las lecturas",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "año",
+                        "in": "path",
+                        "description": "Año a consultar las lecturas",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "mes",
+                        "in": "path",
+                        "description": "Mes a consultar las lecturas",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "dia",
+                        "in": "path",
+                        "description": "Día a consultar las lecturas",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lecturas obtenidas satisfactoriamente",
+                        "application/json": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "/lecturas/mes/{nodo}/{año}/{mes}": {
+            "get": {
+                "tags": [
+                    "Lecturas"
+                ],
+                "description": "Obtiene las lecturas de un nodo en específico en un mes",
+                "operationId": "getLecturasNodoMes",
+                "parameters": [
+                    {
+                        "name": "nodo",
+                        "in": "path",
+                        "description": "Id del nodo a consultar las lecturas",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "año",
+                        "in": "path",
+                        "description": "Año a consultar las lecturas",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "mes",
+                        "in": "path",
+                        "description": "Mes a consultar las lecturas",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lecturas obtenidas satisfactoriamente",
+                        "application/json": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "/lecturas/anio/{nodo}/{año}": {
+            "get": {
+                "tags": [
+                    "Lecturas"
+                ],
+                "description": "Obtiene las lecturas de un nodo en específico en un año",
+                "operationId": "getLecturasNodoAño",
+                "parameters": [
+                    {
+                        "name": "nodo",
+                        "in": "path",
+                        "description": "Id del nodo a consultar las lecturas",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "año",
+                        "in": "path",
+                        "description": "Año a consultar las lecturas",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lecturas obtenidas satisfactoriamente",
+                        "application/json": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "/variables": {
+            "get": {
+                "tags": [
+                    "Variables"
+                ],
+                "description": "Obtiene todo el catálogo de valores",
+                "operationId": "getVariables",
+                "responses": {
+                    "200": {
+                        "description": "Valores del catálogo obtenidos satisfactoriamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Values"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Variables"
+                ],
+                "security": ["BearerAuth"],
+                "description": "Crea un nuevo registro en el catálogo de valores",
+                "operationId": "postVariable",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/Values"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro en el catáogo creado satisfactoriamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Values"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/variables/{id}": {
+            "get": {
+                "tags": [
+                    "Variables"
+                ],
+                "description": "Obtiene todo el catálogo de valores",
+                "operationId": "getVariable",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id del registro a consultar",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Valores del catálogo obtenidos satisfactoriamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Values"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Variables"
+                ],
+                "security": ["BearerAuth"],
+                "description": "Crea un nuevo registro en el catálogo de valores",
+                "operationId": "putVaraible",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id del registro a actualizar",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#components/schemas/Values"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro en el catáogo actualizado satisfactoriamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#components/schemas/Values"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Variables"
+                ],
+                "security": ["BearerAuth"],
+                "description": "Crea un nuevo registro en el catálogo de valores",
+                "operationId": "deleteVariable",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id del registro a eliminar",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Registro en el catáogo eliminado satisfactoriamente"
+                    }
+                }
+            }
+        }
+    },
+    "servers": [
+        {
+            "description": "Host",
+            "url": "http://papvidadigital-test.com/api/1.0"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "Node": {
+                "type": "object",
+                "description": "Descripción de los nodos",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "direccion": {
+                        "type": "string"
+                    },
+                    "longitud": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "latitud": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NodeValues": {
+                "description": "Lecturas obtenidas por nodo",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "id_value_catalog": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "Users": {
+                "type": "object",
+                "description": "Descripción de usuarios",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Values": {
+                "description": "Esquema del catálogo de variables",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "required": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "code": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "abr": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "min": {
+                        "type": "integer",
+                        "format": "int32",
+                        "required": true
+                    },
+                    "max": {
+                        "type": "integer",
+                        "format": "int32",
+                        "required": true
+                    },
+                    "referenceVal": {
+                        "type": "integer",
+                        "format": "int32",
+                        "required": true
+                    },
+                    "ambiental": {
+                        "type": "boolean",
+                        "required": true
+                    }
+                }
+            },
+            "LecturaJSON": {
+                "properties": {
+                    "id": {
+                        "required": true,
+                        "type": "string"
+                    },
+                    "ts": {
+                        "type": "string"
+                    },
+                    "se": {
+                        "type": "string"
+                    },
+                    "bat": {
+                        "type": "string"
+                    },
+                    "temp": {
+                        "type": "string"
+                    },
+                    "ph": {
+                        "type": "string"
+                    },
+                    "od": {
+                        "type": "string"
+                    },
+                    "tmps": {
+                        "type": "string"
+                    },
+                    "tmpi": {
+                        "type": "string"
+                    },
+                    "hums": {
+                        "type": "string"
+                    },
+                    "con": {
+                        "type": "string"
+                    },
+                    "orp": {
+                        "type": "string"
+                    },
+                    "o2": {
+                        "type": "string"
+                    },
+                    "co": {
+                        "type": "string"
+                    },
+                    "no2": {
+                        "type": "string"
+                    },
+                    "cO2": {
+                        "type": "string"
+                    },
+                    "hum": {
+                        "type": "string"
+                    },
+                    "o3": {
+                        "type": "string"
+                    },
+                    "pru": {
+                        "type": "string"
+                    },
+                    "vel": {
+                        "type": "string"
+                    },
+                    "prec": {
+                        "type": "string"
+                    },
+                    "dir": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Lecturas": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "idNodo": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": {
+                            "$ref": "#/components/schemas/LecturaJSON"
+                        }
+                    },
+                    "fecha_hora": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

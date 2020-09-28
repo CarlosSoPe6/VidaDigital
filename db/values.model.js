@@ -1,4 +1,4 @@
-const { getConnection } = require("../config/dbConfig");
+const { getConnection } = require('../config/dbConfig');
 
 async function getSensores(nodeId) {
   const db = await getConnection();
@@ -12,7 +12,7 @@ async function getSensores(nodeId) {
         if (err) return reject(err);
 
         return resolve(results);
-      }
+      },
     );
   });
 }
@@ -29,7 +29,7 @@ async function getNodes(sensorId) {
         if (err) return reject(err);
 
         return resolve(results);
-      }
+      },
     );
   });
 }
@@ -46,7 +46,7 @@ async function getNodeHasSensor(nodeId, sensorId) {
         if (err) return reject(err);
 
         return resolve(results);
-      }
+      },
     );
   });
 }
@@ -75,7 +75,7 @@ async function postNodeSensor(nodeId, sensorId) {
         if (err) return reject(err);
 
         return resolve(results);
-      }
+      },
     );
   });
 }
@@ -89,7 +89,7 @@ async function deleteAllNodeSensors(nodeId) {
         if (err) return reject(err);
 
         return resolve(results);
-      }
+      },
     );
   });
 }

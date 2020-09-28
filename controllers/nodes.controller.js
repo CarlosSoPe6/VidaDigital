@@ -42,7 +42,7 @@ async function putNodo(req, res) {
  * GET /api/nodo/:id
  * @async
  * @exports
- * @param {import('express').Request} req Request parameter. 
+ * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
 async function getNodo(req, res) {

@@ -1,6 +1,9 @@
 # Config files
 .env
 
+# Logs
+*.log
+
 # Node
 node_modules/
 
