@@ -1,4 +1,5 @@
 const nodesModel = require("../db/nodes.model");
+const getSensores = require('../db/values.model')
 
 /**
  * POST /api/nodo
@@ -8,13 +9,17 @@ const nodesModel = require("../db/nodes.model");
  * @param {import('express').Response} res Response parameter.
  */
 async function addNodo(req, res) {
-  let nodo = req.body;
+  const nodo = req.body;
 
   nodesModel.addNodo(nodo)
-    .then((val) => res.sendStatus(201))
+    .then((val) => res.sendStatus(201)) 
     .catch((err) => {
-      if (err.code === 'ER_DUP_ENTRY')  return res.sendStatus(400)
-      else return res.sendStatus(500)
+      if (err.code === 'ER_DUP_ENTRY'){
+        res.status(400).send(err.sqlMessage)
+      }  
+      else{
+        res.status(500).send(err)
+      } 
   });
 }
 
@@ -26,11 +31,11 @@ async function addNodo(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function putNodo(req, res) {
-  const nodeData = req.body;
-  const nodeId = nodeData.id;
+  const node = req.body;
 
-  let query = await nodesModel.putNodo(nodeId, nodeData);
-  res.json(query);
+  nodesModel.putNodo(node)
+  .then((val) => res.send(val))
+  .catch((err) => res.send(err))
 }
 
 /**
@@ -43,8 +48,9 @@ async function putNodo(req, res) {
 async function getNodo(req, res) {
   const userID = req.params.nodoID;
 
-  let query = await nodesModel.getNodo(userID);
-  res.json(query);
+  nodesModel.getNodo(userID)
+  .then((val) => res.send(val[0]))
+  .catch((err) => res.status(400).send(err))
 }
 
 /**
@@ -57,8 +63,11 @@ async function getNodo(req, res) {
 async function deleteNodo(req, res) {
   const nodeId = req.params.nodoID;
 
-  let query = await nodesModel.deleteNodo(nodeId);
-  res.json(query);
+  await getSensores.deleteAllNodeSensors(nodeId).catch(err => console.log(err))
+  
+  nodesModel.deleteNodo(nodeId)
+  .then((val) => res.sendStatus(200))
+  .catch((err) => res.sendStatus(500))
 }
 
 /**
@@ -69,8 +78,9 @@ async function deleteNodo(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function getNodos(req, res) {
-  let query = await nodesModel.getNodos();
-  res.json(query);
+  nodesModel.getNodos()
+  .then((val) => res.send(val))
+  .catch((err) => res.status(500).send(err.sqlMessage))
 }
 
 module.exports = {

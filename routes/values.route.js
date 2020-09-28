@@ -12,10 +12,6 @@ router.delete(
   "/nodo/:nodeID/sensor/:sensorID",
   valuesController.deleteNodeSensor
 );
-router.put(
-  "/nodo/:nodeID/sensor/:sensorID",
-  parser,
-  valuesController.putNodeSensor
-);
+router.post("/nodo/sensor", parser, valuesController.postNodeSensor);
 
 module.exports = router;

@@ -6,7 +6,7 @@ const router = express.Router();
 const parser = bodyParser.json();
 
 router.post("/", parser, nodesController.addNodo);
-router.put("/", parser, nodesController.putNodo);
+router.patch("/", parser, nodesController.putNodo);
 router.get("/:nodoID", nodesController.getNodo);
 router.delete("/:nodoID", nodesController.deleteNodo);
 router.get("/nodos/todos", nodesController.getNodos);

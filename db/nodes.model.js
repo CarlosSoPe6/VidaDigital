@@ -19,7 +19,8 @@ async function getNodo(nodeId){
   const db = await getConnection()
 
   return new Promise((resolve, reject) => {
-      db.query(`SELECT * FROM Nodos WHERE id = ?`, nodeId ,(err, results) => {
+      db.query(`SELECT * FROM Nodos WHERE id = ?`, 
+      nodeId ,(err, results) => {
         if (err) return reject(err);
         
         return resolve(results);
@@ -51,11 +52,14 @@ async function deleteNodo(nodeId){
   });
 }
 
-async function putNodo(nodeId, nodeData){
+async function putNodo(node){
   const db = await getConnection()
 
   return new Promise((resolve, reject) => {
-      db.query(`SELECT * FROM Nodos`, (err, results) => {
+      db.query(`UPDATE Nodos SET nombre = ?, direccion = ?, 
+      longitud = ?, latitud = ?, descripcion = ? WHERE id = ?`, 
+      [node.name, node.direccion, node.longitud, node.latitud, node.descripcion, node.id], 
+      (err, results) => {
         if (err) return reject(err);
         
         return resolve(results);
