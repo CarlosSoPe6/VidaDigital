@@ -27,7 +27,6 @@ async function areValidVars(idNodo, data) {
       missing.push(variable.code);
       return;
     }
-    console.log(data[variable.code]);
     if (variable.min > data[variable.code] || variable.max < data[variable.code]) {
       missing.push(variable.code);
       return;
@@ -36,7 +35,6 @@ async function areValidVars(idNodo, data) {
     matchVerify += 1;
   });
   if (matchVerify !== vars.length) {
-    console.log(matchVerify, vars.length);
     const message = missing.join(',');
     return { valid: false, data: `Faltantes o fuera de rango: ${message}` };
   }

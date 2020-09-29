@@ -71,7 +71,7 @@ async function postLectura(req, res) {
       return;
     }
     const cleanData = validationResult.data;
-    await lectuasModel.postLectura(idNodo, cleanData.ts, JSON.stringify(cleanData));
+    await lectuasModel.postLectura(idNodo, cleanData.ts, cleanData);
     res.status(201).send(`ID;${data.id};RS;Correct`);
   } catch (e) {
     res.status(501).send(`ID;${data.id};RS;Incorrect;Err;${e.message}`);

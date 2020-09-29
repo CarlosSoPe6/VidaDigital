@@ -15,21 +15,43 @@ const DATE_QUERY_STRING_BETWEEN = 'SELECT * FROM LecturasNodos WHERE idNodo = ? 
 const POST_LECTURA_QUERY = 'INSERT INTO LecturasNodos (`idNodo`, fecha_hora, `data`) VALUES (?, ?, ?);';
 
 /**
+ * Returns the date objet to the ISOstrig of the timezone
+ * @param {Date} date Date to parse
+ */
+function toIsoString(date) {
+  const tzo = -date.getTimezoneOffset();
+  const dif = tzo >= 0 ? '+' : '-';
+  const pad = (num) => {
+    const norm = Math.floor(Math.abs(num));
+    return (norm < 10 ? '0' : '') + norm;
+  };
+  return `${date.getFullYear()
+  }-${pad(date.getMonth() + 1)
+  }-${pad(date.getDate())
+  }T${pad(date.getHours())
+  }:${pad(date.getMinutes())
+  }:${pad(date.getSeconds())
+  }${dif}${pad(tzo / 60)
+  }${pad(tzo % 60)}`;
+}
+
+/**
  * Crea un registro de lectura
  * @throws {import('mysql').MysqlError}
  * @param {string} idNodo Id del nodo
  * @param {Date} fechaHora Hora y fecha
- * @param {string} data Datos en JSON strinf
+ * @param {Object} data Datos en JSON strinf
  * @returns {Promise<Array<Object>} Resultado de la consulta.
  */
 async function postLectura(idNodo, fechaHora, data) {
   const connection = await getConnection();
+  const dataToInsert = data;
+  dataToInsert.ts = toIsoString(data.ts);
   const valuesToEscape = [
     idNodo,
     fechaHora,
-    data,
+    JSON.stringify(data),
   ];
-  console.log(valuesToEscape);
   return new Promise((resolve, reject) => {
     connection.query(
       POST_LECTURA_QUERY,
@@ -195,8 +217,8 @@ async function getLecturasNodoSemana(nodo, anio, mes, dia) {
   startWeek.setDate(startWeek.getDate() - 7);
   const valuesToEscape = [
     nodo,
-    startWeek.toISOString(),
-    endWeek.toISOString(),
+    startWeek,
+    endWeek,
   ];
   return new Promise((resolve, reject) => {
     connection.query(
@@ -228,8 +250,8 @@ async function getLecturasNodoMes(nodo, anio, mes) {
   const lastDatyOfMonth = new Date(anio, mes - 1, 0, 23, 59, 59, 999);
   const valuesToEscape = [
     nodo,
-    firstDayOfMonth.toISOString(),
-    lastDatyOfMonth.toISOString(),
+    firstDayOfMonth,
+    lastDatyOfMonth,
   ];
   return new Promise((resolve, reject) => {
     connection.query(
@@ -260,8 +282,8 @@ async function getLecturasNodoAnio(nodo, anio) {
   const lastDayOfYear = new Date(Date.UTC(anio, 11, 31, 23, 59, 59, 999));
   const valuesToEscape = [
     nodo,
-    firstDayOfYear.toISOString(),
-    lastDayOfYear.toISOString(),
+    firstDayOfYear,
+    lastDayOfYear,
   ];
   return new Promise((resolve, reject) => {
     connection.query(
