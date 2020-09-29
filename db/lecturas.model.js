@@ -18,7 +18,7 @@ const POST_LECTURA_QUERY = 'INSERT INTO LecturasNodos (`idNodo`, fecha_hora, `da
  * Crea un registro de lectura
  * @throws {import('mysql').MysqlError}
  * @param {string} idNodo Id del nodo
- * @param {string} fechaHora Hora y fecha
+ * @param {Date} fechaHora Hora y fecha
  * @param {string} data Datos en JSON strinf
  * @returns {Promise<Array<Object>} Resultado de la consulta.
  */
@@ -29,6 +29,7 @@ async function postLectura(idNodo, fechaHora, data) {
     fechaHora,
     data,
   ];
+  console.log(valuesToEscape);
   return new Promise((resolve, reject) => {
     connection.query(
       POST_LECTURA_QUERY,

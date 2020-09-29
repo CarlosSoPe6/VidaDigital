@@ -27,4 +27,8 @@ app.use('/api/usuario', usersRouter);
 app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Application running on port ${port}`);
+  console.log(`Application running with env ${process.env.NODE_ENV}`);
+  console.log(`Application running with TZ ${process.env.TZ}`);
 });
+
+module.exports = app;
