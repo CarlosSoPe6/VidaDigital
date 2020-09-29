@@ -1,3 +1,9 @@
+/* eslint-disable no-restricted-globals */
+/**
+ * Módulo del controlador de usuarios.
+ * Este archivo contiene todos los endpoints del controlador de usuarios.
+ * @author Héctor Chávez Morales <hector.chavez.97@hotmail.com>
+ */
 const userModel = require('../db/usuario.model');
 
 /**
@@ -7,11 +13,18 @@ const userModel = require('../db/usuario.model');
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function getUsuarioById(req, res) {
+async function getUsuario(req, res) {
   const id = req.params.userID;
 
-  const data = userModel.getUsuario(id);
-  res.json(data);
+  userModel.getUsuario(id)
+    .then((val) => res.send(val[0]))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 /**
@@ -25,8 +38,15 @@ async function patchUsuario(req, res) {
   const userId = req.params.userID;
   const userData = req.body;
 
-  const data = userModel.patchUsuario(userId, userData);
-  res.json(data);
+  userModel.patchUsuario(userId, userData)
+    .then((val) => res.send(val))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 /**
@@ -39,8 +59,15 @@ async function patchUsuario(req, res) {
 async function deleteUsuario(req, res) {
   const userId = req.params.userID;
 
-  const data = userModel.patchUsuario(userId);
-  res.json(data);
+  userModel.deleteUsuario(userId)
+    .then(() => res.status(200))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 /**
@@ -51,8 +78,15 @@ async function deleteUsuario(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function getUsuarios(req, res) {
-  const data = userModel.getUsuarios();
-  res.json(data);
+  userModel.getUsuarios()
+    .then((val) => res.send(val))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 /**
@@ -65,12 +99,19 @@ async function getUsuarios(req, res) {
 async function getUsuarioByName(req, res) {
   const { username } = req.params;
 
-  const data = userModel.patchUsuario(username);
-  res.json(data);
+  userModel.getUsuarioByName(username)
+    .then((val) => res.send(val[0]))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 module.exports = {
-  getUsuarioById,
+  getUsuario,
   patchUsuario,
   deleteUsuario,
   getUsuarios,

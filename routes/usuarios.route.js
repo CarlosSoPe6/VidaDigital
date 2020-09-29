@@ -5,7 +5,7 @@ const userController = require('../controllers/usuario.controller');
 const router = express.Router();
 const parser = bodyParser.json();
 
-router.get('/:userID', userController.getUsuarioById);
+router.get('/:userID', userController.getUsuario);
 router.patch('/:userID', parser, userController.patchUsuario);
 router.delete('/:userID', userController.deleteUsuario);
 router.get('/usuarios', userController.getUsuarios);

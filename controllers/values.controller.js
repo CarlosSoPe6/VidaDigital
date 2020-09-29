@@ -1,3 +1,9 @@
+/* eslint-disable no-restricted-globals */
+/**
+ * Módulo del controlador de node-values (valores).
+ * Este archivo contiene todos los endpoints del controlador de node-values (valores).
+ * @author Héctor Chávez Morales <hector.chavez.97@hotmail.com>
+ */
 const valuesController = require('../db/values.model');
 
 /**
@@ -10,10 +16,15 @@ const valuesController = require('../db/values.model');
 async function getSensores(req, res) {
   const nodeId = req.params.nodeID;
 
-  const data = await valuesController.getSensores(nodeId)
-    .catch((err) => res.status(400).send(err));
-
-  res.json(data);
+  valuesController.getSensores(nodeId)
+    .then((val) => res.send(val))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 /**
@@ -26,9 +37,15 @@ async function getSensores(req, res) {
 async function getNodes(req, res) {
   const sensorId = req.params.sensorID;
 
-  const data = await valuesController.getNodes(sensorId).catch((err) => res.status(400).send(err));
-
-  res.json(data);
+  valuesController.getNodes(sensorId)
+    .then((val) => res.send(val))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 /**
@@ -42,10 +59,18 @@ async function getNodeHasSensor(req, res) {
   const nodeId = req.params.nodeID;
   const sensorId = req.params.sensorID;
 
-  const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
-    .catch((err) => res.sendStatus(400).send(err));
-
-  res.json(data[0].Exist);
+  valuesController.getNodeHasSensor(nodeId, sensorId)
+    .then((val) => {
+      const ans = val[0].Exist;
+      res.json(ans);
+    })
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 /**
@@ -59,10 +84,15 @@ async function deleteNodeSensor(req, res) {
   const nodeId = req.params.nodeID;
   const sensorId = req.params.sensorID;
 
-  const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
-    .catch((err) => res.sendStatus(400).send(err));
-
-  res.json(data[0].Exist);
+  valuesController.deleteNodeSensor(nodeId, sensorId)
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 /**
@@ -72,14 +102,19 @@ async function deleteNodeSensor(req, res) {
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-async function putNodeSensor(req, res) {
-  const nodeId = req.params.nodeID;
-  const sensorId = req.params.sensorID;
+async function addNodeSensor(req, res) {
+  const nodeId = req.body.nodeID;
+  const sensorId = req.body.sensorID;
 
-  const data = await valuesController.getNodeHasSensor(nodeId, sensorId)
-    .catch((err) => res.sendStatus(400).send(err));
-
-  res.json(data[0].Exist);
+  valuesController.addNodeSensor(nodeId, sensorId)
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 module.exports = {
@@ -87,5 +122,5 @@ module.exports = {
   getNodes,
   getNodeHasSensor,
   deleteNodeSensor,
-  putNodeSensor,
+  addNodeSensor,
 };
