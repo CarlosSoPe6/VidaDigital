@@ -57,26 +57,24 @@ async function deleteNodeSensor(nodeId, sensorId) {
   return new Promise((resolve, reject) => {
     db.query(`DELETE FROM NodeValues 
     WHERE id_node = ? AND id_value_catalog = ?`,
-      [nodeId, sensorId], (err, results) => {
-        if (err) return reject(err);
+    [nodeId, sensorId], (err, results) => {
+      if (err) return reject(err);
 
-        return resolve(results);
-      }
-    );
+      return resolve(results);
+    });
   });
 }
 
-async function postNodeSensor(nodeId, sensorId) {
+async function addNodeSensor(nodeId, sensorId) {
   const db = await getConnection();
-  
+
   return new Promise((resolve, reject) => {
-    db.query(`INSERT INTO NodeValues VALUES (?, ?)`,
+    db.query('INSERT INTO NodeValues VALUES (?, ?)',
       [nodeId, sensorId], (err, results) => {
         if (err) return reject(err);
 
         return resolve(results);
-      },
-    );
+      });
   });
 }
 
@@ -84,13 +82,12 @@ async function deleteAllNodeSensors(nodeId) {
   const db = await getConnection();
 
   return new Promise((resolve, reject) => {
-    db.query(`DELETE FROM NodeValues WHERE id_node = ?`,
-    nodeId, (err, results) => {
+    db.query('DELETE FROM NodeValues WHERE id_node = ?',
+      nodeId, (err, results) => {
         if (err) return reject(err);
 
         return resolve(results);
-      },
-    );
+      });
   });
 }
 
@@ -99,6 +96,6 @@ module.exports = {
   getNodes,
   getNodeHasSensor,
   deleteNodeSensor,
-  postNodeSensor,
-  deleteAllNodeSensors
+  addNodeSensor,
+  deleteAllNodeSensors,
 };
