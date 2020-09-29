@@ -1,4 +1,12 @@
+/* eslint-disable no-restricted-globals */
+/**
+ * Módulo del controlador de nodos.
+ * Este archivo contiene todos los endpoints del controlador de nodos.
+ * @author Héctor Chávez Morales <hector.chavez.97@hotmail.com>
+ */
 const nodesModel = require('../db/nodes.model');
+const getSensores = require('../db/values.model');
+const { validarEsquema } = require('../validators/nodes');
 
 /**
  * POST /api/nodo
@@ -10,12 +18,20 @@ const nodesModel = require('../db/nodes.model');
 async function addNodo(req, res) {
   const nodo = req.body;
 
-  nodesModel.addNodo(nodo)
-    .then((val) => res.sendStatus(201))
-    .catch((err) => {
-      if (err.code === 'ER_DUP_ENTRY') return res.sendStatus(400);
-      return res.sendStatus(500);
-    });
+  const errors = await validarEsquema(nodo);
+  if (errors.length > 0) {
+    res.status(400).send(errors[0].stack);
+  } else {
+    nodesModel.addNodo(nodo)
+      .then(() => res.sendStatus(201))
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  }
 }
 
 /**
@@ -26,11 +42,25 @@ async function addNodo(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function putNodo(req, res) {
-  const nodeData = req.body;
-  const nodeId = nodeData.id;
+  const nodo = req.body;
 
-  const query = await nodesModel.putNodo(nodeId, nodeData);
-  res.json(query);
+  const errors = await validarEsquema(nodo);
+  if (errors.length > 0) {
+    res.status(400).send(errors[0].stack);
+  } else {
+    nodesModel.putNodo(nodo)
+      .then((val) => {
+        if (val.changedRows === 0) res.sendStatus(400);
+        else res.sendStatus(200);
+      })
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  }
 }
 
 /**
@@ -41,10 +71,17 @@ async function putNodo(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function getNodo(req, res) {
-  const userID = req.params.nodoID;
+  const userId = req.params.nodoID;
 
-  const query = await nodesModel.getNodo(userID);
-  res.json(query);
+  nodesModel.getNodo(userId)
+    .then((val) => res.send(val[0]))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 /**
@@ -57,8 +94,17 @@ async function getNodo(req, res) {
 async function deleteNodo(req, res) {
   const nodeId = req.params.nodoID;
 
-  const query = await nodesModel.deleteNodo(nodeId);
-  res.json(query);
+  await getSensores.deleteAllNodeSensors(nodeId).catch((err) => res.status(500).send(err));
+
+  nodesModel.deleteNodo(nodeId)
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 /**
@@ -69,8 +115,15 @@ async function deleteNodo(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function getNodos(req, res) {
-  const query = await nodesModel.getNodos();
-  res.json(query);
+  nodesModel.getNodos()
+    .then((val) => res.send(val))
+    .catch((err) => {
+      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+        res.status(400).send(err.sqlMessage);
+      } else {
+        res.status(500).send(err);
+      }
+    });
 }
 
 module.exports = {

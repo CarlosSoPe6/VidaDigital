@@ -55,33 +55,39 @@ async function deleteNodeSensor(nodeId, sensorId) {
   const db = await getConnection();
 
   return new Promise((resolve, reject) => {
-    db.query(
-      `SELECT EXISTS(SELECT * FROM NodeValues 
-        WHERE id_node = ? AND id_value_catalog = ?) AS Exist`,
-      [nodeId, sensorId],
-      (err, results) => {
-        if (err) return reject(err);
+    db.query(`DELETE FROM NodeValues 
+    WHERE id_node = ? AND id_value_catalog = ?`,
+    [nodeId, sensorId], (err, results) => {
+      if (err) return reject(err);
 
-        return resolve(results);
-      },
-    );
+      return resolve(results);
+    });
   });
 }
 
-async function putNodeSensor(nodeId, sensorId) {
+async function addNodeSensor(nodeId, sensorId) {
   const db = await getConnection();
 
   return new Promise((resolve, reject) => {
-    db.query(
-      `SELECT EXISTS(SELECT * FROM NodeValues 
-        WHERE id_node = ? AND id_value_catalog = ?) AS Exist`,
-      [nodeId, sensorId],
-      (err, results) => {
+    db.query('INSERT INTO NodeValues VALUES (?, ?)',
+      [nodeId, sensorId], (err, results) => {
         if (err) return reject(err);
 
         return resolve(results);
-      },
-    );
+      });
+  });
+}
+
+async function deleteAllNodeSensors(nodeId) {
+  const db = await getConnection();
+
+  return new Promise((resolve, reject) => {
+    db.query('DELETE FROM NodeValues WHERE id_node = ?',
+      nodeId, (err, results) => {
+        if (err) return reject(err);
+
+        return resolve(results);
+      });
   });
 }
 
@@ -90,5 +96,6 @@ module.exports = {
   getNodes,
   getNodeHasSensor,
   deleteNodeSensor,
-  putNodeSensor,
+  addNodeSensor,
+  deleteAllNodeSensors,
 };

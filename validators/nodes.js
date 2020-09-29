@@ -3,6 +3,8 @@
  * @author Carlos Soto Pérez <carlos348@outlook.com>
  */
 const { getNodo } = require('../db/nodes.model');
+const schema = require('../config/swagger.nodos.json').components.schemas.Node;
+const validator = require('./index');
 
 /**
  * Verifica si un nodo existe en la base de datos.
@@ -15,6 +17,17 @@ async function isValidNode(idNodo) {
   return node.length === 1;
 }
 
+/**
+ * Valida el esquema para las variables
+ * @param {Object} obj Es
+ */
+async function validarEsquema(obj) {
+  const validation = validator.validate(obj, schema);
+
+  return validation.errors;
+}
+
 module.exports = {
   isValidNode,
+  validarEsquema,
 };

@@ -983,25 +983,30 @@
                 "description": "Descripción de los nodos",
                 "properties": {
                     "id": {
-                        "type": "integer",
-                        "format": "int64"
+                        "type": "string",
+                        "required": true
                     },
-                    "name": {
-                        "type": "string"
+                    "nombre": {
+                        "type": "string",
+                        "required": true
                     },
                     "direccion": {
-                        "type": "string"
+                        "type": "string",
+                        "required": true
                     },
                     "longitud": {
                         "type": "number",
-                        "format": "float"
+                        "format": "float",
+                        "required": true
                     },
                     "latitud": {
                         "type": "number",
-                        "format": "float"
+                        "format": "float",
+                        "required": true
                     },
-                    "description": {
-                        "type": "string"
+                    "descripcion": {
+                        "type": "string",
+                        "required": true
                     }
                 }
             },
