@@ -46,7 +46,7 @@ function toIsoString(date) {
 async function postLectura(idNodo, fechaHora, data) {
   const connection = await getConnection();
   const dataToInsert = data;
-  dataToInsert.ts = toIsoString(data.ts);
+  dataToInsert.tn = toIsoString(data.tn);
   const valuesToEscape = [
     idNodo,
     fechaHora,

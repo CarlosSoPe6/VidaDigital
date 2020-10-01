@@ -1,3 +1,6 @@
+/**
+ * Módulo main del proyecto VidaDigital
+ */
 const express = require('express');
 const bodyParser = require('body-parser');
 
