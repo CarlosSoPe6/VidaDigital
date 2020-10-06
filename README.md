@@ -8,9 +8,5 @@ La documentación de la API se encuentra generada en swagger, en el archivo [`co
 TODO
 
 ## Constribuidores
-* Carlos Soto Pérez (CarlosSoPe6)[https://github.com/CarlosSoPe6/]
-* Héctor Antonio Chávez Morales (HectorChavez97)[https://github.com/HectorChavez97]
-
-
-Cambiar logs a guardar por mes
-Cambiar endpoit para sacar uno por uno y mes y año
+* Carlos Soto Pérez [CarlosSoPe6](https://github.com/CarlosSoPe6/)
+* Héctor Antonio Chávez Morales [HectorChavez97](https://github.com/HectorChavez97)
