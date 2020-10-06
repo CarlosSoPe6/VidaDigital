@@ -5,7 +5,12 @@
  */
 const SimpleLogger = require('simple-node-logger');
 
-const log = SimpleLogger.createSimpleLogger('lecturas.log');
+const opts = {
+  logFilePath: 'lecturas.log',
+  timestampFormat: 'YYYY-MM-DD HH:mm:ss.SSS',
+};
+
+const log = SimpleLogger.createSimpleLogger(opts);
 log.setLevel('info');
 
 module.exports = log;

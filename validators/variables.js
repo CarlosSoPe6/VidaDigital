@@ -20,15 +20,15 @@ async function areValidVars(idNodo, data) {
     return { valid: false, data: `No existe nodo ${idNodo}` };
   }
   let matchVerify = 0;
-  const keys = ['id', 'ts', 'ac'];
+  const keys = ['id', 'ac', 'tn'];
   const missing = [];
   vars.forEach((variable) => {
-    if (data[missing] === undefined) {
-      missing.push(missing);
+    if (data[variable.code] === undefined) {
+      missing.push(variable.code);
       return;
     }
     if (variable.min > data[variable.code] || variable.max < data[variable.code]) {
-      missing.push(missing);
+      missing.push(variable.code);
       return;
     }
     keys.push(variable.code);

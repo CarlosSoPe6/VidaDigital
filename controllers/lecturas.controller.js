@@ -4,6 +4,8 @@
  * Este archivo contiene todos los endpoints del controlador de lecturas.
  * @author Carlos Soto Pérez <carlos348@outlook.com>
  */
+const fs = require('fs');
+
 const lecturasModel = require('../db/lecturas.model');
 const lectuasModel = require('../db/lecturas.model');
 const { areValidVars } = require('../validators/variables');
@@ -16,6 +18,7 @@ const log = require('../loggers/lecturas');
 function buildCmdDataObject(cmdArray) {
   const idNodo = cmdArray[1];
   const dateCmd = cmdArray[4];
+  const action = cmdArray[3].toLowerCase();
   let fechaHora = new Date(Date.now());
   if (dateCmd === 'TS') {
     fechaHora = new Date(cmdArray[5]);
@@ -24,7 +27,8 @@ function buildCmdDataObject(cmdArray) {
   }
   const data = {};
   data.id = idNodo;
-  data.ts = fechaHora;
+  data.ac = action;
+  data.tn = fechaHora;
   for (let i = 6; i < cmdArray.length; i += 2) {
     const dataMember = cmdArray[i].toLowerCase();
     const dataValue = Number(cmdArray[i + 1]);
@@ -43,25 +47,29 @@ function buildCmdDataObject(cmdArray) {
 async function postLectura(req, res) {
   const { cmd } = req.query;
   if (cmd === undefined) {
-    res.status(400).send('BAD REQUEST. No cmd');
+    res.status(400).send('BAD REQUEST. No cmd;');
     return;
   }
   log.info(cmd);
   const cmdArray = cmd.trim().split(';');
   if (cmdArray[cmdArray.length - 1] !== '') {
-    res.status(400).send('BAD REQUEST. cmd not structured');
+    res.status(400).send('BAD REQUEST. cmd not structured;');
     return;
   }
   const idNodo = cmdArray[1];
   cmdArray.pop();
   if (cmdArray.length % 2 !== 0) {
-    res.status(400).send('BAD REQUEST. cmd not structured');
+    res.status(400).send('BAD REQUEST. cmd not structured;');
     return;
   }
   const data = buildCmdDataObject(cmdArray);
   // eslint-disable-next-line no-restricted-globals
-  if (isNaN(data.ts)) {
+  if (data.tn === undefined || isNaN(data.tn)) {
     res.status(400).send(`ID;${data.id};RS;Incorrect time format;`);
+    return;
+  }
+  if (data.ac !== 'td') {
+    res.status(400).send(`ID;${data.id};RS;No insert cmd;`);
     return;
   }
   try {
@@ -71,10 +79,10 @@ async function postLectura(req, res) {
       return;
     }
     const cleanData = validationResult.data;
-    await lectuasModel.postLectura(idNodo, cleanData.ts, JSON.stringify(cleanData));
-    res.status(201).send(`ID;${data.id};RS;Correct`);
+    await lectuasModel.postLectura(idNodo, cleanData.tn, cleanData);
+    res.status(201).send(`ID;${data.id};RS;Correct;`);
   } catch (e) {
-    res.status(501).send(`ID;${data.id};RS;Incorrect;Err;${e.message}`);
+    res.status(501).send(`ID;${data.id};RS;Incorrect;Err;${e.message};`);
   }
 }
 
@@ -286,6 +294,23 @@ async function getLecturasNodoAnio(req, res) {
   res.json(response);
 }
 
+/**
+ * GET /api/lecturas/logs
+ * @async
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
+async function getLogs(req, res) {
+  const stream = fs.createReadStream('lecturas.log', { highWaterMark: 1024 * 4 });
+  stream.on('data', (chunk) => {
+    res.send(chunk.toString());
+  });
+  stream.on('end', () => {
+    res.end();
+  });
+}
+
 module.exports = {
   postLectura,
   getLecturas,
@@ -297,4 +322,5 @@ module.exports = {
   getLecturasNodoSemana,
   getLecturasNodoMes,
   getLecturasNodoAnio,
+  getLogs,
 };

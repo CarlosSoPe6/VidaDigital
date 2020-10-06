@@ -110,12 +110,12 @@ async function putVarialbe(req, res) {
     ambiental,
   };
   const validation = await validarEsquema(dataObj);
-  if (!validation.valid) {
+  if (!validation) {
     res.status(400).send('BAD REQUEST');
     return;
   }
   try {
-    const result = await variablesModel.putVariable(searchCode, validation.data);
+    const result = await variablesModel.putVariable(searchCode, dataObj);
     res.json(result[0]);
   } catch (err) {
     res.status(500).send('Internal server error');

@@ -967,7 +967,7 @@
     "servers": [
         {
             "description": "Host",
-            "url": "http://papvidadigital-test.com/api/1.0"
+            "url": "http://papvidadigital-test.com/api"
         }
     ],
     "components": {
@@ -1059,13 +1059,13 @@
                         "required": true
                     },
                     "min": {
-                        "type": "integer",
-                        "format": "int32",
+                        "type": "number",
+                        "format": "float",
                         "required": true
                     },
                     "max": {
-                        "type": "integer",
-                        "format": "int32",
+                        "type": "number",
+                        "format": "float",
                         "required": true
                     },
                     "referenceVal": {
@@ -1085,68 +1085,93 @@
                         "required": true,
                         "type": "string"
                     },
-                    "ts": {
+                    "tn": {
+                        "required": true,
+                        "type": "string"
+                    },
+                    "ac": {
+                        "required": true,
                         "type": "string"
                     },
                     "se": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "bat": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "temp": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "ph": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "od": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "tmps": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "tmpi": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "hums": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "con": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "orp": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "o2": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "co": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "no2": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "cO2": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "hum": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "o3": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "pru": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "vel": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "prec": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     },
                     "dir": {
-                        "type": "string"
+                        "type": "number",
+                        "format": "float"
                     }
                 }
             },

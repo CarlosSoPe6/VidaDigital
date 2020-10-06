@@ -9,6 +9,7 @@ const lecturasController = require('../controllers/lecturas.controller');
 const router = express.Router();
 
 router.get('/', lecturasController.postLectura);
+router.get('/logs', lecturasController.getLogs);
 router.get('/t', lecturasController.getLecturas);
 router.get('/id/:id', lecturasController.getLecturaId);
 router.put('/id/:id', lecturasController.putLecturaId);
