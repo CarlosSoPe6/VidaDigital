@@ -4,6 +4,8 @@
  * Este archivo contiene todos los endpoints del controlador de lecturas.
  * @author Carlos Soto Pérez <carlos348@outlook.com>
  */
+const fs = require('fs');
+
 const lecturasModel = require('../db/lecturas.model');
 const lectuasModel = require('../db/lecturas.model');
 const { areValidVars } = require('../validators/variables');
@@ -292,6 +294,23 @@ async function getLecturasNodoAnio(req, res) {
   res.json(response);
 }
 
+/**
+ * GET /api/lecturas/logs
+ * @async
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
+async function getLogs(req, res) {
+  const stream = fs.createReadStream('lecturas.log', { highWaterMark: 1024 * 4 });
+  stream.on('data', (chunk) => {
+    res.send(chunk.toString());
+  });
+  stream.on('end', () => {
+    res.end();
+  });
+}
+
 module.exports = {
   postLectura,
   getLecturas,
@@ -303,4 +322,5 @@ module.exports = {
   getLecturasNodoSemana,
   getLecturasNodoMes,
   getLecturasNodoAnio,
+  getLogs,
 };
