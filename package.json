@@ -9,7 +9,7 @@
     "start:development": "env-cmd -f .env node ./app.js",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "env-cmd -f .env jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -30,10 +30,16 @@
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "env-cmd": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
-    "nodemon": "^2.0.4"
+    "eslint-plugin-jest": "^24.1.0",
+    "jest": "^26.5.2",
+    "nodemon": "^2.0.4",
+    "superagent": "^6.1.0",
+    "supertest": "^5.0.0"
   }
 }
