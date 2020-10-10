@@ -12,4 +12,12 @@ describe(`Test ${ROOT_PATH}`, () => {
         done();
       });
   });
+  test('It should response the POST method', (done) => {
+    request(app)
+      .post(`${ROOT_PATH}`)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        done();
+      });
+  });
 });
