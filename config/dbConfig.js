@@ -2,9 +2,9 @@ const mysql = require('mysql');
 
 const mysqlConfig = {
   connectionLimit: 64,
-  connectTimeout: 60 * 1000,
-  acquireTimeout: 60 * 1000,
-  timeout: 60 * 60 * 1000,
+  connectTimeout: 10 * 1000,
+  acquireTimeout: 10 * 1000,
+  timeout: 10 * 1000,
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
