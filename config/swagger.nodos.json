@@ -445,7 +445,7 @@
                 }
             }
         },
-        "/usuario/usuarios": {
+        "/usuario/todos/usuarios": {
             "get": {
                 "tags": [
                     "Users"
