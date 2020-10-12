@@ -52,23 +52,9 @@ async function getUsuarios() {
   });
 }
 
-async function getUsuarioByName(username) {
-  const db = await getConnection();
-
-  return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM User WHERE username = ?',
-      username, (err, results) => {
-        if (err) return reject(err);
-
-        return resolve(results);
-      });
-  });
-}
-
 module.exports = {
   getUsuario,
   patchUsuario,
   deleteUsuario,
   getUsuarios,
-  getUsuarioByName,
 };
