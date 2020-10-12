@@ -8,7 +8,6 @@ const parser = bodyParser.json();
 router.get('/:userID', userController.getUsuario);
 router.patch('/:userID', parser, userController.patchUsuario);
 router.delete('/:userID', userController.deleteUsuario);
-router.get('/usuarios', userController.getUsuarios);
-router.get('/nombre/:username', userController.getUsuarioByName);
+router.get('/todos/usuarios', userController.getUsuarios);
 
 module.exports = router;
