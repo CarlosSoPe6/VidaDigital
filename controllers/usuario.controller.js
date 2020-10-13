@@ -89,31 +89,9 @@ async function getUsuarios(req, res) {
     });
 }
 
-/**
- * GET /api/usuario/nombre/:username
- * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
- */
-async function getUsuarioByName(req, res) {
-  const { username } = req.params;
-
-  userModel.getUsuarioByName(username)
-    .then((val) => res.send(val[0]))
-    .catch((err) => {
-      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-        res.status(400).send(err.sqlMessage);
-      } else {
-        res.status(500).send(err);
-      }
-    });
-}
-
 module.exports = {
   getUsuario,
   patchUsuario,
   deleteUsuario,
   getUsuarios,
-  getUsuarioByName,
 };

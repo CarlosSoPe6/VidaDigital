@@ -4,7 +4,7 @@
   "description": "Servicios para el monitorieo del bosuqe de la primavera",
   "main": "app.js",
   "scripts": {
-    "nodemon": "nodemon ./app.js",
+    "nodemon": "env-cmd -f .env nodemon ./app.js",
     "start": "node ./app.js",
     "start:development": "env-cmd -f .env node ./app.js",
     "lint": "eslint .",
