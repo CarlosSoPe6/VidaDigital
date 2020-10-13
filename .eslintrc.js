@@ -13,7 +13,9 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 8,
   },
-  rules: {},
+  ignorePatterns: ["./node_modules/**/*.js"],
+  rules: {
+  },
   overrides: [
     {
       files: ['**/**/*.js', '*.js'],
