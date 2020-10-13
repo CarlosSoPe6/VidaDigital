@@ -2,6 +2,7 @@
  * Módulo main del proyecto VidaDigital
  */
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const swaggerUI = require('swagger-ui-express');
@@ -16,6 +17,7 @@ const lecturasRouter = require('./routes/lecturas.route');
 const variablesRouter = require('./routes/variables.route');
 const usersRouter = require('./routes/usuarios.route');
 
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/api/api-docs/nodos', swaggerUI.serve, swaggerUI.setup(swaggerNodosDoc));
