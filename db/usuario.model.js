@@ -1,5 +1,18 @@
 const { getConnection } = require('../config/dbConfig');
 
+async function addUsuario(user) {
+  const db = await getConnection();
+
+  return new Promise((resolve, reject) => {
+    db.query('INSERT INTO User VALUES (?, ?, ?)',
+      [user.username, user.password, user.type], (err, results) => {
+        if (err) return reject(err);
+
+        return resolve(results);
+      });
+  });
+}
+
 async function getUsuario(userId) {
   const db = await getConnection();
 
@@ -19,7 +32,7 @@ async function patchUsuario(userId, password) {
   return new Promise((resolve, reject) => {
     db.query(`UPDATE User SET password = ? 
     WHERE username = ?`,
-    [userId, password], (err, results) => {
+    [password, userId], (err, results) => {
       if (err) return reject(err);
 
       return resolve(results);
@@ -44,7 +57,7 @@ async function getUsuarios() {
   const db = await getConnection();
 
   return new Promise((resolve, reject) => {
-    db.query('SELECT username, type FROM User', (err, results) => {
+    db.query('SELECT * FROM User', (err, results) => {
       if (err) return reject(err);
 
       return resolve(results);
@@ -53,6 +66,7 @@ async function getUsuarios() {
 }
 
 module.exports = {
+  addUsuario,
   getUsuario,
   patchUsuario,
   deleteUsuario,
