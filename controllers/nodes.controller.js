@@ -47,11 +47,14 @@ async function putNodo(req, res) {
   const errors = await validarEsquema(nodo);
   if (errors.length > 0) {
     res.status(400).send(errors[0].stack);
-  } else {
+  } 
+  else {
     nodesModel.putNodo(nodo)
       .then((val) => {
-        if (val.changedRows === 0) res.sendStatus(400);
-        else res.sendStatus(200);
+        if (val.changedRows === 0) 
+          res.sendStatus(400);
+        else 
+          res.sendStatus(200);
       })
       .catch((err) => {
         if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
