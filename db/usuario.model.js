@@ -57,7 +57,7 @@ async function getUsuarios() {
   const db = await getConnection();
 
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM User', (err, results) => {
+    db.query('SELECT username, type FROM User', (err, results) => {
       if (err) return reject(err);
 
       return resolve(results);
