@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 
 const mysqlConfig = {
-  connectionLimit: 64,
+  connectionLimit: 8,
   connectTimeout: 10 * 1000,
   acquireTimeout: 10 * 1000,
   timeout: 10 * 1000,
