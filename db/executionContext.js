@@ -43,7 +43,7 @@ async function executionContext(callback) {
     exception = e;
   }
   connection.release();
-  if (exception) {
+  if (exception === null) {
     throw exception;
   }
 }
