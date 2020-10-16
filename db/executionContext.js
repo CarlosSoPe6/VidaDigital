@@ -39,11 +39,12 @@ async function executionContext(callback) {
   const context = new PoolContext(connection);
   try {
     await callback(context);
-  } catch (e) {
-    exception = e;
+  } catch (err) {
+    exception = err;
+  } finally {
+    connection.release();
   }
-  connection.release();
-  if (exception === null) {
+  if (exception) {
     throw exception;
   }
 }
