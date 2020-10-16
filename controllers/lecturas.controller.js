@@ -10,6 +10,7 @@ const lecturasModel = require('../db/lecturas.model');
 const lectuasModel = require('../db/lecturas.model');
 const { areValidVars } = require('../validators/variables');
 const log = require('../loggers/lecturas');
+const { executionContext } = require('../db/executionContext');
 
 /**
  * Construye el objeto para insertar en la base de datos.
@@ -73,14 +74,17 @@ async function postLectura(req, res) {
     return;
   }
   try {
-    const validationResult = await areValidVars(idNodo, data);
-    if (!validationResult.valid) {
-      res.status(400).send(`ID;${data.id};RS;${validationResult.data};`);
-      return;
-    }
-    const cleanData = validationResult.data;
-    await lectuasModel.postLectura(idNodo, cleanData.tn, cleanData);
-    res.status(201).send(`ID;${data.id};RS;Correct;`);
+    await executionContext(async (context) => {
+      const { connection } = context;
+      const validationResult = await areValidVars(connection, idNodo, data);
+      if (!validationResult.valid) {
+        res.status(400).send(`ID;${data.id};RS;${validationResult.data};`);
+        return;
+      }
+      const cleanData = validationResult.data;
+      await lectuasModel.postLectura(connection, idNodo, cleanData.tn, cleanData);
+      res.status(201).send(`ID;${data.id};RS;Correct;`);
+    });
   } catch (e) {
     res.status(501).send(`ID;${data.id};RS;Incorrect;Err;${e.message};`);
   }
@@ -104,8 +108,11 @@ async function getLecturas(req, res) {
     return;
   }
   try {
-    const response = await lecturasModel.getLecturas(count);
-    res.json(response);
+    await executionContext(async (context) => {
+      const { connection } = context;
+      const response = await lecturasModel.getLecturas(connection, count);
+      res.json(response);
+    });
   } catch (e) {
     res.status(500).send(e.message);
   }
@@ -121,12 +128,15 @@ async function getLecturas(req, res) {
 async function getLecturaId(req, res) {
   const { id } = req.params;
   try {
-    const response = await lecturasModel.getLecturaId(id);
-    if (response.length === 0) {
-      res.status(404).send('NOT FOUND');
-      return;
-    }
-    res.json(response);
+    await executionContext(async (context) => {
+      const { connection } = context;
+      const response = await lecturasModel.getLecturaId(connection, id);
+      if (response.length === 0) {
+        res.status(404).send('NOT FOUND');
+        return;
+      }
+      res.json(response);
+    });
   } catch (e) {
     res.status(500).send(e.message);
   }
@@ -153,8 +163,11 @@ async function putLecturaId(req, res) {
 async function deleteLecturaId(req, res) {
   const { id } = req.params;
   try {
-    const response = await lecturasModel.deleteLecturaId(id);
-    res.json(response);
+    await executionContext(async (context) => {
+      const { connection } = context;
+      const response = await lecturasModel.deleteLecturaId(connection, id);
+      res.json(response);
+    });
   } catch (e) {
     res.status(500).send(e.message);
   }
@@ -179,12 +192,15 @@ async function getLecturasNodo(req, res) {
     return;
   }
   try {
-    const response = await lecturasModel.getLecturasNodo(id, count);
-    if (response.length === 0) {
-      res.status(404).send('NOT FOUND');
-      return;
-    }
-    res.json(response);
+    await executionContext(async (context) => {
+      const { connection } = context;
+      const response = await lecturasModel.getLecturasNodo(connection, id, count);
+      if (response.length === 0) {
+        res.status(404).send('NOT FOUND');
+        return;
+      }
+      res.json(response);
+    });
   } catch (e) {
     res.status(500).send(e.message);
   }
@@ -209,11 +225,18 @@ async function getLecturasNodoDia(req, res) {
     res.status(400).send('BAD REQUEST. Año, mes, o día inválidos');
     return;
   }
-  const response = await lectuasModel.getLecturasNodoDia(nodo, anio, mes, dia);
-  if (response.length === 0) {
-    res.status(404).send('NOT FOUND');
+  try {
+    await executionContext(async (context) => {
+      const { connection } = context;
+      const response = await lectuasModel.getLecturasNodoDia(connection, nodo, anio, mes, dia);
+      if (response.length === 0) {
+        res.status(404).send('NOT FOUND');
+      }
+      res.json(response);
+    });
+  } catch (e) {
+    res.status(500).send(e.message);
   }
-  res.json(response);
 }
 
 /**
@@ -236,11 +259,18 @@ async function getLecturasNodoSemana(req, res) {
     res.status(400).send('BAD REQUEST. Año, mes, o día inválidos');
     return;
   }
-  const response = await lectuasModel.getLecturasNodoSemana(nodo, anio, mes, dia);
-  if (response.length === 0) {
-    res.status(404).send('NOT FOUND');
+  try {
+    await executionContext(async (context) => {
+      const { connection } = context;
+      const response = await lectuasModel.getLecturasNodoSemana(connection, nodo, anio, mes, dia);
+      if (response.length === 0) {
+        res.status(404).send('NOT FOUND');
+      }
+      res.json(response);
+    });
+  } catch (e) {
+    res.status(500).send(e.message);
   }
-  res.json(response);
 }
 
 /**
@@ -262,11 +292,18 @@ async function getLecturasNodoMes(req, res) {
     res.status(400).send('BAD REQUEST. Año o mes inválidos');
     return;
   }
-  const response = await lectuasModel.getLecturasNodoMes(nodo, anio, mes);
-  if (response.length === 0) {
-    res.status(404).send('NOT FOUND');
+  try {
+    await executionContext(async (context) => {
+      const { connection } = context;
+      const response = await lectuasModel.getLecturasNodoMes(connection, nodo, anio, mes);
+      if (response.length === 0) {
+        res.status(404).send('NOT FOUND');
+      }
+      res.json(response);
+    });
+  } catch (err) {
+    res.status(500).send(err.message);
   }
-  res.json(response);
 }
 
 /**
@@ -287,11 +324,18 @@ async function getLecturasNodoAnio(req, res) {
     res.status(400).send('BAD REQUEST. Año inválido');
     return;
   }
-  const response = await lectuasModel.getLecturasNodoAnio(nodo, anio);
-  if (response.length === 0) {
-    res.status(404).send('NOT FOUND');
+  try {
+    await executionContext(async (context) => {
+      const { connection } = context;
+      const response = await lectuasModel.getLecturasNodoAnio(connection, nodo, anio);
+      if (response.length === 0) {
+        res.status(404).send('NOT FOUND');
+      }
+      res.json(response);
+    });
+  } catch (e) {
+    res.status(500).send(e.message);
   }
-  res.json(response);
 }
 
 /**
