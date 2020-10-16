@@ -10,12 +10,13 @@ const {
 
 /**
  * Verifica si un nodo existe en la base de datos.
+ * @param {Object} connection Nodo a buscar.
  * @param {string} idNodo Nodo a buscar.
  * @param {Object} data Datos a validar
  * @returns {boolean} True si el nodo existe.
  */
-async function areValidVars(idNodo, data) {
-  const vars = await getNodoVariables(idNodo);
+async function areValidVars(connection, idNodo, data) {
+  const vars = await getNodoVariables(connection, idNodo);
   if (vars.length === 0) {
     return { valid: false, data: `No existe nodo ${idNodo}` };
   }
