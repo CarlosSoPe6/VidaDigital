@@ -1,6 +1,4 @@
-const { getConnection } = require('../config/dbConfig');
-
-const QUERY_GET_NODO_VARIABLES = 'SELECT * FROM ValuesCatalog JOIN NodeValues  ON ValuesCatalog.id = NodeValues.id_value_catalog WHERE NodeValues.id_node = ?';
+const QUERY_GET_NODO_VARIABLES = 'SELECT * FROM ValuesCatalog JOIN NodeValues ON ValuesCatalog.id = NodeValues.id_value_catalog WHERE NodeValues.id_node = ?';
 
 /**
  * Obtiene las variables de la base de datos.
@@ -29,11 +27,9 @@ async function getNodoVariables(connection, idNodo) {
   });
 }
 
-async function addNodo(nodo) {
-  const db = await getConnection();
-
+async function addNodo(connection, nodo) {
   return new Promise((resolve, reject) => {
-    db.query(`INSERT INTO Nodos 
+    connection.query(`INSERT INTO Nodos 
               VALUES (?, ?, ?, ?, ?, ?)`,
     [nodo.id, nodo.nombre, nodo.direccion, nodo.longitud, nodo.latitud, nodo.descripcion],
     (err, results) => {
@@ -44,11 +40,9 @@ async function addNodo(nodo) {
   });
 }
 
-async function getNodo(nodeId) {
-  const db = await getConnection();
-
+async function getNodo(connection, nodeId) {
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM Nodos WHERE id = ?',
+    connection.query('SELECT * FROM Nodos WHERE id = ?',
       nodeId, (err, results) => {
         if (err) return reject(err);
 
@@ -57,11 +51,9 @@ async function getNodo(nodeId) {
   });
 }
 
-async function getNodos() {
-  const db = await getConnection();
-
+async function getNodos(connection) {
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM Nodos', (err, results) => {
+    connection.query('SELECT * FROM Nodos', (err, results) => {
       if (err) return reject(err);
 
       return resolve(results);
@@ -69,11 +61,9 @@ async function getNodos() {
   });
 }
 
-async function deleteNodo(nodeId) {
-  const db = await getConnection();
-
+async function deleteNodo(connection, nodeId) {
   return new Promise((resolve, reject) => {
-    db.query('DELETE FROM Nodos WHERE id = ?', nodeId, (err, results) => {
+    connection.query('DELETE FROM Nodos WHERE id = ?', nodeId, (err, results) => {
       if (err) return reject(err);
 
       return resolve(results);
@@ -81,11 +71,9 @@ async function deleteNodo(nodeId) {
   });
 }
 
-async function putNodo(node) {
-  const db = await getConnection();
-
+async function putNodo(connection, node) {
   return new Promise((resolve, reject) => {
-    db.query(`UPDATE Nodos SET nombre = ?, direccion = ?, 
+    connection.query(`UPDATE Nodos SET nombre = ?, direccion = ?, 
       longitud = ?, latitud = ?, descripcion = ? WHERE id = ?`,
     [node.nombre, node.direccion, node.longitud, node.latitud, node.descripcion, node.id],
     (err, results) => {
