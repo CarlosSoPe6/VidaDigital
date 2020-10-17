@@ -4,10 +4,10 @@
  * Este archivo contiene todos los endpoints del controlador de nodos.
  * @author Héctor Chávez Morales <hector.chavez.97@hotmail.com>
  */
-const nodesModel = require("../db/nodes.model");
-const getSensores = require("../db/values.model");
-const { validarEsquema } = require("../validators/nodes");
-const { executionContext } = require("../db/executionContext");
+const nodesModel = require('../db/nodes.model');
+const getSensores = require('../db/values.model');
+const { validarEsquema } = require('../validators/nodes');
+const { executionContext } = require('../db/executionContext');
 
 /**
  * POST /api/nodo
@@ -22,24 +22,21 @@ async function addNodo(req, res) {
   const errors = await validarEsquema(nodo);
   if (errors.length > 0) {
     res.status(400).send(errors[0].stack);
-  } 
-  else {
+  } else {
     executionContext((context) => {
       const { connection } = context;
 
       nodesModel.addNodo(connection, nodo)
         .then(() => res.sendStatus(201))
         .catch((err) => {
-          if (Object.prototype.hasOwnProperty.call(err, "sqlMessage")) {
+          if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
             res.status(400).send(err.sqlMessage);
-          } 
-          else {
+          } else {
             res.status(500).send(err);
           }
         });
     });
   }
-  
 }
 
 /**
@@ -55,29 +52,23 @@ async function putNodo(req, res) {
   const errors = await validarEsquema(nodo);
   if (errors.length > 0) {
     res.status(400).send(errors[0].stack);
-  } 
-  else {
+  } else {
     executionContext((context) => {
       const { connection } = context;
 
       nodesModel.putNodo(connection, nodo)
         .then((val) => {
-          if (val.changedRows === 0) 
-            res.sendStatus(400);
-          else 
-            res.sendStatus(200);
+          if (val.changedRows === 0) { res.sendStatus(400); } else { res.sendStatus(200); }
         })
         .catch((err) => {
-          if (Object.prototype.hasOwnProperty.call(err, "sqlMessage")) {
+          if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
             res.status(400).send(err.sqlMessage);
-          } 
-          else {
+          } else {
             res.status(500).send(err);
           }
         });
     });
   }
-
 }
 
 /**
@@ -94,17 +85,15 @@ async function getNodo(req, res) {
     const { connection } = context;
 
     nodesModel.getNodo(connection, userId)
-    .then((val) => res.send(val[0]))
-    .catch((err) => {
-      if (Object.prototype.hasOwnProperty.call(err, "sqlMessage")) {
-        res.status(400).send(err.sqlMessage);
-      } 
-      else {
-        res.status(500).send(err);
-      }
-    });
-  })
-
+      .then((val) => res.send(val[0]))
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  });
 }
 
 /**
@@ -126,15 +115,13 @@ async function deleteNodo(req, res) {
     nodesModel.deleteNodo(connection, nodeId)
       .then(() => res.sendStatus(200))
       .catch((err) => {
-        if (Object.prototype.hasOwnProperty.call(err, "sqlMessage")) {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
           res.status(400).send(err.sqlMessage);
-        } 
-        else {
+        } else {
           res.status(500).send(err);
         }
-     });
-  })
-
+      });
+  });
 }
 
 /**
@@ -151,14 +138,13 @@ async function getNodos(req, res) {
     nodesModel.getNodos(connection)
       .then((val) => res.send(val))
       .catch((err) => {
-        if (Object.prototype.hasOwnProperty.call(err, "sqlMessage")) {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
           res.status(400).send(err.sqlMessage);
         } else {
           res.status(500).send(err);
         }
       });
   });
-
 }
 
 module.exports = {

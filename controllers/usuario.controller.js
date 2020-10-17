@@ -6,7 +6,7 @@
  */
 const userModel = require('../db/usuario.model');
 const { validarEsquema } = require('../validators/usuario');
-const { executionContext } = require("../db/executionContext");
+const { executionContext } = require('../db/executionContext');
 
 /**
  * POST /api/usuario
@@ -16,32 +16,28 @@ const { executionContext } = require("../db/executionContext");
  * @param {import('express').Response} res Response parameter.
  */
 async function addUsuario(req, res) {
-  const user = req.body
+  const user = req.body;
 
   const errors = await validarEsquema(user);
   if (errors.length > 0) {
     res.status(400).send(errors[0].stack);
-  }
-  else if(user.type !== 'admin' && user.type !== 'user'){
-    res.status(400).send("Wrong type. Must be 'admin' or 'user'")
-  }
-  else {
+  } else if (user.type !== 'admin' && user.type !== 'user') {
+    res.status(400).send("Wrong type. Must be 'admin' or 'user'");
+  } else {
     executionContext((context) => {
-      const { connection } = context
+      const { connection } = context;
 
       userModel.addUsuario(connection, user)
-      .then(() => res.sendStatus(201))
-      .catch((err) => {
-        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-          res.status(400).send(err.sqlMessage);
-        } 
-        else {
-          res.status(500).send(err);
-        }
-      });
-    })
+        .then(() => res.sendStatus(201))
+        .catch((err) => {
+          if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+            res.status(400).send(err.sqlMessage);
+          } else {
+            res.status(500).send(err);
+          }
+        });
+    });
   }
-
 }
 
 /**
@@ -54,20 +50,18 @@ function getUsuario(req, res) {
   const id = req.params.userID;
 
   executionContext((context) => {
-    const { connection } = context
+    const { connection } = context;
 
     userModel.getUsuario(connection, id)
-    .then((val) => res.send(val[0]))
-    .catch((err) => {
-      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-        res.status(400).send(err.sqlMessage);
-      } 
-      else {
-        res.status(500).send(err);
-      }
-    });
-  })
-
+      .then((val) => res.send(val[0]))
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  });
 }
 
 /**
@@ -81,25 +75,21 @@ function patchUsuario(req, res) {
   const data = req.body;
 
   executionContext((context) => {
-    const { connection } = context
+    const { connection } = context;
 
     userModel.patchUsuario(connection, userId, data.password)
-    .then((val) => {
-      if (val.changedRows === 0) 
-        res.sendStatus(400);
-      else 
-        res.sendStatus(200);
-    })
-    .catch((err) => {
-      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-        res.status(400).send(err.sqlMessage);
-      } 
-      else {
-        res.status(500).send(err);
-      }
-    });
-  })
-  
+      .then((val) => {
+        if (val.changedRows === 0) res.sendStatus(400);
+        else res.sendStatus(200);
+      })
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  });
 }
 
 /**
@@ -112,19 +102,18 @@ function deleteUsuario(req, res) {
   const userId = req.params.userID;
 
   executionContext((context) => {
-    const { connection } = context
+    const { connection } = context;
 
     userModel.deleteUsuario(connection, userId)
-    .then(() => res.sendStatus(200))
-    .catch((err) => {
-      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-        res.status(400).send(err.sqlMessage);
-      } else {
-        res.status(500).send(err);
-      }
-    });
-  })
-
+      .then(() => res.sendStatus(200))
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  });
 }
 
 /**
@@ -134,21 +123,19 @@ function deleteUsuario(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 function getUsuarios(req, res) {
-
   executionContext((context) => {
-    const { connection } = context
+    const { connection } = context;
 
     userModel.getUsuarios(connection)
-    .then((val) => res.send(val))
-    .catch((err) => {
-      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-        res.status(400).send(err.sqlMessage);
-      } else {
-        res.status(500).send(err);
-      }
-    });
-  })
-
+      .then((val) => res.send(val))
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  });
 }
 
 module.exports = {

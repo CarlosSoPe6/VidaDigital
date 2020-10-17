@@ -5,7 +5,7 @@
  * @author Héctor Chávez Morales <hector.chavez.97@hotmail.com>
  */
 const valuesController = require('../db/values.model');
-const { executionContext } = require("../db/executionContext");
+const { executionContext } = require('../db/executionContext');
 
 /**
  * GET /api/values/sensores/:nodeID
@@ -17,20 +17,18 @@ function getSensores(req, res) {
   const nodeId = req.params.nodeID;
 
   executionContext((context) => {
-    const { connection } = context
+    const { connection } = context;
 
     valuesController.getSensores(connection, nodeId)
-    .then((val) => res.send(val))
-    .catch((err) => {
-      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-        res.status(400).send(err.sqlMessage);
-      } 
-      else {
-        res.status(500).send(err);
-      }
-    });
-  })
-
+      .then((val) => res.send(val))
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  });
 }
 
 /**
@@ -43,20 +41,18 @@ function getNodes(req, res) {
   const sensorId = req.params.sensorID;
 
   executionContext((context) => {
-    const { connection } = context
+    const { connection } = context;
 
     valuesController.getNodes(connection, sensorId)
-    .then((val) => res.send(val))
-    .catch((err) => {
-      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-        res.status(400).send(err.sqlMessage);
-      } 
-      else {
-        res.status(500).send(err);
-      }
-    });
-  })
-
+      .then((val) => res.send(val))
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  });
 }
 
 /**
@@ -70,23 +66,21 @@ function getNodeHasSensor(req, res) {
   const sensorId = req.params.sensorID;
 
   executionContext((context) => {
-    const { connection } = context
+    const { connection } = context;
 
     valuesController.getNodeHasSensor(connection, nodeId, sensorId)
-    .then((val) => {
-      const ans = val[0].Exist;
-      res.json(ans);
-    })
-    .catch((err) => {
-      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-        res.status(400).send(err.sqlMessage);
-      } 
-      else {
-        res.status(500).send(err);
-      }
-    });
-  })
-
+      .then((val) => {
+        const ans = val[0].Exist;
+        res.json(ans);
+      })
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  });
 }
 
 /**
@@ -100,20 +94,18 @@ function deleteNodeSensor(req, res) {
   const sensorId = req.params.sensorID;
 
   executionContext((context) => {
-    const { connection } = context
+    const { connection } = context;
 
     valuesController.deleteNodeSensor(connection, nodeId, sensorId)
-    .then(() => res.sendStatus(200))
-    .catch((err) => {
-      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-        res.status(400).send(err.sqlMessage);
-      } 
-      else {
-        res.status(500).send(err);
-      }
-    });
-  })
-
+      .then(() => res.sendStatus(200))
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  });
 }
 
 /**
@@ -127,20 +119,18 @@ function addNodeSensor(req, res) {
   const sensorId = req.body.sensorID;
 
   executionContext((context) => {
-    const { connection } = context
+    const { connection } = context;
 
     valuesController.addNodeSensor(connection, nodeId, sensorId)
-    .then(() => res.sendStatus(201))
-    .catch((err) => {
-      if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-        res.status(400).send(err.sqlMessage);
-      } 
-      else {
-        res.status(500).send(err);
-      }
-    });    
-  })
-
+      .then(() => res.sendStatus(201))
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  });
 }
 
 module.exports = {
