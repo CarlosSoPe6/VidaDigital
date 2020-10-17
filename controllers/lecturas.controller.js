@@ -346,12 +346,12 @@ async function getLecturasNodoAnio(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function getLogs(req, res) {
-  const stream = fs.createReadStream('lecturas.log', { highWaterMark: 1024 * 4 });
-  stream.on('data', (chunk) => {
-    res.send(chunk.toString());
-  });
-  stream.on('end', () => {
-    res.end();
+  fs.readFile('lecturas.log', (err, data) => {
+    if (err) {
+      res.status(500).send(err.message);
+      return;
+    }
+    res.send(data.toString());
   });
 }
 
