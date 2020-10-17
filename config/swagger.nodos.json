@@ -1028,13 +1028,16 @@
                 "description": "Descripción de usuarios",
                 "properties": {
                     "username": {
-                        "type": "string"
+                        "type": "string",
+                        "required": true
                     },
                     "password": {
-                        "type": "string"
+                        "type": "string",
+                        "required": true
                     },
                     "type": {
-                        "type": "string"
+                        "type": "string",
+                        "required": true
                     }
                 }
             },

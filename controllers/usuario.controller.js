@@ -5,9 +5,40 @@
  * @author Héctor Chávez Morales <hector.chavez.97@hotmail.com>
  */
 const userModel = require('../db/usuario.model');
+const { validarEsquema } = require('../validators/usuario');
 
 /**
- * GET /api/usuario/id/:id
+ * POST /api/usuario
+ * @async
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
+async function addUsuario(req, res) {
+  const user = req.body
+
+  const errors = await validarEsquema(user);
+  if (errors.length > 0) {
+    res.status(400).send(errors[0].stack);
+  }
+  else if(user.type != 'admin' && user.type != 'user'){
+    res.status(400).send("Wrong type. Must be 'admin' or 'user'")
+  }
+  else {
+    userModel.addUsuario(user)
+      .then(() => res.sendStatus(201))
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  }
+}
+
+/**
+ * GET /api/usuario/:id
  * @async
  * @exports
  * @param {import('express').Request} req Request parameter.
@@ -28,7 +59,7 @@ async function getUsuario(req, res) {
 }
 
 /**
- * PATCH /api/usuario/id/:id
+ * PATCH /api/usuario/:id
  * @async
  * @exports
  * @param {import('express').Request} req Request parameter.
@@ -36,10 +67,15 @@ async function getUsuario(req, res) {
  */
 async function patchUsuario(req, res) {
   const userId = req.params.userID;
-  const userData = req.body;
+  const data = req.body;
 
-  userModel.patchUsuario(userId, userData)
-    .then((val) => res.send(val))
+  userModel.patchUsuario(userId, data.password)
+    .then((val) => {
+      if (val.changedRows === 0) 
+        res.sendStatus(400);
+      else 
+        res.sendStatus(200);
+    })
     .catch((err) => {
       if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
         res.status(400).send(err.sqlMessage);
@@ -50,7 +86,7 @@ async function patchUsuario(req, res) {
 }
 
 /**
- * DELETE /api/usuario/id/:id
+ * DELETE /api/usuario/:id
  * @async
  * @exports
  * @param {import('express').Request} req Request parameter.
@@ -60,7 +96,7 @@ async function deleteUsuario(req, res) {
   const userId = req.params.userID;
 
   userModel.deleteUsuario(userId)
-    .then(() => res.status(200))
+    .then(() => res.sendStatus(200))
     .catch((err) => {
       if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
         res.status(400).send(err.sqlMessage);
@@ -71,7 +107,7 @@ async function deleteUsuario(req, res) {
 }
 
 /**
- * GET /api/usuarios
+ * GET /api/todos/usuarios
  * @async
  * @exports
  * @param {import('express').Request} req Request parameter.
@@ -90,6 +126,7 @@ async function getUsuarios(req, res) {
 }
 
 module.exports = {
+  addUsuario,
   getUsuario,
   patchUsuario,
   deleteUsuario,
