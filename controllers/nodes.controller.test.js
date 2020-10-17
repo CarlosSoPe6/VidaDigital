@@ -8,7 +8,7 @@ describe(`Test ${ROOT_PATH}`, () => {
         request(app)
         .post(`${ROOT_PATH}`)
         .send({
-            nombre: 'ut',
+            nombre: 'utest',
             direccion: "utdireccion",
             latitud: 0,
             descripcion: "utdescripcion"
@@ -70,7 +70,7 @@ describe(`Test ${ROOT_PATH}`, () => {
 
     test('Get node', (done) => {
         request(app)
-        .get(`${ROOT_PATH}/unitTest`)
+        .get(`${ROOT_PATH}/ut`)
         .then((response) => {
           expect(response.statusCode).toBe(200);
           done();
