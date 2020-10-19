@@ -39,7 +39,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.6.0",
-    "jest": "^26.5.2",
+    "jest": "^23.6.0",
     "jsdoc": "^3.6.6",
     "nodemon": "^2.0.4",
     "superagent": "^6.1.0",
