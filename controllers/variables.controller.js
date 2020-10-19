@@ -6,6 +6,8 @@
 const variablesModel = require('../db/variables.model');
 const { validarEsquema } = require('../validators/variables');
 const { executionContext } = require('../db/executionContext');
+const errorLog = require('../loggers/error');
+
 /**
  * GET /api/variables/
  * @async
@@ -20,7 +22,8 @@ async function getVariables(req, res) {
       const result = await variablesModel.getVariables(connection);
       res.json(result);
     });
-  } catch (err) {
+  } catch (e) {
+    errorLog(e.message);
     res.status(500).send('Internal server error');
   }
 }
@@ -61,7 +64,8 @@ async function postVarialbe(req, res) {
       }
       res.staus(201).json(result[0]);
     });
-  } catch (err) {
+  } catch (e) {
+    errorLog(e.message);
     res.status(500).send('Internal server error');
   }
 }
@@ -85,7 +89,8 @@ async function getVarialbe(req, res) {
       }
       res.json(result);
     });
-  } catch (err) {
+  } catch (e) {
+    errorLog(e.message);
     res.status(500).send('Internal server error');
   }
 }
@@ -130,7 +135,8 @@ async function putVarialbe(req, res) {
       const result = await variablesModel.putVariable(connection, searchCode, dataObj);
       res.json(result[0]);
     });
-  } catch (err) {
+  } catch (e) {
+    errorLog(e.message);
     res.status(500).send('Internal server error');
   }
 }
@@ -150,7 +156,8 @@ async function deleteVarialbe(req, res) {
       await variablesModel.deleteVariable(connection, code);
       res.status(200).send('DELETED');
     });
-  } catch (err) {
+  } catch (e) {
+    errorLog(e.message);
     res.status(500).send('Internal server error');
   }
 }
