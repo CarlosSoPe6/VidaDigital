@@ -4,7 +4,6 @@
  * consultar la tabla LecturasNodos.
  * @author Carlos Soto Pérez <carlos348@outlook.com>
  */
-const { getConnection } = require('../config/dbConfig');
 
 const DELETE_LECTURA_ID = 'DELETE FROM LecturasNodos WHERE id=?;';
 const QUERY_LECTURAS_NODO = 'SELECT * FROM LecturasNodos WHERE idNodo=? ORDER BY fecha_hora DESC LIMIT ?;';
@@ -38,13 +37,13 @@ function toIsoString(date) {
 /**
  * Crea un registro de lectura
  * @throws {import('mysql').MysqlError}
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
  * @param {string} idNodo Id del nodo
  * @param {Date} fechaHora Hora y fecha
  * @param {Object} data Datos en JSON strinf
  * @returns {Promise<Array<Object>} Resultado de la consulta.
  */
-async function postLectura(idNodo, fechaHora, data) {
-  const connection = await getConnection();
+async function postLectura(connection, idNodo, fechaHora, data) {
   const dataToInsert = data;
   dataToInsert.tn = toIsoString(data.tn);
   const valuesToEscape = [
@@ -71,11 +70,11 @@ async function postLectura(idNodo, fechaHora, data) {
  * @async
  * @exports
  * @throws {import('mysql').MysqlError}
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
  * @param {number} limit Límite
  * @returns {Promise<Object>} Resultado de la consulta.
  */
-async function getLecturas(limit) {
-  const connection = await getConnection();
+async function getLecturas(connection, limit) {
   const valuesToEscape = [
     limit,
   ];
@@ -98,11 +97,11 @@ async function getLecturas(limit) {
  * @async
  * @exports
  * @throws {import('mysql').MysqlError}
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
  * @param {number} id Id de la lectura
  * @returns {Promise<Object>} Resultado de la consulta.
  */
-async function getLecturaId(id) {
-  const connection = await getConnection();
+async function getLecturaId(connection, id) {
   const valuesToEscape = [
     id,
   ];
@@ -125,11 +124,11 @@ async function getLecturaId(id) {
  * @async
  * @exports
  * @throws {import('mysql').MysqlError}
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
  * @param {number} id Id de la lectura
  * @returns {Promise<Object>} Resultado de la consulta.
  */
-async function deleteLecturaId(id) {
-  const connection = await getConnection();
+async function deleteLecturaId(connection, id) {
   const valuesToEscape = [
     id,
   ];
@@ -147,8 +146,7 @@ async function deleteLecturaId(id) {
   });
 }
 
-async function getLecturasNodo(id, count) {
-  const connection = await getConnection();
+async function getLecturasNodo(connection, id, count) {
   const valuesToEscape = [
     id,
     count,
@@ -172,14 +170,14 @@ async function getLecturasNodo(id, count) {
  * @async
  * @exports
  * @throws {import('mysql').MysqlError}
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
  * @param {string} nodo Id del nodo.
  * @param {number} anio Año de consulta.
  * @param {number} mes Mes de consulta.
  * @param {number} dia Día de consulta.
  * @returns {Promise<Object>} Resultado de la consulta.
  */
-async function getLecturasNodoDia(nodo, anio, mes, dia) {
-  const connection = await getConnection();
+async function getLecturasNodoDia(connection, nodo, anio, mes, dia) {
   const date = new Date(anio, mes - 1, dia);
   const valuesToEscape = [
     nodo,
@@ -204,14 +202,14 @@ async function getLecturasNodoDia(nodo, anio, mes, dia) {
  * @async
  * @exports
  * @throws {import('mysql').MysqlError}
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
  * @param {string} nodo Id del nodo.
  * @param {number} anio Año de consulta.
  * @param {number} mes Mes de consulta.
  * @param {number} dia Día de consulta.
  * @returns {Promise<Object>} Resultado de la consulta.
  */
-async function getLecturasNodoSemana(nodo, anio, mes, dia) {
-  const connection = await getConnection();
+async function getLecturasNodoSemana(connection, nodo, anio, mes, dia) {
   const startWeek = new Date(anio, mes - 1, dia, 0, 0, 0, 0);
   const endWeek = new Date(anio, mes - 1, dia, 23, 59, 59, 999);
   startWeek.setDate(startWeek.getDate() - 7);
@@ -239,13 +237,13 @@ async function getLecturasNodoSemana(nodo, anio, mes, dia) {
  * @async
  * @exports
  * @throws {import('mysql').MysqlError}
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
  * @param {string} nodo Id del nodo.
  * @param {number} anio Año de consulta.
  * @param {number} mes Mes de consulta.
  * @returns {Promise<Object>} Resultado de la consulta.
  */
-async function getLecturasNodoMes(nodo, anio, mes) {
-  const connection = await getConnection();
+async function getLecturasNodoMes(connection, nodo, anio, mes) {
   const firstDayOfMonth = new Date(anio, mes - 1, 1, 0, 0, 0, 0);
   const lastDatyOfMonth = new Date(anio, mes - 1, 0, 23, 59, 59, 999);
   const valuesToEscape = [
@@ -272,12 +270,12 @@ async function getLecturasNodoMes(nodo, anio, mes) {
  * @async
  * @exports
  * @throws {import('mysql').MysqlError}
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
  * @param {string} nodo Id del nodo.
  * @param {number} anio Año de consulta.
  * @returns {Promise<Object>} Resultado de la consulta.
  */
-async function getLecturasNodoAnio(nodo, anio) {
-  const connection = await getConnection();
+async function getLecturasNodoAnio(connection, nodo, anio) {
   const firstDayOfYear = new Date(Date.UTC(anio, 0, 1, 0, 0, 0));
   const lastDayOfYear = new Date(Date.UTC(anio, 11, 31, 23, 59, 59, 999));
   const valuesToEscape = [
