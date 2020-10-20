@@ -5,7 +5,7 @@ const userController = require('../controllers/usuario.controller');
 const router = express.Router();
 const parser = bodyParser.json();
 
-router.post('/', parser, userController.addUsuario)
+router.post('/', parser, userController.addUsuario);
 router.get('/:userID', userController.getUsuario);
 router.patch('/:userID', parser, userController.patchUsuario);
 router.delete('/:userID', userController.deleteUsuario);
