@@ -16,7 +16,26 @@ describe(`Test ${ROOT_PATH}`, () => {
     request(app)
       .post(`${ROOT_PATH}`)
       .then((response) => {
+        expect(response.statusCode).toBe(500);
+        done();
+      });
+  });
+});
+
+describe(`Test ${ROOT_PATH}/:code`, () => {
+  test('It should response the 200 GET method', (done) => {
+    request(app)
+      .get(`${ROOT_PATH}/bat`)
+      .then((response) => {
         expect(response.statusCode).toBe(200);
+        done();
+      });
+  });
+  test('It should response the 404 GET method', (done) => {
+    request(app)
+      .get(`${ROOT_PATH}/notfound`)
+      .then((response) => {
+        expect(response.statusCode).toBe(404);
         done();
       });
   });
