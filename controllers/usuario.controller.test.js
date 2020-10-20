@@ -40,21 +40,21 @@ describe(`Test ${ROOT_PATH}`, () => {
       });
   });
 
-  test('Patch node incorrect (schema not equal)', (done) => {
+  test('Patch node type', (done) => {
     request(app)
-      .patch(`${ROOT_PATH}/unitTestUer`)
+      .patch(`${ROOT_PATH}/type/unitTestUser`)
       .send({
-        type: 'newPassword123',
+        type: 'admin',
       })
       .then((response) => {
-        expect(response.statusCode).toBe(400);
+        expect(response.statusCode).toBe(200);
         done();
       });
   });
 
-  test('Patch user correct', (done) => {
+  test('Patch user password', (done) => {
     request(app)
-      .patch(`${ROOT_PATH}/unitTestUser`)
+      .patch(`${ROOT_PATH}/password/unitTestUser`)
       .send({
         password: 'newUnitTestPasswordUltraSecure',
       })
