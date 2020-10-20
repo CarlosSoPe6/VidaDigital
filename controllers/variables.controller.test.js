@@ -16,7 +16,7 @@ describe(`Test ${ROOT_PATH}`, () => {
     request(app)
       .post(`${ROOT_PATH}`)
       .then((response) => {
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(500);
         done();
       });
   });
