@@ -179,7 +179,7 @@ async function deleteLecturaId(req, res) {
 }
 
 /**
- * DELETE /api/lecturas/n/:id
+ * GET /api/lecturas/n/:id
  * @async
  * @exports
  * @param {import('express').Request} req Request parameter.
@@ -237,6 +237,7 @@ async function getLecturasNodoDia(req, res) {
       const response = await lectuasModel.getLecturasNodoDia(connection, nodo, anio, mes, dia);
       if (response.length === 0) {
         res.status(404).send('NOT FOUND');
+        return;
       }
       res.json(response);
     });
@@ -272,6 +273,7 @@ async function getLecturasNodoSemana(req, res) {
       const response = await lectuasModel.getLecturasNodoSemana(connection, nodo, anio, mes, dia);
       if (response.length === 0) {
         res.status(404).send('NOT FOUND');
+        return;
       }
       res.json(response);
     });
@@ -295,7 +297,7 @@ async function getLecturasNodoMes(req, res) {
     mes,
   } = req.params;
   const firstDayOfMonth = new Date(anio, mes - 1, 1, 0, 0, 0, 0);
-  const lastDatyOfMonth = new Date(anio, mes - 1, 0, 23, 59, 59, 999);
+  const lastDatyOfMonth = new Date(anio, mes, 0, 23, 59, 59, 999);
   if (isNaN(firstDayOfMonth) || isNaN(lastDatyOfMonth)) {
     res.status(400).send('BAD REQUEST. Año o mes inválidos');
     return;
@@ -306,6 +308,7 @@ async function getLecturasNodoMes(req, res) {
       const response = await lectuasModel.getLecturasNodoMes(connection, nodo, anio, mes);
       if (response.length === 0) {
         res.status(404).send('NOT FOUND');
+        return;
       }
       res.json(response);
     });
@@ -339,6 +342,7 @@ async function getLecturasNodoAnio(req, res) {
       const response = await lectuasModel.getLecturasNodoAnio(connection, nodo, anio);
       if (response.length === 0) {
         res.status(404).send('NOT FOUND');
+        return;
       }
       res.json(response);
     });

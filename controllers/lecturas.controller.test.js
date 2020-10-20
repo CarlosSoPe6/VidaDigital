@@ -113,3 +113,126 @@ describe(`Test ${ROOT_PATH}/id/:id`, () => {
       });
   });
 });
+
+describe(`Test ${ROOT_PATH}/n/:id`, () => {
+  it('It should 200 in a GET method', (done) => {
+    const id = 'HM1';
+    request(app)
+      .get(`${ROOT_PATH}/n/${id}`)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        done();
+      });
+  });
+  it('It should 404 in a GET method', (done) => {
+    const id = 'HM458';
+    request(app)
+      .get(`${ROOT_PATH}/n/${id}`)
+      .then((response) => {
+        expect(response.statusCode).toBe(404);
+        done();
+      });
+  });
+});
+
+describe(`Test ${ROOT_PATH}/dia/{nodo}/{anio}/{mes}/{dia}`, () => {
+  it('It should 200 in a GET method', (done) => {
+    const id = 'HM1';
+    const anio = 2020;
+    const mes = 2;
+    const dia = 18;
+    request(app)
+      .get(`${ROOT_PATH}/dia/${id}/${anio}/${mes}/${dia}`)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        done();
+      });
+  });
+  it('It should 404 in a GET method', (done) => {
+    const id = 'HM1';
+    const anio = 2020;
+    const mes = 2;
+    const dia = 33;
+    request(app)
+      .get(`${ROOT_PATH}/dia/${id}/${anio}/${mes}/${dia}`)
+      .then((response) => {
+        expect(response.statusCode).toBe(404);
+        done();
+      });
+  });
+});
+
+describe(`Test ${ROOT_PATH}/semana/{nodo}/{anio}/{mes}/{dia}`, () => {
+  it('It should 200 in a GET method', (done) => {
+    const id = 'HM1';
+    const anio = 2020;
+    const mes = 2;
+    const dia = 18;
+    request(app)
+      .get(`${ROOT_PATH}/semana/${id}/${anio}/${mes}/${dia}`)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        done();
+      });
+  });
+  it('It should 404 in a GET method', (done) => {
+    const id = 'HM1';
+    const anio = 2020;
+    const mes = 2;
+    const dia = 33;
+    request(app)
+      .get(`${ROOT_PATH}/semana/${id}/${anio}/${mes}/${dia}`)
+      .then((response) => {
+        expect(response.statusCode).toBe(404);
+        done();
+      });
+  });
+});
+
+describe(`Test ${ROOT_PATH}/mes/{nodo}/{anio}/{mes}`, () => {
+  it('It should 200 in a GET method', (done) => {
+    const id = 'HM1';
+    const anio = 2020;
+    const mes = 2;
+    request(app)
+      .get(`${ROOT_PATH}/mes/${id}/${anio}/${mes}`)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        done();
+      });
+  });
+  it('It should 404 in a GET method', (done) => {
+    const id = 'HM1';
+    const anio = 2020;
+    const mes = 6;
+    request(app)
+      .get(`${ROOT_PATH}/mes/${id}/${anio}/${mes}`)
+      .then((response) => {
+        expect(response.statusCode).toBe(404);
+        done();
+      });
+  });
+});
+
+describe(`Test ${ROOT_PATH}/anio/{nodo}/{anio}`, () => {
+  it('It should 200 in a GET method', (done) => {
+    const id = 'HM1';
+    const anio = 2020;
+    request(app)
+      .get(`${ROOT_PATH}/anio/${id}/${anio}`)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        done();
+      });
+  });
+  it('It should 404 in a GET method', (done) => {
+    const id = 'HM1';
+    const anio = 1998;
+    request(app)
+      .get(`${ROOT_PATH}/anio/${id}/${anio}`)
+      .then((response) => {
+        expect(response.statusCode).toBe(404);
+        done();
+      });
+  });
+});
