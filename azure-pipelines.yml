@@ -28,6 +28,7 @@ steps:
       export JWT_EXPIRE=$(JWT_EXPIRE)
       
       printenv CI
+      printenv PORT
 
 - task: NodeTool@0
   inputs:
