@@ -13,4 +13,6 @@ const opts = {
 const log = SimpleLogger.createSimpleLogger(opts);
 log.setLevel('info');
 
-module.exports = log;
+module.exports = (data) => {
+  log.info(data);
+};

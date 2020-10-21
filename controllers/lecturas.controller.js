@@ -9,7 +9,7 @@ const fs = require('fs');
 const lecturasModel = require('../db/lecturas.model');
 const lectuasModel = require('../db/lecturas.model');
 const { areValidVars } = require('../validators/variables');
-const log = require('../loggers/lecturas');
+const lecturasLog = require('../loggers/lecturas');
 const errorLog = require('../loggers/error');
 const { executionContext } = require('../db/executionContext');
 
@@ -52,7 +52,7 @@ async function postLectura(req, res) {
     res.status(400).send('BAD REQUEST. No cmd;');
     return;
   }
-  log.info(cmd);
+  lecturasLog(cmd);
   const cmdArray = cmd.trim().split(';');
   if (cmdArray[cmdArray.length - 1] !== '') {
     res.status(400).send('BAD REQUEST. cmd not structured;');
