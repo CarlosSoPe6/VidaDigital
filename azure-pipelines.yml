@@ -14,20 +14,7 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: |
-      export CI=$(CI)
-      export PORT=$(PORT)
-      export MYSQL_HOST=$(MYSQL_HOST)
-      export MYSQL_USER=$(MYSQL_USER)
-      export MYSQL_PASSWORD=$(MYSQL_PASSWORD)
-      export MYSQL_DATABASE=$(MYSQL_DATABASE)
-      export JWT_KEYPASS=$(JWT_KEYPASS)
-      export JWT_ALG=$(JWT_ALG)
-      export JWT_AUD=$(JWT_AUD)
-      export JWT_ISS=$(JWT_ISS)
-      export JWT_SUB=$(JWT_SUB)
-      export JWT_EXPIRE=$(JWT_EXPIRE)
-      
+    script: | 
       printenv CI
       printenv PORT
 
