@@ -32,10 +32,10 @@ steps:
     command: 'custom'
     customCommand: 'run lint'
 
-- task: Bash@3
+- task: Npm@1
   inputs:
-    targetType: 'inline'
-    script: 'npm run test'
+    command: 'custom'
+    customCommand: 'run test'
 
 - task: ArchiveFiles@2
   inputs:
