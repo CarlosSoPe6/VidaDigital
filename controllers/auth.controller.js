@@ -10,6 +10,7 @@ const singOptions = require('../config/jwtToken');
 const errorLog = require('../loggers/error');
 const { executionContext } = require('../db/executionContext');
 const { getUsuarioAuth } = require('../db/usuario.model');
+const encrypt = require('../config/encrypt');
 /**
  * POST /api/auth/login
  * @async
@@ -39,11 +40,15 @@ async function login(req, res) {
   }
 
   if (usuarioResult.length === 0) {
-    res.sendStatus(400);
+    res.sendStatus(404);
   }
-  // const usuario = usuarioResult[0];
-  // const userHash = usuario.password;
 
+  const userHash = usuarioResult[0].password;
+  const hashCompareResult = await encrypt.comparePassword(password, userHash);
+  if (!hashCompareResult) {
+    res.status(401).send('BAD PASSWORD');
+    return;
+  }
   jwt.sign(
     { username },
     process.env.JWT_KEYPASS,
