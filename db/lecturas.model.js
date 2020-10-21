@@ -245,7 +245,7 @@ async function getLecturasNodoSemana(connection, nodo, anio, mes, dia) {
  */
 async function getLecturasNodoMes(connection, nodo, anio, mes) {
   const firstDayOfMonth = new Date(anio, mes - 1, 1, 0, 0, 0, 0);
-  const lastDatyOfMonth = new Date(anio, mes, 0, 23, 59, 59, 999);
+  const lastDatyOfMonth = new Date(anio, mes - 1, 0, 23, 59, 59, 999);
   const valuesToEscape = [
     nodo,
     firstDayOfMonth,
