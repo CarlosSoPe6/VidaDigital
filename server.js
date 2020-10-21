@@ -11,7 +11,6 @@ const swaggerCovidDoc = require('./config/swagger.covid.json');
 
 const app = express();
 
-const authRouter = require('./routes/auth.router');
 const valuesRouter = require('./routes/values.route');
 const nodesRouter = require('./routes/nodos.route');
 const lecturasRouter = require('./routes/lecturas.route');
@@ -23,7 +22,6 @@ app.use(bodyParser.json());
 
 app.use('/api/api-docs/nodos', swaggerUI.serve, swaggerUI.setup(swaggerNodosDoc));
 app.use('/api/api-docs/covid', swaggerUI.serve, swaggerUI.setup(swaggerCovidDoc));
-app.use('/api/auth', authRouter);
 app.use('/api/lecturas', lecturasRouter);
 app.use('/api/valores', valuesRouter);
 app.use('/api/nodo', nodesRouter);
