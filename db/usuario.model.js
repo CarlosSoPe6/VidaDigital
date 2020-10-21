@@ -65,6 +65,28 @@ async function getUsuarios(connection) {
   });
 }
 
+/**
+ * Crea un registro de lectura
+ * @throws {import('mysql').MysqlError}
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @param {string} username Usuario a buscar
+ */
+async function getUsuarioAuth(connection, username) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      'SELECT * from User WHERE username = ? LIMIT 1',
+      [username],
+      (err, results) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(results);
+      },
+    );
+  });
+}
+
 module.exports = {
   addUsuario,
   getUsuario,
@@ -72,4 +94,5 @@ module.exports = {
   patchType,
   deleteUsuario,
   getUsuarios,
+  getUsuarioAuth,
 };
