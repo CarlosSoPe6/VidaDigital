@@ -20,11 +20,23 @@ async function getUsuario(connection, userId) {
   });
 }
 
-async function patchUsuario(connection, userId, password) {
+async function patchPassword(connection, userId, password) {
   return new Promise((resolve, reject) => {
     connection.query(`UPDATE User SET password = ? 
     WHERE username = ?`,
     [password, userId], (err, results) => {
+      if (err) return reject(err);
+
+      return resolve(results);
+    });
+  });
+}
+
+async function patchType(connection, userId, type) {
+  return new Promise((resolve, reject) => {
+    connection.query(`UPDATE User SET type = ? 
+    WHERE username = ?`,
+    [type, userId], (err, results) => {
       if (err) return reject(err);
 
       return resolve(results);
@@ -56,7 +68,8 @@ async function getUsuarios(connection) {
 module.exports = {
   addUsuario,
   getUsuario,
-  patchUsuario,
+  patchPassword,
+  patchType,
   deleteUsuario,
   getUsuarios,
 };

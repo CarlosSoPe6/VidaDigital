@@ -5,6 +5,7 @@
  * @author Héctor Chávez Morales <hector.chavez.97@hotmail.com>
  */
 const userModel = require('../db/usuario.model');
+const encrypt = require('../config/encrypt');
 const { validarEsquema } = require('../validators/usuario');
 const { executionContext } = require('../db/executionContext');
 
@@ -24,19 +25,22 @@ async function addUsuario(req, res) {
   } else if (user.type !== 'admin' && user.type !== 'user') {
     res.status(400).send("Wrong type. Must be 'admin' or 'user'");
   } else {
-    executionContext((context) => {
-      const { connection } = context;
+    try {
+      user.password = await encrypt.hashPassword(user.password);
 
-      userModel.addUsuario(connection, user)
-        .then(() => res.sendStatus(201))
-        .catch((err) => {
-          if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
-            res.status(400).send(err.sqlMessage);
-          } else {
-            res.status(500).send(err);
-          }
-        });
-    });
+      await executionContext(async (context) => {
+        const { connection } = context;
+
+        await userModel.addUsuario(connection, user);
+        res.sendStatus(201);
+      });
+    } catch (exception) {
+      if (Object.prototype.hasOwnProperty.call(exception, 'sqlMessage')) {
+        res.status(400).send(exception.sqlMessage);
+      } else {
+        res.status(500).send(exception);
+      }
+    }
   }
 }
 
@@ -46,7 +50,7 @@ async function addUsuario(req, res) {
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-function getUsuario(req, res) {
+async function getUsuario(req, res) {
   const id = req.params.userID;
 
   executionContext((context) => {
@@ -65,19 +69,49 @@ function getUsuario(req, res) {
 }
 
 /**
- * PATCH /api/usuario/:id
+ * PATCH /api/usuario/password/:id
  * @exports
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
  */
-function patchUsuario(req, res) {
+async function patchPassword(req, res) {
+  const userId = req.params.userID;
+  const data = req.body;
+
+  const passEncrypt = await encrypt.hashPassword(data.password);
+
+  executionContext((context) => {
+    const { connection } = context;
+
+    userModel.patchPassword(connection, userId, passEncrypt)
+      .then((val) => {
+        if (val.changedRows === 0) res.sendStatus(400);
+        else res.sendStatus(200);
+      })
+      .catch((err) => {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
+          res.status(400).send(err.sqlMessage);
+        } else {
+          res.status(500).send(err);
+        }
+      });
+  });
+}
+
+/**
+ * PATCH /api/usuario/tipo/:id
+ * @exports
+ * @param {import('express').Request} req Request parameter.
+ * @param {import('express').Response} res Response parameter.
+ */
+async function patchType(req, res) {
   const userId = req.params.userID;
   const data = req.body;
 
   executionContext((context) => {
     const { connection } = context;
 
-    userModel.patchUsuario(connection, userId, data.password)
+    userModel.patchType(connection, userId, data.type)
       .then((val) => {
         if (val.changedRows === 0) res.sendStatus(400);
         else res.sendStatus(200);
@@ -141,7 +175,8 @@ function getUsuarios(req, res) {
 module.exports = {
   addUsuario,
   getUsuario,
-  patchUsuario,
+  patchPassword,
+  patchType,
   deleteUsuario,
   getUsuarios,
 };
