@@ -9,7 +9,8 @@ const fs = require('fs');
 const lecturasModel = require('../db/lecturas.model');
 const lectuasModel = require('../db/lecturas.model');
 const { areValidVars } = require('../validators/variables');
-const log = require('../loggers/lecturas');
+const lecturasLog = require('../loggers/lecturas');
+const errorLog = require('../loggers/error');
 const { executionContext } = require('../db/executionContext');
 
 /**
@@ -51,7 +52,7 @@ async function postLectura(req, res) {
     res.status(400).send('BAD REQUEST. No cmd;');
     return;
   }
-  log.info(cmd);
+  lecturasLog(cmd);
   const cmdArray = cmd.trim().split(';');
   if (cmdArray[cmdArray.length - 1] !== '') {
     res.status(400).send('BAD REQUEST. cmd not structured;');
@@ -86,6 +87,7 @@ async function postLectura(req, res) {
       res.status(201).send(`ID;${data.id};RS;Correct;`);
     });
   } catch (e) {
+    errorLog(e.message);
     res.status(501).send(`ID;${data.id};RS;Incorrect;Err;${e.message};`);
   }
 }
@@ -114,6 +116,7 @@ async function getLecturas(req, res) {
       res.json(response);
     });
   } catch (e) {
+    errorLog(e.message);
     res.status(500).send(e.message);
   }
 }
@@ -138,6 +141,7 @@ async function getLecturaId(req, res) {
       res.json(response);
     });
   } catch (e) {
+    errorLog(e.message);
     res.status(500).send(e.message);
   }
 }
@@ -169,12 +173,13 @@ async function deleteLecturaId(req, res) {
       res.json(response);
     });
   } catch (e) {
+    errorLog(e.message);
     res.status(500).send(e.message);
   }
 }
 
 /**
- * DELETE /api/lecturas/n/:id
+ * GET /api/lecturas/n/:id
  * @async
  * @exports
  * @param {import('express').Request} req Request parameter.
@@ -202,6 +207,7 @@ async function getLecturasNodo(req, res) {
       res.json(response);
     });
   } catch (e) {
+    errorLog(e.message);
     res.status(500).send(e.message);
   }
 }
@@ -231,10 +237,12 @@ async function getLecturasNodoDia(req, res) {
       const response = await lectuasModel.getLecturasNodoDia(connection, nodo, anio, mes, dia);
       if (response.length === 0) {
         res.status(404).send('NOT FOUND');
+        return;
       }
       res.json(response);
     });
   } catch (e) {
+    errorLog(e.message);
     res.status(500).send(e.message);
   }
 }
@@ -265,10 +273,12 @@ async function getLecturasNodoSemana(req, res) {
       const response = await lectuasModel.getLecturasNodoSemana(connection, nodo, anio, mes, dia);
       if (response.length === 0) {
         res.status(404).send('NOT FOUND');
+        return;
       }
       res.json(response);
     });
   } catch (e) {
+    errorLog(e.message);
     res.status(500).send(e.message);
   }
 }
@@ -287,7 +297,7 @@ async function getLecturasNodoMes(req, res) {
     mes,
   } = req.params;
   const firstDayOfMonth = new Date(anio, mes - 1, 1, 0, 0, 0, 0);
-  const lastDatyOfMonth = new Date(anio, mes - 1, 0, 23, 59, 59, 999);
+  const lastDatyOfMonth = new Date(anio, mes, 0, 23, 59, 59, 999);
   if (isNaN(firstDayOfMonth) || isNaN(lastDatyOfMonth)) {
     res.status(400).send('BAD REQUEST. Año o mes inválidos');
     return;
@@ -298,11 +308,13 @@ async function getLecturasNodoMes(req, res) {
       const response = await lectuasModel.getLecturasNodoMes(connection, nodo, anio, mes);
       if (response.length === 0) {
         res.status(404).send('NOT FOUND');
+        return;
       }
       res.json(response);
     });
-  } catch (err) {
-    res.status(500).send(err.message);
+  } catch (e) {
+    errorLog(e.message);
+    res.status(500).send(e.message);
   }
 }
 
@@ -330,10 +342,12 @@ async function getLecturasNodoAnio(req, res) {
       const response = await lectuasModel.getLecturasNodoAnio(connection, nodo, anio);
       if (response.length === 0) {
         res.status(404).send('NOT FOUND');
+        return;
       }
       res.json(response);
     });
   } catch (e) {
+    errorLog(e.message);
     res.status(500).send(e.message);
   }
 }
@@ -346,12 +360,12 @@ async function getLecturasNodoAnio(req, res) {
  * @param {import('express').Response} res Response parameter.
  */
 async function getLogs(req, res) {
-  const stream = fs.createReadStream('lecturas.log', { highWaterMark: 1024 * 4 });
-  stream.on('data', (chunk) => {
-    res.send(chunk.toString());
-  });
-  stream.on('end', () => {
-    res.end();
+  fs.readFile('lecturas.log', (err, data) => {
+    if (err) {
+      res.status(500).send(err.message);
+      return;
+    }
+    res.send(data.toString());
   });
 }
 

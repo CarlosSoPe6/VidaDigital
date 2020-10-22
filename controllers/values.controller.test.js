@@ -5,7 +5,7 @@ const ROOT_PATH = '/api/valores';
 const NODOS_PATH = '/api/nodo';
 // const VARIABLES_PATH = '/api/variables';
 
-beforeAll(() => {
+beforeAll((done) => {
   request(app).post(NODOS_PATH).send({
     id: 'tNode',
     nombre: 'Test node2',
@@ -13,7 +13,9 @@ beforeAll(() => {
     longitud: 0,
     latitud: 0,
     descripcion: 'test',
-  });
+  })
+    .expect(201)
+    .end(done);
 
   /* request(app).post(VARIABLES_PATH).send({
     id: '-1',
@@ -28,8 +30,10 @@ beforeAll(() => {
   }) */
 });
 
-afterAll(() => {
-  request(app).delete(`${NODOS_PATH}/tNode`);
+afterAll((done) => {
+  request(app).delete(`${NODOS_PATH}/tNode`)
+    .expect(200)
+    .end(done);
   // request(app).delete(`${VARIABLES_PATH}/tNode`)
 });
 

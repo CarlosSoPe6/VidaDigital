@@ -9,7 +9,8 @@
     "start:development": "env-cmd -f .env node ./app.js",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-    "test": "env-cmd -f .env jest --coverage"
+    "test:development": "env-cmd -f .env jest --coverage --runInBand --detectOpenHandles --forceExit",
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonschema": "^1.2.7",
+    "jsonwebtoken": "^8.5.1",
+    "ms": "^2.1.2",
     "mysql": "^2.18.1",
     "simple-node-logger": "^18.12.24",
     "swagger-ui-express": "^4.1.4"

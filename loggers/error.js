@@ -6,13 +6,11 @@
 const SimpleLogger = require('simple-node-logger');
 
 const opts = {
-  logFilePath: 'lecturas.log',
+  logFilePath: 'errors.log',
   timestampFormat: 'YYYY-MM-DD HH:mm:ss.SSS',
 };
 
 const log = SimpleLogger.createSimpleLogger(opts);
-log.setLevel('info');
+log.setLevel('error');
 
-module.exports = (data) => {
-  log.info(data);
-};
+module.exports = (message) => log.log('error', message);
