@@ -46,7 +46,7 @@ describe(`Test ${ROOT_PATH}`, () => {
 
   test('Delete node sensor', (done) => {
     request(app)
-      .get(`${ROOT_PATH}/nodo/HM2/sensor/39`)
+      .delete(`${ROOT_PATH}/nodo/HM2/sensor/39`)
       .then((response) => {
         expect(response.statusCode).toBe(200);
         done();
