@@ -2,58 +2,24 @@ const request = require('supertest');
 const app = require('../server.js');
 
 const ROOT_PATH = '/api/valores';
-const NODOS_PATH = '/api/nodo';
-// const VARIABLES_PATH = '/api/variables';
-
-beforeAll((done) => {
-  request(app).post(NODOS_PATH).send({
-    id: 'tNode',
-    nombre: 'Test node2',
-    direccion: 'marte',
-    longitud: 0,
-    latitud: 0,
-    descripcion: 'test',
-  })
-    .expect(201)
-    .end(done);
-
-  /* request(app).post(VARIABLES_PATH).send({
-    id: '-1',
-    descripcion: 'Test',
-    code: 'TT',
-    abr: '2T',
-    unit: 'test',
-    min: '-1',
-    max: '+1',
-    referenceVal: '',
-    ambiental: '',
-  }) */
-});
-
-afterAll((done) => {
-  request(app).delete(`${NODOS_PATH}/tNode`)
-    .expect(200)
-    .end(done);
-  // request(app).delete(`${VARIABLES_PATH}/tNode`)
-});
 
 describe(`Test ${ROOT_PATH}`, () => {
   test('Add node sensor', (done) => {
     request(app)
       .post(`${ROOT_PATH}/nodo/sensor`)
       .send({
-        nodeID: 'tNode',
-        sensorID: '-1',
+        nodeID: 'HM2',
+        sensorID: '39',
       })
       .then((response) => {
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(201);
         done();
       });
   });
 
   test('Get sensors by nodeID', (done) => {
     request(app)
-      .get(`${ROOT_PATH}/sensores/tNode`)
+      .get(`${ROOT_PATH}/sensores/HM2`)
       .then((response) => {
         expect(response.statusCode).toBe(200);
         done();
@@ -62,7 +28,7 @@ describe(`Test ${ROOT_PATH}`, () => {
 
   test('Get nodes by sensorID', (done) => {
     request(app)
-      .get(`${ROOT_PATH}/nodos/-1`)
+      .get(`${ROOT_PATH}/nodos/39`)
       .then((response) => {
         expect(response.statusCode).toBe(200);
         done();
@@ -71,7 +37,7 @@ describe(`Test ${ROOT_PATH}`, () => {
 
   test('Get node has sensor', (done) => {
     request(app)
-      .get(`${ROOT_PATH}/nodo/tNode/sensor/-1`)
+      .get(`${ROOT_PATH}/nodo/HM2/sensor/39`)
       .then((response) => {
         expect(response.statusCode).toBe(200);
         done();
@@ -80,7 +46,7 @@ describe(`Test ${ROOT_PATH}`, () => {
 
   test('Delete node sensor', (done) => {
     request(app)
-      .get(`${ROOT_PATH}/nodo/tNode/sensor/-1`)
+      .get(`${ROOT_PATH}/nodo/HM2/sensor/39`)
       .then((response) => {
         expect(response.statusCode).toBe(200);
         done();

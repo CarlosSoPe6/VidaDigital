@@ -49,8 +49,11 @@ async function login(req, res) {
     res.status(401).send('BAD PASSWORD');
     return;
   }
+
+  const { type } = usuarioResult[0];
+
   jwt.sign(
-    { username },
+    { username, type },
     process.env.JWT_KEYPASS,
     singOptions,
     (err, encoded) => {

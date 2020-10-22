@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+
 const saltRounds = 8;
 
 function hashPassword(password) {
