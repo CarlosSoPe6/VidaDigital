@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "test:development": "env-cmd -f .env jest --coverage --runInBand --detectOpenHandles --forceExit",
-    "test": "jest --coverage"
+    "test": "jest --coverage --runInBand --detectOpenHandles --forceExit"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/CarlosSoPe6/VidaDigital#readme",
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcrypt": "3.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -42,7 +42,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.6.0",
-    "jest": "^26.5.2",
+    "jest": "^23.6.0",
     "jsdoc": "^3.6.6",
     "nodemon": "^2.0.4",
     "superagent": "^6.1.0",
