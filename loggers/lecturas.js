@@ -3,6 +3,7 @@
  * Este archivo solo exporta una instancia de simple logger
  * @author Carlos Soto Pérez <carlos348@outlook.com>
  */
+
 const SimpleLogger = require('simple-node-logger');
 
 const opts = {
@@ -13,6 +14,4 @@ const opts = {
 const log = SimpleLogger.createSimpleLogger(opts);
 log.setLevel('info');
 
-module.exports = (data) => {
-  log.info(data);
-};
+module.exports = (data) => log.log('info', data);
