@@ -10,6 +10,14 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: | 
+      printenv CI
+      printenv PORT
+
 - task: NodeTool@0
   inputs:
     versionSpec: '9.x'
@@ -22,7 +30,12 @@ steps:
 - task: Npm@1
   inputs:
     command: 'custom'
-    customCommand: 'run lint-fix'
+    customCommand: 'run lint'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'run test'
 
 - task: ArchiveFiles@2
   inputs:
