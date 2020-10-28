@@ -4,10 +4,10 @@
  * Este archivo contiene todos los endpoints del controlador de usuarios.
  * @author Héctor Chávez Morales <hector.chavez.97@hotmail.com>
  */
-const userModel = require("../db/usuario.model");
-const encrypt = require("../config/encrypt");
-const validarUser = require("../validators/usuario");
-const { executionContext } = require("../db/executionContext");
+const userModel = require('../db/usuario.model');
+const encrypt = require('../config/encrypt');
+const validarUser = require('../validators/usuario');
+const { executionContext } = require('../db/executionContext');
 
 /**
  * POST /api/usuario
@@ -23,8 +23,8 @@ async function addUsuario(req, res) {
   if (errors.length > 0) {
     res.status(400).send(errors[0].stack);
   } else if (
-    user.type.toLowerCase() !== validarUser.TYPES.ADMIN &&
-    user.type.toLowerCase() !== validarUser.TYPES.USER
+    user.type.toLowerCase() !== validarUser.TYPES.ADMIN
+    && user.type.toLowerCase() !== validarUser.TYPES.USER
   ) {
     res.status(400).send("Wrong type. Must be 'admin' or 'user'");
   } else {
@@ -38,7 +38,7 @@ async function addUsuario(req, res) {
         res.sendStatus(201);
       });
     } catch (exception) {
-      if (Object.prototype.hasOwnProperty.call(exception, "sqlMessage")) {
+      if (Object.prototype.hasOwnProperty.call(exception, 'sqlMessage')) {
         res.status(400).send(exception.sqlMessage);
       } else {
         res.status(500).send(exception);
@@ -63,7 +63,7 @@ async function getUsuario(req, res) {
       .getUsuario(connection, id)
       .then((val) => res.send(val[0]))
       .catch((err) => {
-        if (Object.prototype.hasOwnProperty.call(err, "sqlMessage")) {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
           res.status(400).send(err.sqlMessage);
         } else {
           res.status(500).send(err);
@@ -86,7 +86,7 @@ async function patchPassword(req, res) {
     res
       .status(400)
       .send(
-        "You can only edit your own password unless your role type is Admin"
+        'You can only edit your own password unless your role type is Admin',
       );
     return;
   }
@@ -103,7 +103,7 @@ async function patchPassword(req, res) {
         else res.sendStatus(200);
       })
       .catch((err) => {
-        if (Object.prototype.hasOwnProperty.call(err, "sqlMessage")) {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
           res.status(400).send(err.sqlMessage);
         } else {
           res.status(500).send(err);
@@ -132,7 +132,7 @@ async function patchType(req, res) {
         else res.sendStatus(200);
       })
       .catch((err) => {
-        if (Object.prototype.hasOwnProperty.call(err, "sqlMessage")) {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
           res.status(400).send(err.sqlMessage);
         } else {
           res.status(500).send(err);
@@ -154,7 +154,7 @@ function deleteUsuario(req, res) {
     res
       .status(400)
       .send(
-        "You can only delete your own account unless your role type is Admin"
+        'You can only delete your own account unless your role type is Admin',
       );
     return;
   }
@@ -166,7 +166,7 @@ function deleteUsuario(req, res) {
       .deleteUsuario(connection, userId)
       .then(() => res.sendStatus(200))
       .catch((err) => {
-        if (Object.prototype.hasOwnProperty.call(err, "sqlMessage")) {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
           res.status(400).send(err.sqlMessage);
         } else {
           res.status(500).send(err);
@@ -189,7 +189,7 @@ function getUsuarios(req, res) {
       .getUsuarios(connection)
       .then((val) => res.send(val))
       .catch((err) => {
-        if (Object.prototype.hasOwnProperty.call(err, "sqlMessage")) {
+        if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
           res.status(400).send(err.sqlMessage);
         } else {
           res.status(500).send(err);
