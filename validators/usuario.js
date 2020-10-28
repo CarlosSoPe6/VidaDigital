@@ -5,6 +5,11 @@
 const schema = require('../config/swagger.nodos.json').components.schemas.Users;
 const validator = require('./index');
 
+const TYPES = {
+  ADMIN: 'admin',
+  USER: 'user',
+};
+
 /**
  * Valida el esquema para las variables
  * @param {Object} obj Es
@@ -16,5 +21,6 @@ async function validarEsquema(obj) {
 }
 
 module.exports = {
+  TYPES,
   validarEsquema,
 };

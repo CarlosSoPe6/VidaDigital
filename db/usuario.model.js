@@ -1,7 +1,7 @@
 async function addUsuario(connection, user) {
   return new Promise((resolve, reject) => {
     connection.query('INSERT INTO User VALUES (?, ?, ?)',
-      [user.username, user.password, user.type], (err, results) => {
+      [user.username, user.password, user.type.toLowerCase()], (err, results) => {
         if (err) return reject(err);
 
         return resolve(results);
