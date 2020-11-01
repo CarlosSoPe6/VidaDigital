@@ -57,7 +57,7 @@ async function postVarialbe(req, res) {
     ambiental,
   };
   const validation = validarEsquema(dataObj);
-  if (validation.valid) {
+  if (!validation.valid) {
     res.status(400).send(validation.errors);
     res.end();
     return;
