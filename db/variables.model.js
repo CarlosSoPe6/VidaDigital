@@ -51,7 +51,144 @@ async function getVariable(connection, code) {
   });
 }
 
+/**
+ * Crea una vvariable nueva
+ * @async
+ * @exports
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @param {object} variable Variable a insertar
+ * @throws {import('mysql').MysqlError}
+ * @returns {Promise<Object>} Resultado de la consulta.
+ */
+async function postVariable(connection, variable) {
+  const {
+    description,
+    code,
+    unit,
+    abr,
+    min,
+    max,
+    referenceVal,
+    ambiental,
+  } = variable;
+  const valuesToEscape = [
+    description,
+    code,
+    abr,
+    unit,
+    min,
+    max,
+    referenceVal,
+    ambiental,
+  ];
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `INSERT INTO ValuesCatalog
+      (description\`,
+      code,
+      abr,
+      unit,
+      min,
+      max,
+      referenceVal,
+      ambiental)
+      VALUES
+      (?, ?, ?, ?, ?, ?, ?, ?);`,
+      valuesToEscape,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      },
+    );
+  });
+}
+
+/**
+ * Actualiza una variable por su código
+ * @async
+ * @exports
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @param {string} code Variable a actualizar
+ * @param {object} variable Variable a actualizar
+ * @throws {import('mysql').MysqlError}
+ * @returns {Promise<Object>} Resultado de la consulta.
+ */
+async function putVariable(connection, code, variable) {
+  const {
+    description,
+    unit,
+    abr,
+    min,
+    max,
+    referenceVal,
+    ambiental,
+  } = variable;
+  const valuesToEscape = [
+    description,
+    unit,
+    abr,
+    min,
+    max,
+    referenceVal,
+    ambiental,
+    code,
+  ];
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `UPDATE ValuesCatalog
+      SET
+      description = ?,
+      abr = ?,
+      unit = ?,
+      min = ?,
+      max = ?,
+      referenceVal = ?>,
+      ambiental = ?>
+      WHERE id = ?;`,
+      valuesToEscape,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      },
+    );
+  });
+}
+
+/**
+ * Elimina una variable por su código
+ * @async
+ * @exports
+ * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @param {string} code Variable a actualizar
+ * @throws {import('mysql').MysqlError}
+ * @returns {Promise<Object>} Resultado de la consulta.
+ */
+async function deleteVariable(connection, code) {
+  const valuesToEscape = [
+    code,
+  ];
+  return new Promise((resolve, reject) => {
+    connection.query(
+      'DELETE ValuesCatalog WHERE code=?',
+      valuesToEscape,
+      (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      },
+    );
+  });
+}
+
 module.exports = {
   getVariables,
   getVariable,
+  postVariable,
+  putVariable,
+  deleteVariable,
 };
