@@ -84,7 +84,7 @@ async function postVariable(connection, variable) {
   return new Promise((resolve, reject) => {
     connection.query(
       `INSERT INTO ValuesCatalog
-      (description\`,
+      (description,
       code,
       abr,
       unit,
