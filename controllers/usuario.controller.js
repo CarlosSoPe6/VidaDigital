@@ -6,7 +6,7 @@
  */
 const userModel = require('../db/usuario.model');
 const encrypt = require('../config/encrypt');
-const { validarEsquema } = require('../validators/usuario');
+const validarUser = require('../validators/usuario');
 const { executionContext } = require('../db/executionContext');
 
 /**
@@ -19,10 +19,13 @@ const { executionContext } = require('../db/executionContext');
 async function addUsuario(req, res) {
   const user = req.body;
 
-  const errors = await validarEsquema(user);
+  const errors = await validarUser.validarEsquema(user);
   if (errors.length > 0) {
     res.status(400).send(errors[0].stack);
-  } else if (user.type !== 'admin' && user.type !== 'user') {
+  } else if (
+    user.type.toLowerCase() !== validarUser.TYPES.ADMIN
+    && user.type.toLowerCase() !== validarUser.TYPES.USER
+  ) {
     res.status(400).send("Wrong type. Must be 'admin' or 'user'");
   } else {
     try {
@@ -56,7 +59,8 @@ async function getUsuario(req, res) {
   executionContext((context) => {
     const { connection } = context;
 
-    userModel.getUsuario(connection, id)
+    userModel
+      .getUsuario(connection, id)
       .then((val) => res.send(val[0]))
       .catch((err) => {
         if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
@@ -78,12 +82,22 @@ async function patchPassword(req, res) {
   const userId = req.params.userID;
   const data = req.body;
 
+  if (req.userName !== userId && req.userType !== validarUser.TYPES.ADMIN) {
+    res
+      .status(400)
+      .send(
+        'You can only edit your own password unless your role type is Admin',
+      );
+    return;
+  }
+
   const passEncrypt = await encrypt.hashPassword(data.password);
 
   executionContext((context) => {
     const { connection } = context;
 
-    userModel.patchPassword(connection, userId, passEncrypt)
+    userModel
+      .patchPassword(connection, userId, passEncrypt)
       .then((val) => {
         if (val.changedRows === 0) res.sendStatus(400);
         else res.sendStatus(200);
@@ -111,7 +125,8 @@ async function patchType(req, res) {
   executionContext((context) => {
     const { connection } = context;
 
-    userModel.patchType(connection, userId, data.type)
+    userModel
+      .patchType(connection, userId, data.type)
       .then((val) => {
         if (val.changedRows === 0) res.sendStatus(400);
         else res.sendStatus(200);
@@ -135,10 +150,20 @@ async function patchType(req, res) {
 function deleteUsuario(req, res) {
   const userId = req.params.userID;
 
+  if (req.userName !== userId && req.userType !== validarUser.TYPES.ADMIN) {
+    res
+      .status(400)
+      .send(
+        'You can only delete your own account unless your role type is Admin',
+      );
+    return;
+  }
+
   executionContext((context) => {
     const { connection } = context;
 
-    userModel.deleteUsuario(connection, userId)
+    userModel
+      .deleteUsuario(connection, userId)
       .then(() => res.sendStatus(200))
       .catch((err) => {
         if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {
@@ -160,7 +185,8 @@ function getUsuarios(req, res) {
   executionContext((context) => {
     const { connection } = context;
 
-    userModel.getUsuarios(connection)
+    userModel
+      .getUsuarios(connection)
       .then((val) => res.send(val))
       .catch((err) => {
         if (Object.prototype.hasOwnProperty.call(err, 'sqlMessage')) {

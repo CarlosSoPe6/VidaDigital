@@ -25,7 +25,7 @@ async function login(req, res) {
   } = req.body;
   let usuarioResult = {};
   if (username === undefined || password === undefined) {
-    res.status(400).send('BAD REQUEST');
+    res.status(400).send('You must send username and password');
     return;
   }
   try {
@@ -40,13 +40,14 @@ async function login(req, res) {
   }
 
   if (usuarioResult.length === 0) {
-    res.sendStatus(404);
+    res.status(401).send('The username or password you entered is incorrect');
+    return;
   }
 
   const userHash = usuarioResult[0].password;
   const hashCompareResult = await encrypt.comparePassword(password, userHash);
   if (!hashCompareResult) {
-    res.status(401).send('BAD PASSWORD');
+    res.status(401).send('The username or password you entered is incorrect');
     return;
   }
 

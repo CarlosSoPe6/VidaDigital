@@ -4,33 +4,29 @@ const jwt = require('jsonwebtoken');
  * @exports
  * @param {import('express').Request} req Request parameter.
  * @param {import('express').Response} res Response parameter.
+ * @param {import('express').NextFunction} next Next
  */
-function auth(role) {
-  return (req, res, next) => {
-    const bearer = req.headers.authorization;
+function auth(req, res, next) {
+  const bearer = req.headers.authorization;
 
-    if (bearer === undefined) {
-      res.sendStatus(401);
-      return;
-    }
+  if (bearer === undefined) {
+    res.sendStatus(401);
+    return;
+  }
 
-    const token = bearer.split(' ')[1];
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_KEYPASS);
-      const { type } = decoded;
-      if (type === undefined) {
-        res.status(400).send('Invalid token');
-        return;
-      }
-      if (type === role) {
-        next();
-        return;
-      }
-      res.sendStatus(403);
-    } catch (e) {
-      res.status(400).send(e.message);
-    }
-  };
+  const token = bearer.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_KEYPASS);
+    const { type } = decoded;
+    const { username } = decoded;
+
+    req.userType = type;
+    req.userName = username;
+
+    next();
+  } catch (e) {
+    res.status(418).send(e.message);
+  }
 }
 
 module.exports = {

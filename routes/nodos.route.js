@@ -1,14 +1,15 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const nodesController = require('../controllers/nodes.controller');
 
 const router = express.Router();
-const parser = bodyParser.json();
 
-router.post('/', parser, nodesController.addNodo);
-router.put('/', parser, nodesController.putNodo);
+const nodesController = require('../controllers/nodes.controller');
+const { auth } = require('../middleware/auth');
+const { verify } = require('../middleware/verify');
+
+router.post('/', auth, verify, nodesController.addNodo);
+router.put('/', auth, verify, nodesController.putNodo);
 router.get('/:nodoID', nodesController.getNodo);
-router.delete('/:nodoID', nodesController.deleteNodo);
+router.delete('/:nodoID', auth, verify, nodesController.deleteNodo);
 router.get('/nodos/todos', nodesController.getNodos);
 
 module.exports = router;

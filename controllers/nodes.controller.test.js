@@ -2,11 +2,25 @@ const request = require('supertest');
 const app = require('../server.js');
 
 const ROOT_PATH = '/api/nodo';
+const AUTH_PATH = '/api/auth';
+let token = '';
 
 describe(`Test ${ROOT_PATH}`, () => {
+  beforeAll(async () => {
+    await request(app)
+      .post(`${AUTH_PATH}/login`)
+      .send({
+        username: process.env.TEST_USERNAME,
+        password: process.env.TEST_PASSWORD,
+      }).then((response) => {
+        token = `bearer ${response.body.encoded}`;
+      });
+  });
+
   test('Add node incorrect (schema not equal)', (done) => {
     request(app)
       .post(`${ROOT_PATH}`)
+      .set('Authorization', token)
       .send({
         nombre: 'utest',
         direccion: 'utdireccion',
@@ -22,6 +36,7 @@ describe(`Test ${ROOT_PATH}`, () => {
   test('Add node correct', (done) => {
     request(app)
       .post(`${ROOT_PATH}`)
+      .set('Authorization', token)
       .send({
         id: 'ut',
         nombre: 'UnitTest',
@@ -39,6 +54,7 @@ describe(`Test ${ROOT_PATH}`, () => {
   test('Put node incorrect (schema not equal)', (done) => {
     request(app)
       .put(`${ROOT_PATH}`)
+      .set('Authorization', token)
       .send({
         id: 'ut',
         direccion: 'tdireccion',
@@ -54,6 +70,7 @@ describe(`Test ${ROOT_PATH}`, () => {
   test('Put node correct', (done) => {
     request(app)
       .put(`${ROOT_PATH}`)
+      .set('Authorization', token)
       .send({
         id: 'ut',
         nombre: 'UnitTest',
@@ -71,6 +88,7 @@ describe(`Test ${ROOT_PATH}`, () => {
   test('Get node', (done) => {
     request(app)
       .get(`${ROOT_PATH}/ut`)
+      .set('Authorization', token)
       .then((response) => {
         expect(response.statusCode).toBe(200);
         done();
@@ -80,6 +98,7 @@ describe(`Test ${ROOT_PATH}`, () => {
   test('Delete node', (done) => {
     request(app)
       .delete(`${ROOT_PATH}/ut`)
+      .set('Authorization', token)
       .then((response) => {
         expect(response.statusCode).toBe(200);
         done();
