@@ -52,12 +52,12 @@ async function areValidVars(connection, idNodo, data) {
  * Valida el esquema para las variables
  * @param {Object} obj Es
  */
-async function validarEsquema(obj) {
+function validarEsquema(obj) {
   const validation = validator.validate(obj, schema);
   if (validation.errors.length === 0) {
-    return true;
+    return { valid: true, errors: null };
   }
-  return false;
+  return { valid: false, errors: validation.errors };
 }
 
 module.exports = {

@@ -32,6 +32,7 @@ class PoolContext {
  * @exports
  * @throws {import('mysql').MysqlError}
  * @param {PoolContextCallback} callback Callback a ejecutar con un contexto
+ * @returns {Promise<void>} Promesa a ser ejecutada
  */
 async function executionContext(callback) {
   const connection = await getConnection();

@@ -12,11 +12,11 @@ describe(`Test ${ROOT_PATH}`, () => {
         done();
       });
   });
-  test('It should response the POST method', (done) => {
+  test('It should response BadRequest POST method', (done) => {
     request(app)
       .post(`${ROOT_PATH}`)
       .then((response) => {
-        expect(response.statusCode).toBe(500);
+        expect(response.statusCode).toBe(400);
         done();
       });
   });
