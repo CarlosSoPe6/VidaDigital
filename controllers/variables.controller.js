@@ -39,6 +39,7 @@ async function postVarialbe(req, res) {
   const {
     description,
     code,
+    unit,
     abr,
     min,
     max,
@@ -48,12 +49,19 @@ async function postVarialbe(req, res) {
   const dataObj = {
     description,
     code,
+    unit,
     abr,
     min,
     max,
     referenceVal,
     ambiental,
   };
+  const validation = validarEsquema(dataObj);
+  if (!validation.valid) {
+    res.status(400).send(validation.errors);
+    res.end();
+    return;
+  }
   try {
     await executionContext(async (context) => {
       const { connection } = context;
@@ -108,6 +116,7 @@ async function putVarialbe(req, res) {
     id,
     description,
     code,
+    unit,
     abr,
     min,
     max,
@@ -118,15 +127,17 @@ async function putVarialbe(req, res) {
     id,
     description,
     code,
+    unit,
     abr,
     min,
     max,
     referenceVal,
     ambiental,
   };
-  const validation = await validarEsquema(dataObj);
-  if (!validation) {
-    res.status(400).send('BAD REQUEST');
+  const validation = validarEsquema(dataObj);
+  if (validation.valid) {
+    res.status(400).send(validation.errors);
+    res.end();
     return;
   }
   try {

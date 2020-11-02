@@ -1057,6 +1057,10 @@
                         "type": "string",
                         "required": true
                     },
+                    "unit": {
+                        "type": "string",
+                        "required": true
+                    },
                     "abr": {
                         "type": "string",
                         "required": true
