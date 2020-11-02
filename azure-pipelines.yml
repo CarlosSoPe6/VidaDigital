@@ -37,6 +37,11 @@ steps:
     command: 'custom'
     customCommand: 'run test'
 
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
+
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: './'
