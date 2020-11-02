@@ -47,6 +47,7 @@ async function postVarialbe(req, res) {
     ambiental,
   } = req.body;
   const dataObj = {
+    id: 0,
     description,
     code,
     unit,
@@ -66,11 +67,7 @@ async function postVarialbe(req, res) {
     await executionContext(async (context) => {
       const { connection } = context;
       const result = await variablesModel.postVariable(connection, dataObj);
-      if (result.length === 0) {
-        res.status(404).send();
-        return;
-      }
-      res.staus(201).json(result[0]);
+      res.status(201).json(result[0]);
     });
   } catch (e) {
     errorLog(e.message);
@@ -95,7 +92,7 @@ async function getVarialbe(req, res) {
         res.status(404).send();
         return;
       }
-      res.json(result);
+      res.json(result[0]);
     });
   } catch (e) {
     errorLog(e.message);
@@ -135,7 +132,7 @@ async function putVarialbe(req, res) {
     ambiental,
   };
   const validation = validarEsquema(dataObj);
-  if (validation.valid) {
+  if (!validation.valid) {
     res.status(400).send(validation.errors);
     res.end();
     return;
@@ -144,11 +141,11 @@ async function putVarialbe(req, res) {
     await executionContext(async (context) => {
       const { connection } = context;
       const result = await variablesModel.putVariable(connection, searchCode, dataObj);
-      res.json(result[0]);
+      res.json(result[0]).end();
     });
   } catch (e) {
     errorLog(e.message);
-    res.status(500).send('Internal server error');
+    res.status(500).send('Internal server error').end();
   }
 }
 
@@ -168,7 +165,7 @@ async function deleteVarialbe(req, res) {
       res.status(200).send('DELETED');
     });
   } catch (e) {
-    errorLog(e.message);
+    errorLog(e);
     res.status(500).send('Internal server error');
   }
 }
