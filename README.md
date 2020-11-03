@@ -154,29 +154,20 @@ variables. Podemos observar que tanto la función del modelo, la interfaz
 PoolContextCallback y el ExectionContext retornan una promesa. Se obliga
 a retornar promesas en todos los casos.
 
+```js
 async function getVariables(req, res) {
-
   try {
-
-    await executionContext(async (context) =\> {
-
+    await executionContext(async (context) => {
       const { connection } = context;
-
       const result = await variablesModel.getVariables(connection);
-
       res.json(result);
-
     });
-
   } catch (e) {
-
     errorLog(e.message);
-
-    res.status(500).send(\'Internal server error\');
-
+    res.status(500).send(\'Internal server error\'');
   }
-
 }
+```
 
 Se obliga al desarrollador a seguir este patrón para evitar posibles
 errores y no cerrar una conexión antes de tiempo o nunca ser cerrada.
