@@ -5,6 +5,7 @@
 const express = require('express');
 
 const lecturasController = require('../controllers/lecturas.controller');
+const valuesController = require('../controllers/values.controller');
 
 const router = express.Router();
 
@@ -19,5 +20,10 @@ router.get('/dia/:nodo/:anio/:mes/:dia', lecturasController.getLecturasNodoDia);
 router.get('/semana/:nodo/:anio/:mes/:dia', lecturasController.getLecturasNodoSemana);
 router.get('/mes/:nodo/:anio/:mes', lecturasController.getLecturasNodoMes);
 router.get('/anio/:nodo/:anio', lecturasController.getLecturasNodoAnio);
+
+/**
+ * Este endpoit rompe los patrones de diseño, se realizó a petición del equipo de frontend
+ */
+router.get('/sensores/:nodeID', valuesController.getSensores);
 
 module.exports = router;

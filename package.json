@@ -1,6 +1,6 @@
 {
   "name": "vidadigital",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Servicios para el monitorieo del bosuqe de la primavera",
   "main": "app.js",
   "scripts": {
@@ -27,6 +27,7 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "json2csv": "^5.0.3",
     "jsonschema": "^1.2.7",
     "jsonwebtoken": "^8.5.1",
     "ms": "^2.1.2",
