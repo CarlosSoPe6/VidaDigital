@@ -13,7 +13,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 8,
   },
-  ignorePatterns: ["./node_modules/**/*.js"],
+  ignorePatterns: ["./node_modules/**/*.js","./out/**/**/*.js","./coverage/**/**/*.js"],
   rules: {
   },
   overrides: [

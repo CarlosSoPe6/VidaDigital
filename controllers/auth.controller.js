@@ -11,12 +11,14 @@ const errorLog = require('../loggers/error');
 const { executionContext } = require('../db/executionContext');
 const { getUsuarioAuth } = require('../db/usuario.model');
 const encrypt = require('../config/encrypt');
+const e = require('express');
+
 /**
  * POST /api/auth/login
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports login
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function login(req, res) {
   const {
@@ -71,9 +73,9 @@ async function login(req, res) {
 /**
  * DELETE /api/auth/logout
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports logout
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function logout(req, res) {
   res.sendStatus(200);

@@ -12,6 +12,7 @@ const { areValidVars } = require('../validators/variables');
 const lecturasLog = require('../loggers/lecturas');
 const errorLog = require('../loggers/error');
 const { executionContext } = require('../db/executionContext');
+const e = require('express');
 
 /**
  * Construye el objeto para insertar en la base de datos.
@@ -42,9 +43,9 @@ function buildCmdDataObject(cmdArray) {
 /**
  * GET /api/lecturas?cmd=:cmd
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports postLectura
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function postLectura(req, res) {
   const { cmd } = req.query;
@@ -95,9 +96,9 @@ async function postLectura(req, res) {
 /**
  * GET /api/lecturas/t?count=100
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getLecturas
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function getLecturas(req, res) {
   let { count } = req.query;
@@ -124,9 +125,9 @@ async function getLecturas(req, res) {
 /**
  * GET /api/lecturas/id/:id
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getLecturaId
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function getLecturaId(req, res) {
   const { id } = req.params;
@@ -149,9 +150,9 @@ async function getLecturaId(req, res) {
 /**
  * PUT /api/lecturas/id/:id
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports putLecturaId
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function putLecturaId(req, res) {
   res.send('NOT IMPLEMENTED');
@@ -160,9 +161,9 @@ async function putLecturaId(req, res) {
 /**
  * DELETE /api/lecturas/id/:id
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports deleteLecturaId
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function deleteLecturaId(req, res) {
   const { id } = req.params;
@@ -181,9 +182,9 @@ async function deleteLecturaId(req, res) {
 /**
  * GET /api/lecturas/n/:id
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getLecturasNodo
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function getLecturasNodo(req, res) {
   const { id } = req.params;
@@ -215,9 +216,9 @@ async function getLecturasNodo(req, res) {
 /**
  * GET /api/lecturas/dia/{nodo}/{anio}/{mes}/{dia}
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getLecturasNodoDia
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function getLecturasNodoDia(req, res) {
   const {
@@ -250,9 +251,9 @@ async function getLecturasNodoDia(req, res) {
 /**
  * GET /api/lecturas/semana/{nodo}/{anio}/{mes}/{dia}
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getLecturasNodoSemana
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function getLecturasNodoSemana(req, res) {
   const {
@@ -286,9 +287,9 @@ async function getLecturasNodoSemana(req, res) {
 /**
  * GET /api/lecturas/mes/{nodo}/{anio}/{mes}
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getLecturasNodoMes
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function getLecturasNodoMes(req, res) {
   const {
@@ -321,9 +322,9 @@ async function getLecturasNodoMes(req, res) {
 /**
  * GET /api/lecturas/anio/{nodo}/{anio}
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getLecturasNodoAnio
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function getLecturasNodoAnio(req, res) {
   const {
@@ -355,9 +356,9 @@ async function getLecturasNodoAnio(req, res) {
 /**
  * GET /api/lecturas/logs
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getLogs
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 async function getLogs(req, res) {
   fs.readFile('lecturas.log', (err, data) => {

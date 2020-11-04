@@ -1,10 +1,11 @@
 const validarUser = require('../validators/usuario');
+const e = require('express');
 
 /**
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
- * @param {import('express').NextFunction} next Next
+ * @exports verify
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
+ * @param {e.NextFunction} next Next
  */
 function verify(req, res, next) {
   const type = req.userType;

@@ -6,12 +6,13 @@
  */
 const valuesController = require('../db/values.model');
 const { executionContext } = require('../db/executionContext');
+const e = require('express');
 
 /**
  * GET /api/values/sensores/:nodeID
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getSensores
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 function getSensores(req, res) {
   const nodeId = req.params.nodeID;
@@ -33,9 +34,9 @@ function getSensores(req, res) {
 
 /**
  * GET /api/values/nodes/:sensorID
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getNodes
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 function getNodes(req, res) {
   const sensorId = req.params.sensorID;
@@ -57,9 +58,9 @@ function getNodes(req, res) {
 
 /**
  * GET /api/node/:nodeID/sensor/:sensorID
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getNodeHasSensor
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 function getNodeHasSensor(req, res) {
   const nodeId = req.params.nodeID;
@@ -85,9 +86,9 @@ function getNodeHasSensor(req, res) {
 
 /**
  * DELETE /api/node/:nodeID/sensor/:sensorID
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports deleteNodeSensor
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 function deleteNodeSensor(req, res) {
   const nodeId = req.params.nodeID;
@@ -110,9 +111,9 @@ function deleteNodeSensor(req, res) {
 
 /**
  * PUT /api/node/:nodeID/sensor/:sensorID
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports addNodeSensor
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
  */
 function addNodeSensor(req, res) {
   const nodeId = req.body.nodeID;

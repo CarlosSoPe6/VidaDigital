@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
+const e = require('express');
 
 /**
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
- * @param {import('express').NextFunction} next Next
+ * @exports auth
+ * @param {e.Request} req Request parameter.
+ * @param {e.Response} res Response parameter.
+ * @param {e.NextFunction} next Next
  */
 function auth(req, res, next) {
   const bearer = req.headers.authorization;
