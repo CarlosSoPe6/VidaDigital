@@ -5,6 +5,7 @@
  * @author Carlos Soto Pérez <carlos348@outlook.com>
  */
 const fs = require('fs');
+const { parse } = require('json2csv');
 
 const lecturasModel = require('../db/lecturas.model');
 const lectuasModel = require('../db/lecturas.model');
@@ -13,6 +14,19 @@ const lecturasLog = require('../loggers/lecturas');
 const errorLog = require('../loggers/error');
 const { executionContext } = require('../db/executionContext');
 const e = require('express');
+
+/**
+ * Converite la respuesta de la db en un JSON
+ * @param {Array} response Respuesta de DB
+ * @returns {Array} Respuesta de DB procesada
+ */
+function getJson(response) {
+  const json = [];
+  response.forEach((lectura) => {
+    json.push(JSON.parse(lectura.data));
+  });
+  return json;
+}
 
 /**
  * Construye el objeto para insertar en la base de datos.
@@ -188,6 +202,7 @@ async function deleteLecturaId(req, res) {
  */
 async function getLecturasNodo(req, res) {
   const { id } = req.params;
+  const { format } = req.query;
   let { count } = req.query;
   if (count === undefined) {
     count = 100;
@@ -205,7 +220,13 @@ async function getLecturasNodo(req, res) {
         res.status(404).send('NOT FOUND');
         return;
       }
-      res.json(response);
+      const json = getJson(response);
+      if (format === 'csv') {
+        const csv = parse(json);
+        res.send(csv).end();
+        return;
+      }
+      res.json(json).end();
     });
   } catch (e) {
     errorLog(e.message);
@@ -227,6 +248,9 @@ async function getLecturasNodoDia(req, res) {
     mes,
     dia,
   } = req.params;
+  const {
+    format,
+  } = req.query;
   const date = new Date(anio, mes - 1, dia);
   if (isNaN(date)) {
     res.status(400).send('BAD REQUEST. Año, mes, o día inválidos');
@@ -240,7 +264,13 @@ async function getLecturasNodoDia(req, res) {
         res.status(404).send('NOT FOUND');
         return;
       }
-      res.json(response);
+      const json = getJson(response);
+      if (format === 'csv') {
+        const csv = parse(json);
+        res.send(csv).end();
+        return;
+      }
+      res.json(json).end();
     });
   } catch (e) {
     errorLog(e.message);
@@ -262,6 +292,9 @@ async function getLecturasNodoSemana(req, res) {
     mes,
     dia,
   } = req.params;
+  const {
+    format,
+  } = req.query;
   const startWeek = new Date(anio, mes - 1, dia, 0, 0, 0, 0);
   const endWeek = new Date(anio, mes - 1, dia, 23, 59, 59, 999);
   if (isNaN(startWeek) || isNaN(endWeek)) {
@@ -276,7 +309,13 @@ async function getLecturasNodoSemana(req, res) {
         res.status(404).send('NOT FOUND');
         return;
       }
-      res.json(response);
+      const json = getJson(response);
+      if (format === 'csv') {
+        const csv = parse(json);
+        res.send(csv).end();
+        return;
+      }
+      res.json(json).end();
     });
   } catch (e) {
     errorLog(e.message);
@@ -297,6 +336,9 @@ async function getLecturasNodoMes(req, res) {
     anio,
     mes,
   } = req.params;
+  const {
+    format,
+  } = req.query;
   const firstDayOfMonth = new Date(anio, mes - 1, 1, 0, 0, 0, 0);
   const lastDatyOfMonth = new Date(anio, mes, 0, 23, 59, 59, 999);
   if (isNaN(firstDayOfMonth) || isNaN(lastDatyOfMonth)) {
@@ -311,7 +353,13 @@ async function getLecturasNodoMes(req, res) {
         res.status(404).send('NOT FOUND');
         return;
       }
-      res.json(response);
+      const json = getJson(response);
+      if (format === 'csv') {
+        const csv = parse(json);
+        res.send(csv).end();
+        return;
+      }
+      res.json(json).end();
     });
   } catch (e) {
     errorLog(e.message);
@@ -331,6 +379,9 @@ async function getLecturasNodoAnio(req, res) {
     nodo,
     anio,
   } = req.params;
+  const {
+    format,
+  } = req.query;
   const firstDayOfYear = new Date(Date.UTC(anio, 0, 1, 0, 0, 0));
   const lastDayOfYear = new Date(Date.UTC(anio, 11, 31, 23, 59, 59, 999));
   if (isNaN(firstDayOfYear) || isNaN(lastDayOfYear)) {
@@ -345,7 +396,13 @@ async function getLecturasNodoAnio(req, res) {
         res.status(404).send('NOT FOUND');
         return;
       }
-      res.json(response);
+      const json = getJson(response);
+      if (format === 'csv') {
+        const csv = parse(json);
+        res.send(csv).end();
+        return;
+      }
+      res.json(json).end();
     });
   } catch (e) {
     errorLog(e.message);
