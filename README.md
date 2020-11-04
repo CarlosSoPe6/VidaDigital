@@ -1,14 +1,3 @@
-# Vida Digital
-Repositorio para el backend del PAP Vida Digital ITESO O2020. Este backend cuenta con servicios para obtener información de Nodos que tiene la universidad ITESO para el monitoreo del bosque de la primavera.
-
-## Documentación de la API
-La documentación de la API se encuentra generada en swagger, en el archivo [`config/swagger.nodos.json`](config/swagger.nodos.json).
-
-## Contribuidores
-* Carlos Soto Pérez [CarlosSoPe6](https://github.com/CarlosSoPe6/)
-* Héctor Antonio Chávez Morales [HectorChavez97](https://github.com/HectorChavez97)
-
-
 Documentación del código
 ========================
 
@@ -20,9 +9,9 @@ JSDocs genera un HTML en donde se puede visualizar de forma amigable.
 
 Para volver a generar la documentación es necesario tener el proyecto
 descargado y ejecutar el script "gen-docs" el cual generará una carpeta
-en donde se encontrará el archivo HTML.
+llamada "out" en donde se encontrará el archivo HTML.
 
-"foto pendiente porque da muchos errores" :c
+Documentación en docs/code.md
 
 Diseño del código
 =================
@@ -98,8 +87,20 @@ endpoints que dispone la aplicación, además dentro de cada petición se
 encuentra los elementos que espera recibir y los códigos de respuestas y
 la información que regresa la petición.
 
-![](./docs/media/image1.png){width="5.491666666666666in"
-height="2.573092738407699in"}
+Para poder editar y visualizar al mismo tiempo sin la necesidad de
+ejecutar el proyecto, se puede hacer uso de la herramienta ofrecida por
+la misma compañía, en donde se coloca el json o yaml y se puede
+visualizar en tiempo real los cambios hechos:
+<https://editor.swagger.io/>
+
+Para acceder al archivo generado por swagger que se encuentra en
+producción puede ser accesado desde:
+<http://papvidadigital-test.com/api/api-docs/nodos/>
+
+Es necesario actualizar manualmente cualquier cambio en el archivo json
+para que se pueda ver reflejado en
+
+![](./docs/media/image1.png)
 
 Contexto de ejecución
 =====================
@@ -125,9 +126,7 @@ Esta implementación recibe una promesa, preferiblemente dentro de un
 closure, y retorna otra promesa.
 
 ![Imagen que contiene Texto Descripción generada
-automáticamente](./docs/media/image2.png){width="5.635415573053368in"
-height="2.40625in"}
-
+automáticamente](./docs/media/image2.png)
 Ilustración 1. Diagrama para contexto de ejecución.
 
 Con este contexto de ejecución se logra una comunicación entre las
@@ -144,9 +143,7 @@ como el primer parámetro de la función seguido por los relevantes para
 la función. Esta llamada debe de retornar una promesa.
 
 ![Imagen que contiene Icono Descripción generada
-automáticamente](./docs/media/image3.png){width="5.260415573053368in"
-height="0.8125in"}
-
+automáticamente](./docs/media/image3.png)
 Ilustración 2. Diagrama para función modelo
 
 Un ejemplo de uso toma la función getVariables del controlador
@@ -164,7 +161,7 @@ async function getVariables(req, res) {
     });
   } catch (e) {
     errorLog(e.message);
-    res.status(500).send(\'Internal server error\'');
+    res.status(500).send('Internal server error');
   }
 }
 ```
@@ -182,8 +179,47 @@ Esta solución sigue los pasos
 Pruebas
 =======
 
+Para realizar las pruebas utilizamos el framework de Jest, el cual
+permite hacer pruebas unitarias a cualquier proyecto basado en JS, ese
+framework incluye a su vez la dependencia de Istanbul, la cual permite
+generar reportes de cobertura de manera visual.
+
+Las pruebas están en el paquete de Controladores puesto que la prueba se
+hace hacia el controlador (se hace una prueba a cada endpoint).
+
+Al ejecutar el script "test" se generarán las siguientes carpetas
+"coverage\\lcov-report" en donde se econtrara el archivo index HTML. Ese
+archivo es un reporte visual de las pruebas hechas, en donde se podrá
+observar %Statements, \#Branches, \#Funciones y \#Lineas cubiertas por
+cada archivo, de las pruebas escritas.
+
+![](./docs/media/image4.png)
+
 Integración continua
 ====================
+
+Hablando desde DevOps, La integración continua es una práctica de
+desarrollo de software mediante la cual los desarrolladores combinan los
+cambios en el código en un repositorio central de forma periódica, tras
+lo cual se ejecutan versiones y pruebas automáticas. La integración
+continua se refiere en su mayoría a la fase de creación o integración
+del proceso de publicación de software y conlleva un componente de
+automatización.
+
+Para lograr la integración continua de los nuevos componentes de
+software se realizan dos acciones principales, evaluación de estilo de
+código y pruebas al código y estas se ejecutan cada vez que se realiza
+un "Pull Request" en la plataforma Azure DevOps. La configuración de las
+etapas de integración continua está descrita en el archivo
+azure-pipelines.yaml.
+
+Para evaluar el estilo del código se utiliza una herramienta llamad
+Linter, para este caso en específico se utiliza el
+[ESLint](https://eslint.org/). Esta herramienta cuenta con una extensión
+en el editor de código Visual Studio Code. La descripción de las reglas
+está descrita en el repo
+[JavaScript](https://github.com/airbnb/javascript/blob/master/README.md)
+de Airbnb, estas se configuran en el archivo .eslint.
 
 Phusion Passenger
 =================
@@ -196,8 +232,7 @@ forma inesperada con el siguiente error: Checking whether to disconnect
 long-running connections for process 21039, application
 /home/papvida1/O2020 (production)
 
-![](./docs/media/image4.png){width="6.1375in"
-height="1.1458333333333333in"}
+![](./docs/media/image5.png)
 
 Ilustración 3. Captura del error de Passenger
 
@@ -219,10 +254,73 @@ ser un problema de CPanel y no de Passenger
 
 ![Interfaz de usuario gráfica, Aplicación, Sitio web Descripción
 generada
-automáticamente](./docs/media/image5.png){width="5.947915573053368in"
-height="2.1979166666666665in"}
+automáticamente](./docs/media/image6.png)
 
 Ilustración 4. Diagrama sobre el manejo de peticiones por Apache
 
 Contribuciones y código de conducta
 ===================================
+
+Para contribuir en este repositorio, favor de pedir acceso vía correo
+electrónico a cualquiera de los dos contribuidores originales.
+
+Proceso para integración de código
+----------------------------------
+
+1.  Verificar que las dependencias trabajen con la versión 9.11.x de
+    Node Js.
+
+2.  Asegurarse que cualquier dependencia necesaria durante las pruebas
+    locales es removida
+
+3.  Asegurarse que todas las pruebas de los componentes modificados o
+    creados pasen en un entorno local y controlado
+
+4.  Crear un Pull Request (PR) y pedir a alguien más que lo revise con
+    la siguiente información
+
+    a.  Título
+
+    b.  Que se cambió
+
+    c.  Por que son importantes estos cambios
+
+    d.  Cambios a futuro/código que faltó integrar.
+
+5.  Atender a los posibles errores en el pipeline
+
+Código de conducta
+------------------
+
+### Nuestras plegarias
+
+Para el interés de los pasados, presentes y futuros desarrolladores de
+este código, así como del usuario final y las personas que mantienen
+funcionando este proyecto, pedimos que se genere un ambiente agradable
+durante la participación en este proyecto. Pedimos que en este proyecto
+sea construido junto a una comunidad de profesionales con los estándares
+profesionales y éticos que se asumen por ser miembro del ITESO,
+Universidad Jesuita de Guadalajara.
+
+### Comportamiento esperado
+
+-   Ser respetuoso con todos los participantes
+
+-   Aceptar las críticas constructivas
+
+-   Enfocarse en lo que es bueno para la comunidad
+
+-   Ser empático con los demás
+
+### Responsabilidades
+
+Los desarrolladores de este proyecto son responsables de mantener la
+calidad tanto funcional y de codificación. Las buenas prácticas de
+programación son obligatorias
+
+La seguridad de los datos no es un juego, los datos se deben de
+mantener, seguros y accesibles en todo momento. Las buenas prácticas de
+seguridad son obligatorias.
+
+Todos somos responsables de El Bosque de la Primavera, este proyecto nos
+hace partícipes de una solución a los problemas del bosque.
