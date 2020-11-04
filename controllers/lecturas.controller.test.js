@@ -155,6 +155,12 @@ describe(`Test ${ROOT_PATH}/anio/{nodo}/{anio}`, () => {
     request(app)
       .get(`${ROOT_PATH}/anio/${id}/${anio}`).expect(200).end(done);
   });
+  it('It should 200 in a GET method CSV', (done) => {
+    const id = 'HM1';
+    const anio = 2020;
+    request(app)
+      .get(`${ROOT_PATH}/anio/${id}/${anio}?format=csv`).expect(200).end(done);
+  });
   it('It should 404 in a GET method', (done) => {
     const id = 'HM1';
     const anio = 1998;
