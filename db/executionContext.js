@@ -7,12 +7,12 @@ const { getConnection } = require('../config/dbConfig');
 
 /**
  * Definición de tipo de pool context
- * @exports
+ * @exports PoolContext
  */
 class PoolContext {
   /**
    * Constructor
-   * @param {import('mysql').PoolConnection} connection Connection pool
+   * @param {mysql.PoolConnection} connection Connection pool
    */
   constructor(connection) {
     this.connection = connection;
@@ -29,8 +29,8 @@ class PoolContext {
 /**
  * Ejecuta una función con un contexto
  * @async
- * @exports
- * @throws {import('mysql').MysqlError}
+ * @exports executionContext
+ * @throws {mysql.MysqlError}
  * @param {PoolContextCallback} callback Callback a ejecutar con un contexto
  * @returns {Promise<void>} Promesa a ser ejecutada
  */

@@ -4,18 +4,20 @@
  * Este archivo contiene todos los endpoints del controlador de nodos.
  * @author Héctor Chávez Morales <hector.chavez.97@hotmail.com>
  */
+
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "express" }] */
+const express = require('express');
 const nodesModel = require('../db/nodes.model');
 const getSensores = require('../db/values.model');
 const { validarEsquema } = require('../validators/nodes');
 const { executionContext } = require('../db/executionContext');
-const e = require('express');
 
 /**
  * POST /api/nodo
  * @async
  * @exports addNodo
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function addNodo(req, res) {
   const nodo = req.body;
@@ -44,8 +46,8 @@ async function addNodo(req, res) {
  * PUT /api/nodo
  * @async
  * @exports putNodo
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function putNodo(req, res) {
   const nodo = req.body;
@@ -76,8 +78,8 @@ async function putNodo(req, res) {
  * GET /api/nodo/:id
  * @async
  * @exports getNodo
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function getNodo(req, res) {
   const userId = req.params.nodoID;
@@ -101,8 +103,8 @@ async function getNodo(req, res) {
  * DELETE /api/nodo/:id
  * @async
  * @exports deleteNodo
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function deleteNodo(req, res) {
   const nodeId = req.params.nodoID;
@@ -129,8 +131,8 @@ async function deleteNodo(req, res) {
  * GET /api/nodo/nodos
  * @async
  * @exports getNodos
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function getNodos(req, res) {
   executionContext((context) => {

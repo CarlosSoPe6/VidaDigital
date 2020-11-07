@@ -3,9 +3,9 @@ const QUERY_GET_NODO_VARIABLES = 'SELECT * FROM ValuesCatalog JOIN NodeValues ON
 /**
  * Obtiene las variables de la base de datos.
  * @async
- * @exports
- * @throws {import('mysql').MysqlError}
- * @param {import('mysql').PoolConnection} connection Id del nodo a buscar
+ * @exports getNodoVariables
+ * @throws {mysql.MysqlError}
+ * @param {mysql.PoolConnection} connection Id del nodo a buscar
  * @param {string} idNodo Id del nodo a buscar
  * @returns {Promise<Object>} Resultado de la consulta.
  */

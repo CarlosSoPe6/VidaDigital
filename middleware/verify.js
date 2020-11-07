@@ -1,11 +1,12 @@
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "express" }] */
+const express = require('express');
 const validarUser = require('../validators/usuario');
-const e = require('express');
 
 /**
  * @exports verify
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
- * @param {e.NextFunction} next Next
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
+ * @param {express.NextFunction} next Next
  */
 function verify(req, res, next) {
   const type = req.userType;

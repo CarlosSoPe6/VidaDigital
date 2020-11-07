@@ -4,18 +4,20 @@
  * Este archivo contiene todos los endpoints del controlador de usuarios.
  * @author Héctor Chávez Morales <hector.chavez.97@hotmail.com>
  */
+
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "express" }] */
+const express = require('express');
 const userModel = require('../db/usuario.model');
 const encrypt = require('../config/encrypt');
 const validarUser = require('../validators/usuario');
 const { executionContext } = require('../db/executionContext');
-const e = require('express');
 
 /**
  * POST /api/usuario
  * @async
  * @exports addUsuario
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function addUsuario(req, res) {
   const user = req.body;
@@ -51,8 +53,8 @@ async function addUsuario(req, res) {
 /**
  * GET /api/usuario/:id
  * @exports getUsuario
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function getUsuario(req, res) {
   const id = req.params.userID;
@@ -76,8 +78,8 @@ async function getUsuario(req, res) {
 /**
  * PATCH /api/usuario/password/:id
  * @exports patchPassword
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function patchPassword(req, res) {
   const userId = req.params.userID;
@@ -116,8 +118,8 @@ async function patchPassword(req, res) {
 /**
  * PATCH /api/usuario/tipo/:id
  * @exports patchType
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function patchType(req, res) {
   const userId = req.params.userID;
@@ -145,8 +147,8 @@ async function patchType(req, res) {
 /**
  * DELETE /api/usuario/:id
  * @exports deleteUsuario
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 function deleteUsuario(req, res) {
   const userId = req.params.userID;
@@ -179,8 +181,8 @@ function deleteUsuario(req, res) {
 /**
  * GET /api/todos/usuarios
  * @exports getUsuarios
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 function getUsuarios(req, res) {
   executionContext((context) => {

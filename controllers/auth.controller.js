@@ -6,19 +6,20 @@
 
 const jwt = require('jsonwebtoken');
 
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "express" }] */
+const express = require('express');
 const singOptions = require('../config/jwtToken');
 const errorLog = require('../loggers/error');
 const { executionContext } = require('../db/executionContext');
 const { getUsuarioAuth } = require('../db/usuario.model');
 const encrypt = require('../config/encrypt');
-const e = require('express');
 
 /**
  * POST /api/auth/login
  * @async
  * @exports login
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function login(req, res) {
   const {
@@ -74,8 +75,8 @@ async function login(req, res) {
  * DELETE /api/auth/logout
  * @async
  * @exports logout
- * @param {e.Request} req Request parameter.
- * @param {e.Response} res Response parameter.
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function logout(req, res) {
   res.sendStatus(200);
