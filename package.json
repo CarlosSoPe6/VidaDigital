@@ -1,7 +1,7 @@
 {
   "name": "vidadigital",
   "version": "1.0.0",
-  "description": "Servicios para el monitorieo del bosuqe de la primavera",
+  "description": "Servicios para el monitoreo del bosque de la primavera",
   "main": "app.js",
   "scripts": {
     "nodemon": "env-cmd -f .env nodemon ./app.js",
@@ -46,7 +46,7 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.6.0",
     "handlebars": "^4.7.6",
-    "jest": "^26.6.3",
+    "jest": "^23.6.0",
     "jsdoc": "^3.6.6",
     "nodemon": "^2.0.4",
     "superagent": "^6.1.0",
