@@ -1,3 +1,7 @@
+/**
+ * Módulo de ruteo del controlador de values.
+ * @author Hector Chavez Morales <hector.chavez.97@hotmail.com>
+ */
 const express = require('express');
 
 const router = express.Router();

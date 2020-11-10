@@ -14,7 +14,7 @@ const mysqlConfig = {
 const pool = mysql.createPool(mysqlConfig);
 
 /**
- * @returns {Promise<import('mysql').PoolConnection>}
+ * @returns {mysql.PoolConnection}
  */
 const getConnection = () => new Promise((resolve, reject) => {
   pool.getConnection((err, connection) => {

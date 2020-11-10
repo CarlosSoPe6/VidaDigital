@@ -1,3 +1,7 @@
+/**
+ * Módulo de ruteo del controlador de nodos.
+ * @author Hector Chavez Morales <hector.chavez.97@hotmail.com>
+ */
 const express = require('express');
 
 const router = express.Router();

@@ -1,11 +1,12 @@
 {
   "name": "vidadigital",
   "version": "1.0.0",
-  "description": "Servicios para el monitorieo del bosuqe de la primavera",
+  "description": "Servicios para el monitoreo del bosque de la primavera",
   "main": "app.js",
   "scripts": {
     "nodemon": "env-cmd -f .env nodemon ./app.js",
     "start": "node ./app.js",
+    "gen-docs": "jsdoc -c ./config/jsdoc.conf.json",
     "start:development": "env-cmd -f .env node ./app.js",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/CarlosSoPe6/VidaDigital#readme",
   "dependencies": {
+    "@types/express": "^4.17.8",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -43,6 +45,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.6.0",
+    "handlebars": "^4.7.6",
     "jest": "^23.6.0",
     "jsdoc": "^3.6.6",
     "nodemon": "^2.0.4",

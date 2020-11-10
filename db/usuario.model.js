@@ -67,8 +67,8 @@ async function getUsuarios(connection) {
 
 /**
  * Crea un registro de lectura
- * @throws {import('mysql').MysqlError}
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @throws {mysql.MysqlError}
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {string} username Usuario a buscar
  */
 async function getUsuarioAuth(connection, username) {

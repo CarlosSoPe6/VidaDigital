@@ -1,10 +1,12 @@
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "express" }] */
+const express = require('express');
 const jwt = require('jsonwebtoken');
 
 /**
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
- * @param {import('express').NextFunction} next Next
+ * @exports auth
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
+ * @param {express.NextFunction} next Next
  */
 function auth(req, res, next) {
   const bearer = req.headers.authorization;
