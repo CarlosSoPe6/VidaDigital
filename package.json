@@ -9,7 +9,7 @@
     "start:development": "env-cmd -f .env node ./app.js",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-    "test:development": "env-cmd -f .env jest --coverage --runInBand --detectOpenHandles --forceExit --coverageReporters=cobertura",
+    "test:development": "env-cmd -f .env jest --coverage --runInBand --detectOpenHandles --forceExit",
     "test": "jest --coverage --runInBand --detectOpenHandles --forceExit --coverageReporters=cobertura"
   },
   "repository": {
