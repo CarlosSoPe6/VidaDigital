@@ -36,12 +36,12 @@ function toIsoString(date) {
 
 /**
  * Crea un registro de lectura
- * @throws {import('mysql').MysqlError}
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @throws {mysql.MysqlError}
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {string} idNodo Id del nodo
  * @param {Date} fechaHora Hora y fecha
  * @param {Object} data Datos en JSON strinf
- * @returns {Promise<Array<Object>} Resultado de la consulta.
+ * @returns {Promise<Array<Object>>} Resultado de la consulta.
  */
 async function postLectura(connection, idNodo, fechaHora, data) {
   const dataToInsert = data;
@@ -68,9 +68,9 @@ async function postLectura(connection, idNodo, fechaHora, data) {
 /**
  * Obtiene las últimas <límite> lecturas
  * @async
- * @exports
- * @throws {import('mysql').MysqlError}
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @exports getLecturas
+ * @throws {mysql.MysqlError}
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {number} limit Límite
  * @returns {Promise<Object>} Resultado de la consulta.
  */
@@ -95,9 +95,9 @@ async function getLecturas(connection, limit) {
 /**
  * Obtiene una lectura por su ID
  * @async
- * @exports
- * @throws {import('mysql').MysqlError}
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @exports getLecturaId
+ * @throws {mysql.MysqlError}
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {number} id Id de la lectura
  * @returns {Promise<Object>} Resultado de la consulta.
  */
@@ -122,9 +122,9 @@ async function getLecturaId(connection, id) {
 /**
  * Elimina una lectura por su ID
  * @async
- * @exports
- * @throws {import('mysql').MysqlError}
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @exports deleteLecturaId
+ * @throws {mysql.MysqlError}
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {number} id Id de la lectura
  * @returns {Promise<Object>} Resultado de la consulta.
  */
@@ -168,9 +168,9 @@ async function getLecturasNodo(connection, id, count) {
 /**
  * Obtiene las lecturas de un nodo en específico en un día.
  * @async
- * @exports
- * @throws {import('mysql').MysqlError}
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @exports getLecturasNodoDia
+ * @throws {mysql.MysqlError}
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {string} nodo Id del nodo.
  * @param {number} anio Año de consulta.
  * @param {number} mes Mes de consulta.
@@ -200,9 +200,9 @@ async function getLecturasNodoDia(connection, nodo, anio, mes, dia) {
 /**
  * Obtiene las lecturas de un nodo en específico en una semana.
  * @async
- * @exports
- * @throws {import('mysql').MysqlError}
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @exports getLecturasNodoSemana
+ * @throws {mysql.MysqlError}
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {string} nodo Id del nodo.
  * @param {number} anio Año de consulta.
  * @param {number} mes Mes de consulta.
@@ -235,9 +235,9 @@ async function getLecturasNodoSemana(connection, nodo, anio, mes, dia) {
 /**
  * Obtiene las lecturas de un nodo en específico en un mes.
  * @async
- * @exports
- * @throws {import('mysql').MysqlError}
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @exports getLecturasNodoMes
+ * @throws {mysql.MysqlError}
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {string} nodo Id del nodo.
  * @param {number} anio Año de consulta.
  * @param {number} mes Mes de consulta.
@@ -268,9 +268,9 @@ async function getLecturasNodoMes(connection, nodo, anio, mes) {
 /**
  * Obtiene las lecturas de un nodo en específico en un año.
  * @async
- * @exports
- * @throws {import('mysql').MysqlError}
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @exports getLecturasNodoAnio
+ * @throws {mysql.MysqlError}
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {string} nodo Id del nodo.
  * @param {number} anio Año de consulta.
  * @returns {Promise<Object>} Resultado de la consulta.

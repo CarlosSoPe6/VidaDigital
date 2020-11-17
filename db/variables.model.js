@@ -8,9 +8,9 @@
 /**
  * Obtiene las variables de la base de datos.
  * @async
- * @exports
- * @param {import('mysql').PoolConnection} connection Conexión a usar
- * @throws {import('mysql').MysqlError}
+ * @exports getVariables
+ * @param {mysql.PoolConnection} connection Conexión a usar
+ * @throws {mysql.MysqlError}
  * @returns {Promise<Object>} Resultado de la consulta.
  */
 async function getVariables(connection) {
@@ -27,10 +27,10 @@ async function getVariables(connection) {
 /**
  * Obtiene una variable por su código
  * @async
- * @exports
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @exports getVariable
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {*} code Código a buscar
- * @throws {import('mysql').MysqlError}
+ * @throws {mysqlMysqlError}
  * @returns {Promise<Object>} Resultado de la consulta.
  */
 async function getVariable(connection, code) {
@@ -54,10 +54,10 @@ async function getVariable(connection, code) {
 /**
  * Crea una vvariable nueva
  * @async
- * @exports
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @exports postVariable
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {object} variable Variable a insertar
- * @throws {import('mysql').MysqlError}
+ * @throws {mysql.MysqlError}
  * @returns {Promise<Object>} Resultado de la consulta.
  */
 async function postVariable(connection, variable) {
@@ -108,11 +108,11 @@ async function postVariable(connection, variable) {
 /**
  * Actualiza una variable por su código
  * @async
- * @exports
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @exports putVariable
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {string} code Variable a actualizar
  * @param {object} variable Variable a actualizar
- * @throws {import('mysql').MysqlError}
+ * @throws {mysql.MysqlError}
  * @returns {Promise<Object>} Resultado de la consulta.
  */
 async function putVariable(connection, code, variable) {
@@ -161,10 +161,10 @@ async function putVariable(connection, code, variable) {
 /**
  * Elimina una variable por su código
  * @async
- * @exports
- * @param {import('mysql').PoolConnection} connection Conexión a usar
+ * @exports deleteVariable
+ * @param {mysql.PoolConnection} connection Conexión a usar
  * @param {string} code Variable a actualizar
- * @throws {import('mysql').MysqlError}
+ * @throws {mysql.MysqlError}
  * @returns {Promise<Object>} Resultado de la consulta.
  */
 async function deleteVariable(connection, code) {

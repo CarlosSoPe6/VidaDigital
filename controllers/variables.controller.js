@@ -3,6 +3,9 @@
  * Este archivo contiene todos los endpoints del controlador de variables.
  * @author Carlos Soto Pérez <carlos348@outlook.com>
  */
+
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "express" }] */
+const express = require('express');
 const variablesModel = require('../db/variables.model');
 const { validarEsquema } = require('../validators/variables');
 const { executionContext } = require('../db/executionContext');
@@ -11,9 +14,9 @@ const errorLog = require('../loggers/error');
 /**
  * GET /api/variables/
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getVariables
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function getVariables(req, res) {
   try {
@@ -31,9 +34,9 @@ async function getVariables(req, res) {
 /**
  * POST /api/variables
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports postVarialbe
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function postVarialbe(req, res) {
   const {
@@ -78,9 +81,9 @@ async function postVarialbe(req, res) {
 /**
  * GET /api/variables/:code
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports getVarialbe
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function getVarialbe(req, res) {
   const { code } = req.params;
@@ -103,9 +106,9 @@ async function getVarialbe(req, res) {
 /**
  * PUT /api/variables/:code
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports putVarialbe
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function putVarialbe(req, res) {
   const searchCode = req.params.code;
@@ -152,9 +155,9 @@ async function putVarialbe(req, res) {
 /**
  * DELETE /api/variables/:code
  * @async
- * @exports
- * @param {import('express').Request} req Request parameter.
- * @param {import('express').Response} res Response parameter.
+ * @exports deleteVarialbe
+ * @param {express.Request} req Request parameter.
+ * @param {express.Response} res Response parameter.
  */
 async function deleteVarialbe(req, res) {
   const { code } = req.params;
