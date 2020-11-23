@@ -146,7 +146,7 @@ async function putVariable(connection, code, variable) {
       max = ?,
       referenceVal = ?,
       ambiental = ?
-      WHERE code = ?;`,
+      WHERE id= ?;`,
       valuesToEscape,
       (err, results) => {
         if (err) {
@@ -173,7 +173,7 @@ async function deleteVariable(connection, code) {
   ];
   return new Promise((resolve, reject) => {
     connection.query(
-      'DELETE FROM ValuesCatalog WHERE code = ?;',
+      'DELETE FROM ValuesCatalog WHERE id = ?;',
       valuesToEscape,
       (err, results) => {
         if (err) {
