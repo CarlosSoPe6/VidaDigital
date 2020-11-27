@@ -169,7 +169,11 @@ async function deleteVarialbe(req, res) {
     });
   } catch (e) {
     errorLog(e);
-    res.status(500).send('Internal server error');
+    if (e.sqlState !== undefined) {
+      res.status(400).json({ error: 'Variable está relacionada' });
+    } else {
+      res.status(500).send('Internal server error');
+    }
   }
 }
 
